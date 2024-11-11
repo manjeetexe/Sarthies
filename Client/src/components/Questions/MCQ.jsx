@@ -1,9 +1,9 @@
 import React from 'react';
 
-const MCQ = ({ question, options, selectedOption, onOptionSelect }) => {
+const MCQ = ({ question, options, no, selectedOption, onOptionSelect }) => {
   return (
     <>
-      <h2 className="text-xl font-semibold mb-3">{question}</h2>
+      <h2 className="text-xl font-semibold mb-3">Q{no}: {question}</h2>
       <div className="flex flex-col gap-4">
         {options.map((option, index) => (
           <button

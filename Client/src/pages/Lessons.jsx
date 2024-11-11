@@ -34,7 +34,7 @@ const Lessons = () => {
             {subjects.map((lesson) => (
               <div 
                 key={lesson} 
-                className={`bg-red-300 p-5 rounded-md cursor-pointer 
+                className={`border-2  border-gray-400 p-5 rounded-md cursor-pointer 
                   flex items-center text-lg md:text-xl lg:text-2xl h-24 md:h-32 lg:h-40`}
                 onClick={() => handleLessonSelect(lesson)}
               >
