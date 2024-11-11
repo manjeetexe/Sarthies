@@ -7,7 +7,19 @@ const Exam = () => {
     { no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
     { no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
     { no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
-  ];
+    { no: "4", question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"] },
+    { no: "5", question: "What is the largest mammal?", options: ["Elephant", "Blue Whale", "Giraffe", "Great White Shark"] },
+    { no: "6", question: "Who wrote 'Romeo and Juliet'?", options: ["William Shakespeare", "J.K. Rowling", "Mark Twain", "Jane Austen"] },
+    { no: "7", question: "What is the boiling point of water?", options: ["50°C", "100°C", "150°C", "200°C"] },
+    { no: "8", question: "Which element has the chemical symbol 'O'?", options: ["Oxygen", "Gold", "Hydrogen", "Osmium"] },
+    { no: "9", question: "In which year did World War II end?", options: ["1942", "1945", "1950", "1960"] },
+    { no: "10", question: "What is the square root of 64?", options: ["6", "7", "8", "9"] },
+    { no: "11", question: "Who painted the Mona Lisa?", options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Claude Monet"] },
+    { no: "12", question: "What is the primary language spoken in Brazil?", options: ["Spanish", "Portuguese", "French", "English"] },
+    { no: "13", question: "Which gas do plants absorb from the atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"] },
+    { no: "14", question: "What is the longest river in the world?", options: ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"] },
+    { no: "15", question: "How many continents are there?", options: ["5", "6", "7", "8"] },
+];
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
