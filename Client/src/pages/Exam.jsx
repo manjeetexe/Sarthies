@@ -4,22 +4,12 @@ import SubmitNotice from './../components/TestSubmit';
 
 const Exam = () => {
   const questions = [
-    { no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
-    { no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
-    { no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
-    { no: "4", question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"] },
-    { no: "5", question: "What is the largest mammal?", options: ["Elephant", "Blue Whale", "Giraffe", "Great White Shark"] },
-    { no: "6", question: "Who wrote 'Romeo and Juliet'?", options: ["William Shakespeare", "J.K. Rowling", "Mark Twain", "Jane Austen"] },
-    { no: "7", question: "What is the boiling point of water?", options: ["50°C", "100°C", "150°C", "200°C"] },
-    { no: "8", question: "Which element has the chemical symbol 'O'?", options: ["Oxygen", "Gold", "Hydrogen", "Osmium"] },
-    { no: "9", question: "In which year did World War II end?", options: ["1942", "1945", "1950", "1960"] },
-    { no: "10", question: "What is the square root of 64?", options: ["6", "7", "8", "9"] },
-    { no: "11", question: "Who painted the Mona Lisa?", options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Claude Monet"] },
-    { no: "12", question: "What is the primary language spoken in Brazil?", options: ["Spanish", "Portuguese", "French", "English"] },
-    { no: "13", question: "Which gas do plants absorb from the atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"] },
-    { no: "14", question: "What is the longest river in the world?", options: ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"] },
-    { no: "15", question: "How many continents are there?", options: ["5", "6", "7", "8"] },
-];
+    { Marks: 4, answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+    { Marks: 4, answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+    { Marks: 4, answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
+    { Marks: 4, answer: "Mars", type: "MCQ", no: "4", question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"] },
+    { Marks: 4, answer: "Elephant", type: "MCQ", no: "5", question: "What is the largest mammal?", options: ["Elephant", "Blue Whale", "Giraffe", "Great White Shark"] },
+  ];
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -27,6 +17,7 @@ const Exam = () => {
   const [examFinished, setExamFinished] = useState(false);
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [showSubmitNotice, setShowSubmitNotice] = useState(false);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -42,22 +33,19 @@ const Exam = () => {
   };
 
   const saveAnswerAndNext = () => {
-    // Save the answer if there’s a selected option
     if (selectedOption !== null) {
       const updatedAnswers = [...answers];
       updatedAnswers[currentQuestion] = { question: questions[currentQuestion].question, selectedOption };
       setAnswers(updatedAnswers);
-      setSelectedOption(null); // Clear selected option for the next question
+      setSelectedOption(null);
     }
-  
-    // Check if this is the last question
+
     if (currentQuestion === questions.length - 1) {
-      setShowSubmitNotice(true); // Show submit notice on the last question
+      setShowSubmitNotice(true);
     } else {
-      // Move to the next question
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption(answers[currentQuestion + 1]?.selectedOption || null); // Restore any saved answer for the next question
-      setTimeLeft(60); // Reset the timer for the next question if needed
+      setSelectedOption(answers[currentQuestion + 1]?.selectedOption || null);
+      setTimeLeft(60);
     }
   };
 
@@ -66,7 +54,6 @@ const Exam = () => {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(answers[currentQuestion + 1]?.selectedOption || null);
       setTimeLeft(60);
-
     }
   };
 
@@ -80,21 +67,39 @@ const Exam = () => {
 
   const unansweredCount = answers.filter(answer => answer === null).length;
 
+  const Check = () => {
+    let totalScore = 0;
+    answers.forEach((answer, index) => {
+      if (answer?.selectedOption === questions[index].answer) {
+        totalScore += Number(questions[index].Marks); // Ensure Marks is treated as a number
+        console.log(`Question ${index + 1} is correct. Added ${questions[index].Marks} marks.`);
+      }
+    });
+    return totalScore;
+  };
+
   const handleConfirmSubmit = () => {
+    const finalScore = Check();
+    setScore(finalScore); // Update score state with final score
     setShowSubmitNotice(false);
     setExamFinished(true);
     console.log("Exam Summary:", answers);
+    console.log("Total Score:", finalScore);
   };
 
   const handleCancelSubmit = () => {
     setShowSubmitNotice(false);
   };
 
+  // Calculate total possible marks for display
+  const totalMarks = questions.reduce((sum, q) => sum + Number(q.Marks), 0);
+
   if (examFinished) {
     return (
       <div className="min-h-screen mt-20 flex flex-col items-center bg-gray-50 p-4">
         <h1 className="text-3xl font-bold mb-4">Exam Finished</h1>
         <p className="text-xl">Thank you for taking the exam. Your responses have been submitted.</p>
+        <p className="text-xl font-bold">Your Score: {score}/{totalMarks}</p> {/* Updated score display */}
       </div>
     );
   }
