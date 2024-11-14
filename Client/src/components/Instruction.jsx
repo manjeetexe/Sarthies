@@ -1,11 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Instructions = ({ selectedLesson, goBack }) => {
+const Instructions = ({ selectedLesson, goBack,lessonData }) => {
   const navigate = useNavigate();
 
+
+
   const startTest = () => {
-    navigate('/exam'); // Adjust this route to match your actual Exam page route
+    navigate('/exam', { state: { lessonData } }); // Pass lessonData in state
   };
 
   return (

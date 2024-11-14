@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import MCQ from './../components/Questions/MCQ';
 import SubmitNotice from './../components/TestSubmit';
+import { useLocation } from 'react-router-dom';
 
 const Exam = () => {
-  const questions = [
-    { Marks: 4, answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
-    { Marks: 4, answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
-    { Marks: 4, answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
-    { Marks: 4, answer: "Mars", type: "MCQ", no: "4", question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"] },
-    { Marks: 4, answer: "Elephant", type: "MCQ", no: "5", question: "What is the largest mammal?", options: ["Elephant", "Blue Whale", "Giraffe", "Great White Shark"] },
-  ];
+
+  const location = useLocation();
+  const { lessonData } = location.state || {};
+
+
+  const questions = lessonData?.Questions || [];
+
+  // Log to verify the data
+  console.log("Questions:", questions);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -33,13 +36,31 @@ const Exam = () => {
   };
 
   const saveAnswerAndNext = () => {
+    const updatedAnswers = [...answers];
+  
     if (selectedOption !== null) {
-      const updatedAnswers = [...answers];
-      updatedAnswers[currentQuestion] = { question: questions[currentQuestion].question, selectedOption };
-      setAnswers(updatedAnswers);
-      setSelectedOption(null);
+      // If an option is selected, save it as answered
+      updatedAnswers[currentQuestion] = {
+        question: questions[currentQuestion].question,
+        options: questions[currentQuestion].options,
+        selectedOption,
+        isCorrect: selectedOption === questions[currentQuestion].answer,
+        Marks: questions[currentQuestion].Marks,
+      };
+    } else if (!updatedAnswers[currentQuestion]) {
+      // If no option is selected and the question has not been answered before, mark as unattempted
+      updatedAnswers[currentQuestion] = {
+        question: questions[currentQuestion].question,
+        options: questions[currentQuestion].options,
+        selectedOption: "unattempted",
+        isCorrect: false,
+        Marks: questions[currentQuestion].Marks,
+      };
     }
-
+  
+    setAnswers(updatedAnswers);
+    setSelectedOption(null);
+  
     if (currentQuestion === questions.length - 1) {
       setShowSubmitNotice(true);
     } else {
@@ -70,9 +91,11 @@ const Exam = () => {
   const Check = () => {
     let totalScore = 0;
     answers.forEach((answer, index) => {
-      if (answer?.selectedOption === questions[index].answer) {
-        totalScore += Number(questions[index].Marks); // Ensure Marks is treated as a number
-        console.log(`Question ${index + 1} is correct. Added ${questions[index].Marks} marks.`);
+      if (answer?.isCorrect) {
+        totalScore += Number(answer.Marks); // Ensure Marks is treated as a number
+        console.log(`Question ${index + 1} is correct. Added ${answer.Marks} marks.`);
+      } else {
+        console.log(`Question ${index + 1} is incorrect.`);
       }
     });
     return totalScore;
@@ -80,26 +103,36 @@ const Exam = () => {
 
   const handleConfirmSubmit = () => {
     const finalScore = Check();
-    setScore(finalScore); // Update score state with final score
+    setScore(finalScore);
     setShowSubmitNotice(false);
     setExamFinished(true);
-    console.log("Exam Summary:", answers);
+  
+    const summary = questions.map((question, index) => {
+      const answer = answers[index];
+      return {
+        questionNumber: index + 1,
+        question: question.question,
+        options: question.options,
+        selectedOption: answer ? answer.selectedOption : "unattempted",
+        isCorrect: answer ? answer.isCorrect : false,
+        Marks: question.Marks,
+      };
+    });
+  
+    console.log("Exam Summary:", summary);
     console.log("Total Score:", finalScore);
   };
 
   const handleCancelSubmit = () => {
     setShowSubmitNotice(false);
   };
-
-  // Calculate total possible marks for display
-  const totalMarks = questions.reduce((sum, q) => sum + Number(q.Marks), 0);
-
+  const totalMarks = questions.reduce((total, question) => total + Number(question.Marks), 0);
   if (examFinished) {
     return (
       <div className="min-h-screen mt-20 flex flex-col items-center bg-gray-50 p-4">
         <h1 className="text-3xl font-bold mb-4">Exam Finished</h1>
         <p className="text-xl">Thank you for taking the exam. Your responses have been submitted.</p>
-        <p className="text-xl font-bold">Your Score: {score}/{totalMarks}</p> {/* Updated score display */}
+        <p className="text-xl font-bold">Your Score: {score}/{totalMarks}</p>
       </div>
     );
   }

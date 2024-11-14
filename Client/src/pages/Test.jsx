@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import data from "./../components/Data.jsx";
 
 const Test = () => {
   const navigate = useNavigate();
-  const subjects = [
-    'English', 'Hindi', 'Marathi', 'Maths 1', 
-    'Maths 2', 'Science 1', 'Science 2', 
-    'History', 'Political Science', 'Geography'
-  ];
+  const subject = Object.keys(data); 
+  
+
+  const subjects = subject;
+  subjects.forEach(subject => {
+    const subjectData = data[subject]; 
+  });
+
 
   const [selectedSubject, setSelectedSubject] = useState(null);
 
   const handleSubjectSelect = (subject) => {
+    const subjectData = data[subject]; // Get the data for the selected subject
     setSelectedSubject(subject);
     console.log(`Proceeding with the test for: ${subject}`);
-    navigate('/lessons', { state: { subject } }); // Pass the subject as state
+    
+    // Pass both the subject and its lessons data to the next page
+    navigate('/lessons', { state: { subject, subjectData } });
   };
 
   return (
