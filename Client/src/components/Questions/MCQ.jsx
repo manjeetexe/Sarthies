@@ -77,7 +77,7 @@ const MCQ = (props, ref) => {
     } else {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(answers[currentQuestion + 1]?.selectedOption || null);
-      setTimeLeft(60);
+      
     }
   };
 
@@ -85,14 +85,14 @@ const MCQ = (props, ref) => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(answers[currentQuestion + 1]?.selectedOption || null);
-      setTimeLeft(60);
+      
     }
   };
 
   const previousQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setTimeLeft(60);
+      
       setSelectedOption(answers[currentQuestion - 1]?.selectedOption || null);
     }
   };
