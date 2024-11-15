@@ -11,8 +11,7 @@ const Exam = () => {
 
   const questions = lessonData?.Questions || [];
 
-  // Log to verify the data
-  console.log("Questions:", questions);
+
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
