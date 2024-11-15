@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import Autosubmit from '../components/Warning/Autosubmit';
 import MCQ from './../components/Questions/MCQ';
 import Text from './../components/Questions/Text';
+
 
 const Exam = () => {
   const [showAutosubmit, setShowAutosubmit] = useState(false);
@@ -34,8 +35,7 @@ const Exam = () => {
 
   return (
     <div className="exam-page">
-      {/* <MCQ ref={mcqRef} /> */}
-      <Text />
+      <MCQ ref={mcqRef} />
 
       {showAutosubmit && mcqRef.current && (
         <Autosubmit

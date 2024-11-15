@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import SubmitNotice from './../TestSubmit';
 import TimeWarning from '../Warning/TimeWarning';
-import  { ref, useImperativeHandle } from 'react';
 
-const WrittenExam = () => {
+const WrittenExam = forwardRef((props, ref) => {
   const questions = [
     { no: 1, question: "Explain photosynthesis.", Marks: 5 },
     { no: 2, question: "Describe the water cycle.", Marks: 5 },
     { no: 3, question: "What is the importance of biodiversity?", Marks: 5 },
   ];
-
-
-   useImperativeHandle(ref, () => ({
-    handleConfirmSubmit,
-    unansweredCount,
-  }));
-
-  
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [typedAnswer, setTypedAnswer] = useState("");
@@ -94,7 +85,9 @@ const WrittenExam = () => {
     setShowSubmitNotice(false);
     setTimeWarningVisible(false);
   };
+
   const unansweredCount = answers.filter((answer) => answer === null).length;
+
   const handleCopy = (e) => e.preventDefault();
   const handlePaste = (e) => e.preventDefault();
   const handleCut = (e) => e.preventDefault();
@@ -104,6 +97,12 @@ const WrittenExam = () => {
       e.preventDefault();
     }
   };
+
+  // Expose methods and properties to parent using ref
+  useImperativeHandle(ref, () => ({
+    handleConfirmSubmit,
+    unansweredCount,
+  }));
 
   if (examFinished) {
     return (
@@ -176,6 +175,6 @@ const WrittenExam = () => {
       )}
     </div>
   );
-};
+});
 
 export default WrittenExam;
