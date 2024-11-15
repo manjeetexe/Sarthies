@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SubmitNotice from './../TestSubmit';
 import { useLocation } from 'react-router-dom';
-import Autosubmit from '../Warning/Autosubmit';
 import TimeWarning from '../Warning/TimeWarning';
 import  { forwardRef, useImperativeHandle } from 'react';
 
@@ -17,7 +16,6 @@ const MCQ = (props, ref) => {
   const [examFinished, setExamFinished] = useState(false);
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [showSubmitNotice, setShowSubmitNotice] = useState(false);
-  const [AutoSubmit, setAutoSubmit] = useState(false);
   const [TimeNotice, setTimeNotice] = useState(false);
 
   const [score, setScore] = useState(0);
@@ -205,13 +203,7 @@ const MCQ = (props, ref) => {
           onCancel={handleCancelSubmit}
         />
       )}
-      {AutoSubmit && (
-        <Autosubmit
-          unansweredCount={unansweredCount}
-          onConfirmSubmit={handleConfirmSubmit}
-          
-        />
-      )}
+      
       {TimeNotice && (
         <TimeWarning
           unansweredCount={unansweredCount}
