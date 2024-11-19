@@ -10,26 +10,28 @@ import Lessons from './pages/Lessons';
 import Home from './pages/Home';
 import Exam from './pages/Exam';
 import { ExamProvider } from "./Context/ExamContext";
+import Login from './pages/Login';
 
 const App = () => {
   return (
-    <ExamProvider>
-      <Router>
-        <div>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Profile" element={<Profile />} />
-            <Route path="/Help" element={<Help />} />
-            <Route path="/Test" element={<TestPage />} />
-            <Route path="/Notes" element={<Notes />} />
-            <Route path="/lessons" element={<Lessons />} />
-            <Route path="/exam" element={<Exam />} />
-          </Routes>
-          <Nav />
-        </div>
-      </Router>
-    </ExamProvider>
+      <Login />
+    // <ExamProvider>
+    //   <Router>
+    //     <div>
+    //       <Header />
+    //       <Routes>
+    //         <Route path="/" element={<Home />} />
+    //         <Route path="/Profile" element={<Profile />} />
+    //         <Route path="/Help" element={<Help />} />
+    //         <Route path="/Test" element={<TestPage />} />
+    //         <Route path="/Notes" element={<Notes />} />
+    //         <Route path="/lessons" element={<Lessons />} />
+    //         <Route path="/exam" element={<Exam />} />
+    //       </Routes>
+    //       <Nav />
+    //     </div>
+    //   </Router>
+    // </ExamProvider>
   );
 }
 

@@ -9,7 +9,7 @@ const MCQ = (props, ref) => {
   const location = useLocation();
   const { lessonData } = location.state || {};
   const questions = lessonData?.Questions || [];
-  const { setExamResults } = useContext(ExamContext);
+  const { updateExamResults } = useContext(ExamContext);
   
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -139,11 +139,11 @@ const MCQ = (props, ref) => {
     ).length;
 
     // Update context
-    setExamResults({
+    updateExamResults({
       correctAnswers,
       solvedQuestions,
       totalScore: finalScore,
-      ExamSummary: summary
+      ExamSummary: summary,
     });
 
     console.log("Exam Summary:", summary);
