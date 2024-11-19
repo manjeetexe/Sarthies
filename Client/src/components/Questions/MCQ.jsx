@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import SubmitNotice from './../TestSubmit';
 import { useLocation } from 'react-router-dom';
 import TimeWarning from '../Warning/TimeWarning';
 import  { forwardRef, useImperativeHandle } from 'react';
+import { ExamContext } from "./../../Context/ExamContext";
 
 const MCQ = (props, ref) => {
   const location = useLocation();
   const { lessonData } = location.state || {};
   const questions = lessonData?.Questions || [];
+  const { setExamResults } = useContext(ExamContext);
   
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -87,6 +89,8 @@ const MCQ = (props, ref) => {
     }
   };
 
+  
+
   const previousQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
@@ -126,9 +130,28 @@ const MCQ = (props, ref) => {
       };
     });
 
+    // Count correct answers
+    const correctAnswers = answers.filter((answer) => answer?.isCorrect).length;
+
+    // Count solved questions (excluding "unattempted")
+    const solvedQuestions = answers.filter(
+      (answer) => answer?.selectedOption !== "unattempted"
+    ).length;
+
+    // Update context
+    setExamResults({
+      correctAnswers,
+      solvedQuestions,
+      totalScore: finalScore,
+      ExamSummary: summary
+    });
+
     console.log("Exam Summary:", summary);
     console.log("Total Score:", finalScore);
+    console.log("Number of Questions Correct:", correctAnswers);
+    console.log("Total Questions Solved:", solvedQuestions);
   };
+
 
   const handleCancelSubmit = () => {
     setShowSubmitNotice(false);

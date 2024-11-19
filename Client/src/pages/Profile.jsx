@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from "react";
 import { RiGridFill } from 'react-icons/ri';
 import { FaRegBookmark, FaRegUserCircle } from 'react-icons/fa';
+import { ExamContext } from "./../Context/ExamContext";
 
 const Profile = () => {
+
+
+  const { examResults } = useContext(ExamContext);
   return (
     <>
       <div className="min-h-screen bg-gray-50">
@@ -36,17 +40,21 @@ const Profile = () => {
 
           {/* Stats */}
           <div className="flex flex-col gap-7">
-            <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4">
               <div className="bg-white p-4 rounded-xl shadow-sm text-center">
-                <div className="text-2xl font-bold text-black">123</div>
+                <div className="text-2xl font-bold text-black">{examResults.solvedQuestions}</div>
                 <div className="text-gray-500">Total Doubts Solved</div>
               </div>
               <div className="bg-white p-4 rounded-xl shadow-sm text-center">
-                <div className="text-2xl font-bold text-black">123</div>
+                <div className="text-2xl font-bold text-black">{examResults.correctAnswers}</div>
                 <div className="text-gray-500">Total Correctly Solved</div>
               </div>
               <div className="bg-white p-4 rounded-xl shadow-sm text-center">
-                <div className="text-2xl font-bold text-black">100%</div>
+                <div className="text-2xl font-bold text-black">
+                  {examResults.solvedQuestions > 0 
+                    ? ((examResults.correctAnswers / examResults.solvedQuestions) * 100).toFixed(2) + "%" 
+                    : "N/A"}
+                </div>
                 <div className="text-gray-500">Accuracy</div>
               </div>
             </div>

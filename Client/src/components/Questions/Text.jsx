@@ -11,7 +11,7 @@ const WrittenExam = forwardRef((props, ref) => {
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [typedAnswer, setTypedAnswer] = useState("");
-  const [timeLeft, setTimeLeft] = useState(60); // 60 seconds for each question
+  const [timeLeft, setTimeLeft] = useState(60); 
   const [examFinished, setExamFinished] = useState(false);
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [showSubmitNotice, setShowSubmitNotice] = useState(false);
