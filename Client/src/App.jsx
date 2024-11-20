@@ -10,11 +10,11 @@ import Lessons from './pages/Lessons';
 import Home from './pages/Home';
 import Exam from './pages/Exam';
 import { ExamProvider } from "./Context/ExamContext";
-import Login from './pages/Login';
+import Signin from './pages/Signin';
 
 const App = () => {
   return (
-      <Login />
+      <Signin />
     // <ExamProvider>
     //   <Router>
     //     <div>
