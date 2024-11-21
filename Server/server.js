@@ -30,9 +30,11 @@ app.post('/api/signin', async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        // Check if user already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
+        // Check if the user already exists in either collection (Sarthies or Non-Sarthies)
+        const existingUserInSarthies = await mongoose.connection.collection('students.sarthies').findOne({ email });
+        const existingUserInNonSarthies = await mongoose.connection.collection('students.nonsarthies').findOne({ email });
+
+        if (existingUserInSarthies || existingUserInNonSarthies) {
             return res.status(400).json({ message: "User already exists with this email" });
         }
 
@@ -42,6 +44,8 @@ app.post('/api/signin', async (req, res) => {
 
         // Determine the collection based on `isSarthie`
         const collectionName = isSarthie ? 'students.sarthies' : 'students.nonsarthies';
+        
+        // Create new user object
         const user = new User({
             name,
             email,
@@ -53,10 +57,14 @@ app.post('/api/signin', async (req, res) => {
         await mongoose.connection.collection(collectionName).insertOne(user);
 
         // Generate token
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Send token as cookie
-        res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+        // Set the token as a cookie
+        res.cookie("token", token, {
+            httpOnly: true,  // Prevents client-side access to the cookie
+            secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
+            sameSite: 'strict'  // Optional: Prevents cross-site request forgery
+          });
 
         res.status(201).json({ message: "User created successfully", user });
 
