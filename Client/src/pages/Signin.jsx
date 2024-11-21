@@ -5,31 +5,60 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [isSarthie, setIsSarthie] = useState(''); // 'sarthie' or 'non-sarthie'
+  const [isSarthie, setIsSarthie] = useState(false); // Keep it as a boolean
+  const [error, setError] = useState(''); // To handle errors
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-  
-    console.log(email, password, name, isSarthie);
-    try {
-      // Make sure to include http:// or https:// in the URL
-      const response = await axios.post('http://localhost:3000/api/signin', {
-        email: email,        // Ensure email is set
-      password: password,  // Ensure password is set
-      name: name,          // Ensure name is set
-      isSarthie: isSarthie 
-      });
-      
-      alert('Sign-in successful');
-    } catch (err) {
-      console.error(err);
-      alert('Sign-in failed');
+    setError(''); // Clear previous errors
+    
+    // Validate inputs
+    if (!email || !password || !name || isSarthie === null || isSarthie === undefined) {
+      setError('All fields are required.');
+      return;
     }
   
-    setEmail("");
-    setPassword("");
-    setName("");
-    setIsSarthie("");
+    // Validate email format (optional but good practice)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+  
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/signin', 
+        {
+          email,
+          password,
+          name,
+          isSarthie, // Send as a boolean
+        },
+        {
+          withCredentials: true,  // Important to send cookies with the request
+        }
+      );
+  
+      alert('Sign-in successful');
+      // Optional: Redirect or perform other actions after successful sign-in
+      // Example: history.push('/dashboard'); if you're using react-router
+  
+      // Reset form fields
+      setEmail('');
+      setPassword('');
+      setName('');
+      setIsSarthie(false);  // Reset to default state (false or another default)
+      
+    } catch (err) {
+      console.error("Error during sign-in:", err);
+      
+      // Check if the error has a response with message
+      if (err.response && err.response.data) {
+        setError(err.response.data.message || 'Sign-in failed. Please try again.');
+      } else {
+        setError('Sign-in failed. Please try again.');
+      }
+    }
   };
 
   return (
@@ -42,6 +71,7 @@ const SignIn = () => {
         <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-gray-800">
           Sign In
         </h2>
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>} {/* Error message */}
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-600">
             Name
@@ -87,9 +117,9 @@ const SignIn = () => {
             <label className="inline-flex items-center">
               <input
                 type="radio"
-                value="sarthie"
-                checked={isSarthie === 'sarthie'}
-                onChange={(e) => setIsSarthie(e.target.value)}
+                value={true} // Pass as a boolean
+                checked={isSarthie === true}
+                onChange={() => setIsSarthie(true)}
                 className="form-radio text-blue-500"
               />
               <span className="ml-2 text-gray-700">Yes</span>
@@ -97,9 +127,9 @@ const SignIn = () => {
             <label className="inline-flex items-center ml-6">
               <input
                 type="radio"
-                value="non-sarthie"
-                checked={isSarthie === 'non-sarthie'}
-                onChange={(e) => setIsSarthie(e.target.value)}
+                value={false} // Pass as a boolean
+                checked={isSarthie === false}
+                onChange={() => setIsSarthie(false)}
                 className="form-radio text-blue-500"
               />
               <span className="ml-2 text-gray-700">No</span>
