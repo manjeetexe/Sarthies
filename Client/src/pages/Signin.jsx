@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './../Context/Authcontext';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -7,11 +9,21 @@ const SignIn = () => {
   const [name, setName] = useState('');
   const [isSarthie, setIsSarthie] = useState(false); // Keep it as a boolean
   const [error, setError] = useState(''); // To handle errors
+  const navigate = useNavigate();
+  
+  const { isSignedIn, SignIn } = useAuth();
 
+  // Redirect to home if already signed in
+  useEffect(() => {
+    if (isSignedIn) { // Check if the user is signed in
+      navigate('/'); // Redirect to home page
+    }
+  }, [isSignedIn, navigate]);
+  
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError(''); // Clear previous errors
-    
+  
     // Validate inputs
     if (!email || !password || !name || isSarthie === null || isSarthie === undefined) {
       setError('All fields are required.');
@@ -39,22 +51,29 @@ const SignIn = () => {
         }
       );
   
+      console.log('Response:', response); // Log the entire response for debugging
+
+      // If the backend sets the token in the browser (cookie or localStorage), you don't need to do anything here.
+      // The `SignIn` function will handle just the state change.
+      SignIn();  // Call the context function to update the isSignedIn state
+  
       alert('Sign-in successful');
-      // Optional: Redirect or perform other actions after successful sign-in
-      // Example: history.push('/dashboard'); if you're using react-router
+  
+      // Redirect to the home page after successful sign-in
+      navigate('/');
   
       // Reset form fields
       setEmail('');
       setPassword('');
       setName('');
       setIsSarthie(false);  // Reset to default state (false or another default)
-      
+  
     } catch (err) {
       console.error("Error during sign-in:", err);
-      
+  
       // Check if the error has a response with message
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Sign-in failed. Please try again.');
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
       } else {
         setError('Sign-in failed. Please try again.');
       }
