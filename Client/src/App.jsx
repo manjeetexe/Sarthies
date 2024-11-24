@@ -14,6 +14,8 @@ import { ExamProvider } from "./Context/ExamContext";
 import Signin from './pages/Login';
 import Signup from './pages/Signup';
 import ProtectedRoute from './components/protected';
+import ExamEnd from './pages/ExamEnd'
+import Analysis from './pages/AnalizeMCQ';
 
 const AppContent = () => {
   const { isSignedIn } = useAuth(); // Access isSignedIn inside AuthProvider
@@ -28,13 +30,15 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Help" element={<Help />} />
+          <Route path="/ExamEND" element={<ExamEnd />} />
           <Route path="/Test" element={<TestPage />} />
+          <Route path="/analysis" element={<Analysis />} /> 
           <Route path="/Notes" element={<Notes />} />
           <Route path="/lessons" element={<Lessons />} />
           <Route path="/exam" element={<Exam />} />
         </Route>
       </Routes>
-      <Nav />
+      {isSignedIn && <Nav />}
     </>
   );
 };

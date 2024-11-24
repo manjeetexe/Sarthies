@@ -4,8 +4,11 @@ import { useLocation } from 'react-router-dom';
 import TimeWarning from '../Warning/TimeWarning';
 import  { forwardRef, useImperativeHandle } from 'react';
 import { ExamContext } from "./../../Context/ExamContext";
+import { useNavigate } from 'react-router-dom';
 
 const MCQ = (props, ref) => {
+
+  const navigate = useNavigate();
   const location = useLocation();
   const { lessonData } = location.state || {};
   const questions = lessonData?.Questions || [];
@@ -150,6 +153,8 @@ const MCQ = (props, ref) => {
     console.log("Total Score:", finalScore);
     console.log("Number of Questions Correct:", correctAnswers);
     console.log("Total Questions Solved:", solvedQuestions);
+
+    navigate('/ExamEND', { state: { score: finalScore, totalMarks, summary } });
   };
 
 
@@ -158,15 +163,7 @@ const MCQ = (props, ref) => {
   };
 
   const totalMarks = questions.reduce((total, question) => total + Number(question.Marks), 0);
-  if (examFinished) {
-    return (
-      <div className="min-h-screen mt-20 flex flex-col items-center bg-gray-50 p-4">
-        <h1 className="text-3xl font-bold mb-4">Exam Finished</h1>
-        <p className="text-xl">Thank you for taking the exam. Your responses have been submitted.</p>
-        <p className="text-xl font-bold">Your Score: {score}/{totalMarks}</p>
-      </div>
-    );
-  }
+  
 
   return (
     <div className="min-h-screen mt-32 flex flex-col items-center bg-gray-50 p-4">
