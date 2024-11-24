@@ -35,8 +35,7 @@ const Lessons = () => {
             {lessons.map((lesson) => (
               <div 
                 key={lesson} 
-                className={`border-2 border-gray-400 p-5 rounded-md cursor-pointer 
-                  flex items-center text-lg md:text-xl lg:text-2xl h-24 md:h-32 lg:h-40`}
+                className="h-28 w-full  rounded-xl shadow-md border border-gray-300 hover:bg-[#e0cdff] transition-colors p-5 text-xl" 
                 onClick={() => handleLessonSelect(lesson)}
               >
                 <h1>{lesson}</h1>

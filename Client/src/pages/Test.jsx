@@ -32,8 +32,7 @@ const Test = () => {
         {subjects.map((sub) => (
           <div 
             key={sub} 
-            className={`bg-white border-2 border-purple-300 p-5 rounded-2xl cursor-pointer 
-              flex items-center text-lg md:text-xl lg:text-2xl h-24 md:h-32 lg:h-40`}
+             className="h-28 w-full  rounded-xl shadow-md border border-gray-300 hover:bg-[#e0cdff] transition-colors p-5 text-xl" 
             onClick={() => handleSubjectSelect(sub)}
           >
             <h1>{sub}</h1>
