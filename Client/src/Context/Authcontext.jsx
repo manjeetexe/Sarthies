@@ -1,30 +1,31 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-// Create a context
+// Create AuthContext
 const AuthContext = createContext();
 
-// Create a provider component
+// Provide AuthContext to children
 export const AuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
-  // Function to handle sign in
-  const SignIn = (token) => {
+  // Example function to handle sign-in
+  const SignIn = (userData) => {
     setIsSignedIn(true);
-    // You can store the token in memory, or just rely on isSignedIn
-    // if you need to persist the token, you can store it in a secure place
+    setUser(userData);
   };
 
-  // Function to handle sign out
+  // Example function to handle sign-out
   const SignOut = () => {
     setIsSignedIn(false);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, SignIn, SignOut }}>
+    <AuthContext.Provider value={{ isSignedIn, user, SignIn, SignOut }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to use the AuthContext
+// Custom hook to use AuthContext
 export const useAuth = () => useContext(AuthContext);

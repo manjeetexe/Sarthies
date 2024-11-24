@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true, match: [/\S+@\S+\.\S+/, 'Please enter a valid email address'] },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isSarthie: { type: Boolean, default: false }, // True for Sarthie, False for non-Sarthie
-}, { timestamps: true });
+    isSarthie: { type: Boolean, required: true },
+    className: { type: String, required: true }, // Change 'class' to 'className'
+});
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import profile from './../assets/profile.webp';
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
+import { useAuth } from './../Context/Authcontext';
 
 const Header = () => {
+  const { user, isSignedIn } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+console.log(user.name)
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -18,8 +20,8 @@ const Header = () => {
             <img src={profile} alt="Profile" className='h-full w-full object-cover' />
           </div>
           <div>
-            <h1 className='font-semibold text-black text-lg'>Manjeet Sharma</h1>
-            <h1 className='font-medium text-black'>5th Grade</h1>
+            <h1 className='font-semibold text-black text-lg'>{user.name}</h1>
+            <h1 className='font-medium text-black'>{user.class}th Class</h1>
           </div>
         </div>
 

@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import { ExamContext } from "./../Context/ExamContext";
+import { useAuth } from './../Context/Authcontext';
 
 const Profile = () => {
   const { examResults, totalSolvedQuestions, totalCorrectAnswers, totalScore } = useContext(ExamContext);
+  const { user, isSignedIn } = useAuth();
+  console.log(user.email)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -23,8 +26,7 @@ const Profile = () => {
       <div className="max-w-4xl mx-auto px-4 pt-20">
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-2xl font-bold mb-1 text-black">Username</h1>
-            <h2 className="text-black font-medium mb-2">Display Name</h2>
+            <h1 className="text-2xl font-bold mb-1 text-black">{user.name}</h1>
             <p className="text-black max-w-lg">Bio goes here. This is a sample bio text that can span multiple lines and show more personality.</p>
           </div>
           <button className="px-4 py-2 w-64 bg-purple-600 text-white rounded-full hover:opacity-90 transition">
@@ -61,9 +63,9 @@ const Profile = () => {
           <div className="bg-white p-4 rounded-xl shadow-sm mb-4">
             <h1 className="text-2xl font-semibold text-black">Your Details</h1>
             <div className="text-md pl-2 font-medium text-black">
-              <p>Name</p>
-              <p>Email</p>
-              <p>Phone Number</p>
+              <p>Name: {user.name}</p>
+              <p>Email: {user.email}</p>
+              <p>Phone Number: null</p>
             </div>
           </div>
 

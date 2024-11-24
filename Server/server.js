@@ -22,15 +22,25 @@ app.use(express.json());
 connectDB();
 
 // Sign-up route
-app.post('/api/signin', async (req, res) => {
-    const { email, password, name, isSarthie } = req.body;
+app.post('/api/signup', async (req, res) => {
+    const { email, password, name, isSarthie, class: userClass } = req.body;
 
+
+
+    console.log("Request Body:", req.body);
     try {
-        if (!email || !password || !name || isSarthie === undefined) {
+        // Validate the required fields
+        if (!email || !password || !name || isSarthie === undefined || !userClass) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        // Check if the user already exists in either collection (Sarthies or Non-Sarthies)
+        // Check if the class is within the allowed range (optional validation)
+        const allowedClasses = ['7', '8', '9', '10']; // Adjust as needed
+        if (!allowedClasses.includes(userClass)) {
+            return res.status(400).json({ message: "Invalid class provided" });
+        }
+
+        // Check if the user already exists
         const existingUserInSarthies = await mongoose.connection.collection('students.sarthies').findOne({ email });
         const existingUserInNonSarthies = await mongoose.connection.collection('students.nonsarthies').findOne({ email });
 
@@ -44,14 +54,15 @@ app.post('/api/signin', async (req, res) => {
 
         // Determine the collection based on `isSarthie`
         const collectionName = isSarthie ? 'students.sarthies' : 'students.nonsarthies';
-        
+
         // Create new user object
-        const user = new User({
+        const user = {
             name,
             email,
             password: hashedPassword,
-            isSarthie
-        });
+            isSarthie,
+            class: userClass // Add the class here
+        };
 
         // Save user to the correct collection
         await mongoose.connection.collection(collectionName).insertOne(user);
@@ -61,16 +72,76 @@ app.post('/api/signin', async (req, res) => {
 
         // Set the token as a cookie
         res.cookie("token", token, {
-            httpOnly: true,  // Prevents client-side access to the cookie
-            secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
-            sameSite: 'strict'  // Optional: Prevents cross-site request forgery
-          });
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+        });
 
         res.status(201).json({ message: "User created successfully", user });
 
     } catch (error) {
         console.error("Error during sign-up:", error);
         res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Validate required fields
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: "Email and password are required" });
+        }
+
+        // Check if user exists in both collections
+        const sarthieUser = await mongoose.connection.collection('students.sarthies').findOne({ email });
+        const nonSarthieUser = await mongoose.connection.collection('students.nonsarthies').findOne({ email });
+
+        const user = sarthieUser || nonSarthieUser;
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Validate password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ success: false, message: "Invalid password" });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { email: user.email, id: user._id, isSarthie: !!sarthieUser }, // `isSarthie` true if user is from Sarthies
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        // Set the token in a cookie
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+        });
+
+        // Send user data along with the token
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            token,
+            user: {
+                id: user._id,
+                email: user.email,
+                name: user.name, // Include other relevant fields from your user schema
+                isSarthie: !!sarthieUser, // Distinguish between Sarthies and non-Sarthies
+                additionalInfo: user.additionalInfo || null, 
+                class: user.class,// Example for other data fields
+            },
+        });
+
+    } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
 

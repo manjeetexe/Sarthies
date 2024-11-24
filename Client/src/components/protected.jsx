@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from './../Context/Authcontext'; // Import the context
 
 const ProtectedRoute = () => {
+  
   const { isSignedIn } = useAuth(); // Get the isSignedIn state from context
   console.log(isSignedIn)
   if (!isSignedIn) {
