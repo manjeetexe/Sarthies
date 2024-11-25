@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bar, Pie } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend,} from "chart.js";
+import { useAuth } from './../Context/Authcontext';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend);
 
 const Analysis = () => {
+
+  const { user, isSignedIn } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -110,18 +105,46 @@ const Analysis = () => {
     }
   };
 
-  const handleSendMail = () => {
-    console.log("Send Exam Report via Email");
-    // Add logic for sending the exam report
+  const handleSendMail = async () => {
+    try {
+      // Serialize the Analyze page content
+      const analyzePageHTML = document.querySelector('.min-h-screen').outerHTML;
+  
+      const response = await fetch('http://localhost:3000/send-analyze-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: user.email, // User's email
+          analyzePageHTML,  // Serialized HTML of Analyze page
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message); // Notify the user on success
+      } else {
+        const error = await response.json();
+        alert(error.error); // Notify the user on failure
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      alert('An error occurred while sending the email.');
+    }
   };
 
   const handleRedirectHome = () => {
     navigate("/");
   };
 
+
+  
+
   return (
     <div className="min-h-screen mt-20 flex flex-col items-center bg-gray-50 p-8">
       <h1 className="text-4xl font-semibold text-gray-800 mb-4">Exam Analysis</h1>
+      <h1>{user.email}</h1>
       <p className="text-lg font-medium text-gray-600 mb-8">
         <span className="text-indigo-600">Subject:</span> {subject} | <span className="text-indigo-600">Lesson:</span> {lesson}
       </p>

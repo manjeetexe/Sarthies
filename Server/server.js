@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const puppeteer = require("puppeteer");
 const connectDB = require('./DB/moongodb');
 const User = require('./Models/User');
 
@@ -267,6 +268,43 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
+
+
+
+app.post("/send-analyze-email", async (req, res) => {
+    const { email, analyzePageHTML } = req.body;
+  
+    if (!email || !analyzePageHTML) {
+      return res.status(400).json({ error: "Email and page content are required." });
+    }
+  
+    try {
+      // Configure nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        service: "gmail", // Or use any other email provider
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD 
+        },
+      });
+  
+      // Email options
+      const mailOptions = {
+        from: "your-email@gmail.com", // Replace with your email
+        to: email,
+        subject: "Your Exam Analysis Report",
+        html: analyzePageHTML, // Use the HTML from the frontend
+      };
+  
+      // Send the email
+      await transporter.sendMail(mailOptions);
+  
+      res.status(200).json({ message: "Analysis sent successfully!" });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "Failed to send the email." });
+    }
+  });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
