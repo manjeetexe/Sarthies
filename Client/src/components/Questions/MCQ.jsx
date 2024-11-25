@@ -7,7 +7,9 @@ import { ExamContext } from "./../../Context/ExamContext";
 import { useNavigate } from 'react-router-dom';
 
 const MCQ = (props, ref) => {
-
+  
+  const subject = props.subject
+  const lesson = props.lesson
   const navigate = useNavigate();
   const location = useLocation();
   const { lessonData } = location.state || {};
@@ -154,8 +156,9 @@ const MCQ = (props, ref) => {
     console.log("Number of Questions Correct:", correctAnswers);
     console.log("Total Questions Solved:", solvedQuestions);
 
-    navigate('/ExamEND', { state: { score: finalScore, totalMarks, summary } });
-  };
+    navigate('/ExamEND', { state: { score: finalScore, totalMarks, summary ,subject ,lesson} });
+    
+  }; 
 
 
   const handleCancelSubmit = () => {

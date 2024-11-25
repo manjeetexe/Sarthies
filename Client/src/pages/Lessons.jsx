@@ -24,6 +24,8 @@ const Lessons = () => {
     setLessonData(null); // Clear the lesson data when going back
   };
 
+
+
   return (
     <>
       {!selectedLesson ? (
@@ -45,8 +47,10 @@ const Lessons = () => {
         </>
       ) : (
         // Pass the selected lesson name and data to Instructions
-        <Instructions selectedLesson={selectedLesson} lessonData={lessonData} goBack={goBack} />
+        
+        <Instructions selectedLesson={selectedLesson}  subject={subject} lessonData={lessonData} goBack={goBack} />
       )}
+      
       <div className='h-20'></div>
     </>
   );

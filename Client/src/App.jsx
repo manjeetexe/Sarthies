@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import Nav from './components/Nav';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from './pages/Profile';
 import TestPage from './pages/Test';
 import Notes from './pages/Notes';
-import { AuthProvider, useAuth } from './Context/Authcontext'; // Import useAuth
+import { AuthProvider, useAuth } from './Context/Authcontext'; 
 import Help from './pages/Help';
 import Lessons from './pages/Lessons';
 import Home from './pages/Home';
@@ -13,35 +13,50 @@ import Exam from './pages/Exam';
 import { ExamProvider } from "./Context/ExamContext";
 import Signin from './pages/Login';
 import Signup from './pages/Signup';
+import { useLocation } from 'react-router-dom';
 import ProtectedRoute from './components/protected';
 import ExamEnd from './pages/ExamEnd'
+import Instructions from './components/Instruction';
 import Analysis from './pages/AnalizeMCQ';
 
-const AppContent = () => {
-  const { isSignedIn } = useAuth(); // Access isSignedIn inside AuthProvider
 
-  return (
-    <>
-      {isSignedIn && <Header />}
-      <Routes>
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Help" element={<Help />} />
-          <Route path="/ExamEND" element={<ExamEnd />} />
-          <Route path="/Test" element={<TestPage />} />
-          <Route path="/analysis" element={<Analysis />} /> 
-          <Route path="/Notes" element={<Notes />} />
-          <Route path="/lessons" element={<Lessons />} />
-          <Route path="/exam" element={<Exam />} />
-        </Route>
-      </Routes>
-      {isSignedIn && <Nav />}
-    </>
-  );
-};
+const AppContent = () => {
+
+
+
+  const { isSignedIn } = useAuth(); // Access isSignedIn inside AuthProvider
+  const [examStarted, setExamStarted] = useState(false); // Track if the exam has started
+  const location = useLocation();
+
+    const hideHeaderNav = examStarted || location.pathname === '/exam'
+
+
+    return (
+      <>
+        {!hideHeaderNav && isSignedIn && <Header />}
+        <Routes>
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/Profile" element={<Profile />} />
+            <Route path="/Help" element={<Help />} />
+            <Route path="/ExamEND" element={<ExamEnd />} />
+            <Route path="/Test" element={<TestPage />} />
+            <Route path="/analysis" element={<Analysis />} /> 
+            <Route path="/Notes" element={<Notes />} />
+            <Route path="/lessons" element={<Lessons />} />
+            <Route path="/exam" element={<Exam />} />
+            <Route
+              path="/instruction"
+              element={<Instructions setExamStarted={setExamStarted} />} 
+            />
+          </Route>
+        </Routes>
+        {!hideHeaderNav && isSignedIn && <Nav />}
+      </>
+    );
+  };
 
 const App = () => {
   return (

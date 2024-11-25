@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
+
+
 const Analysis = () => {
   const location = useLocation();
-  const { summary ,score,totalMarks } = location.state || {};
+  const { summary ,score,totalMarks , subject ,lesson } = location.state || {};
+  console.log(subject);
+  console.log(lesson);
 
   // Calculate overall stats
   const totalQuestions = summary?.length || 0;
@@ -19,6 +23,8 @@ const Analysis = () => {
   return (
     <div className="min-h-screen mt-20 flex flex-col items-center bg-gray-50 p-8">
       <h1 className="text-4xl font-semibold text-gray-800 mb-8">Exam Analysis</h1>
+      <h1>{subject}</h1>
+      <h1>{lesson}</h1>
 
       {/* Performance Summary */}
       <div className="w-full md:w-3/4 lg:w-1/2 bg-white shadow-lg rounded-lg p-6 mb-8">

@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef} from 'react';
 import Autosubmit from '../components/Warning/Autosubmit';
 import MCQ from './../components/Questions/MCQ';
+import { useLocation } from 'react-router-dom';
 import Text from './../components/Questions/Text';
 
 
+
 const Exam = () => {
+  
   const [showAutosubmit, setShowAutosubmit] = useState(false);
   const mcqRef = useRef(null);
+  const location = useLocation();
+  const {   subject ,selectedLesson } = location.state;
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -35,7 +40,7 @@ const Exam = () => {
 
   return (
     <div className="exam-page">
-      <MCQ ref={mcqRef} />
+      <MCQ ref={mcqRef} subject={subject} lesson={selectedLesson} />
 
       {showAutosubmit && mcqRef.current && (
         <Autosubmit

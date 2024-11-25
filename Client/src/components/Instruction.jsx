@@ -1,14 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Instructions = ({ selectedLesson, goBack,lessonData }) => {
+const Instructions = ({ subject, selectedLesson, goBack, lessonData, setExamStarted ,}) => {
   const navigate = useNavigate();
 
-  
-
   const startTest = () => {
-    navigate('/exam', { state: { lessonData } }); // Pass lessonData in state
+    if (setExamStarted) {
+      setExamStarted(true); // Ensure the function is called
+    }
+    navigate('/exam', { state: { lessonData , subject ,selectedLesson } });
   };
+  console.log(lessonData);
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-blue-50 rounded-lg shadow-md mt-20">

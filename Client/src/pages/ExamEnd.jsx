@@ -5,7 +5,8 @@ const ExamEND = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { score, totalMarks, summary } = location.state || {};
+  const { score, totalMarks, summary ,subject ,lesson} = location.state || {};
+
 
   return (
     <div className="min-h-screen mt-20 flex flex-col items-center bg-gray-50 p-4">
@@ -21,7 +22,7 @@ const ExamEND = () => {
           Go to Home
         </button>
         <button
-          onClick={() => navigate('/analysis', { state: { summary , score ,totalMarks} })}
+          onClick={() => navigate('/analysis', { state: { summary , score ,totalMarks , subject ,lesson} })}
           className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
         >
           Analyze Exam
