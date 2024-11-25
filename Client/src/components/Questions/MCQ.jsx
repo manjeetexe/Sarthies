@@ -189,8 +189,18 @@ const MCQ = (props, ref) => {
         </div>
 
         <div className='flex justify-between'>
+          <div>
+          <button
+              onClick={previousQuestion}
+              disabled={currentQuestion === 0}
+              className="mt-6 px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+            >
+              Previous
+            </button>
+          </div>
+
           <div className='flex gap-3'>
-            <button
+          <button
               onClick={nextQuestion}
               className="mt-6 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
             >
@@ -203,15 +213,8 @@ const MCQ = (props, ref) => {
             >
               {currentQuestion === questions.length - 1 ? "Submit Test" : "Submit"}
             </button>
-          </div>
-          <div>
-            <button
-              onClick={previousQuestion}
-              disabled={currentQuestion === 0}
-              className="mt-6 px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-            >
-              Previous
-            </button>
+
+            
           </div>
         </div>
       </div>

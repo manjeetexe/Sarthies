@@ -1,90 +1,201 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../Context/Authcontext';
 
-const Home = () => {
-  const papers = [
-    {
-      year: "2024 Papers",
-      subjects: ["Science", "Math", "History", "Geography", "English", "Physics"],
-    },
-    {
-      year: "2023 Papers",
-      subjects: ["Science", "Math", "History", "Geography", "English", "Physics"],
-    },
-    {
-      year: "2022 Papers",
-      subjects: ["Science", "Math", "History", "Geography", "English", "Physics"],
-    },
-  ];
+const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [isSarthie, setIsSarthie] = useState(false); // Boolean for Sarthie status
+  const [className, setClassName] = useState(''); // New state for class
+  const [error, setError] = useState(''); // Error state
+  const navigate = useNavigate();
+  
+  const { isSignedIn, SignIn } = useAuth();
+
+  // Redirect to home if already signed in
+  useEffect(() => {
+    if (isSignedIn) {
+      navigate('/');
+    }
+  }, [isSignedIn, navigate]);
+  
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError(''); // Clear previous errors
+    
+    // Trim inputs to remove unnecessary spaces
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const trimmedName = name.trim();
+    const trimmedClassName = className.trim();
+  
+    // Validate inputs
+    if (!trimmedEmail || !trimmedPassword || !trimmedName || !trimmedClassName) {
+      setError('All fields are required.');
+      return;
+    }
+  
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+  
+    // Validate class selection
+    const allowedClasses = ['7', '8', '9', '10']; // List of valid classes
+    if (!allowedClasses.includes(trimmedClassName)) {
+      setError('Please select a valid class from the dropdown.');
+      return;
+    }
+  
+    try {
+      // Disable form submission temporarily (UI can reflect this state)
+      const response = await axios.post(
+        'http://localhost:3000/api/signup',
+        {
+            email: trimmedEmail,
+            password: trimmedPassword,
+            name: trimmedName,
+            isSarthie,
+            class: trimmedClassName, // Use 'class' instead of 'className'
+        },
+        { withCredentials: true }
+    );
+  
+      console.log('Response:', response);
+  
+      // Save user info in context/auth
+      SignIn(response.data.user);
+      alert('Sign-in successful');
+      navigate('/');
+  
+      // Reset form fields
+      setEmail('');
+      setPassword('');
+      setName('');
+      setIsSarthie(false);
+      setClassName('');
+  
+    } catch (err) {
+      console.error("Error during sign-in:", err);
+      if (err.response?.data?.message) {
+        setError(err.response.data.message); // Display server-side error
+      } else {
+        setError('Sign-in failed. Please check your input and try again.');
+      }
+    }
+  };
 
   return (
-    <>
-      <section className="flex flex-col gap-3 items-center mt-24 px-5 overflow-hidden">
-      <div className='flex justify-between w-full  items-center'>
-                <h1 className='text-2xl font-semibold'>Question Banks</h1>
-                <a className='text-blue-600 text-lg font-semibold' href="#">View all</a>
-            </div>
-
-        {/* Cards Section */}
-        <div className="flex flex-col gap-5 overflow-hidden overflow-x-auto justify-center p-3 w-full border border-black border-dashed rounded-xl">
-          {papers.map((paper, rowIndex) => (
-            <div key={rowIndex}>
-              
-              <div className="flex space-x-4 w-max">
-                {paper.subjects.map((subject, index) => (
-                  <div
-                    key={index}
-                    className="h-24 overflow-hidden relative w-36 border-[1px] border-black rounded-xl"
-                  >
-                    <h1 className="m-2">{subject}</h1>
-                    <div className="absolute h-5 w-full bottom-0 flex justify-center items-center bg-red-500">
-                      <h1 className="text-sm text-white">{paper.year}</h1>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <form
+        method='post'
+        onSubmit={handleSignIn}
+        className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md"
+      >
+        <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-gray-800">
+          Sign In
+        </h2>
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-600">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
-
-        {/* Formula Cards */}
-        <div className="w-full mt-5">
-          <div className="flex justify-between w-full px-2">
-            <h1 className="text-2xl font-semibold">Formula Cards</h1>
-            <h1 className="text-xl text-blue-500 font-semibold">View all</h1>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-600">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="class" className="block text-sm font-medium text-gray-600">
+            Class
+          </label>
+          <select
+            id="class"
+            value={className}
+            onChange={(e) => setClassName(e.target.value)}
+            className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" disabled>Select your class</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+          </select>
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">Are you a Sarthie student?</label>
+          <div className="mt-2">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value={true}
+                checked={isSarthie === true}
+                onChange={() => setIsSarthie(true)}
+                className="form-radio text-blue-500"
+              />
+              <span className="ml-2 text-gray-700">Yes</span>
+            </label>
+            <label className="inline-flex items-center ml-6">
+              <input
+                type="radio"
+                value={false}
+                checked={isSarthie === false}
+                onChange={() => setIsSarthie(false)}
+                className="form-radio text-blue-500"
+              />
+              <span className="ml-2 text-gray-700">No</span>
+            </label>
           </div>
-          <div className="px-2 mt-3">
-            <div className="flex space-x-6 text-xl font-medium">
-              <h1 className="border-b-2 border-red-400">Physics</h1>
-              <h1>Chemistry</h1>
-              <h1>Maths</h1>
-            </div>
-            <div className="overflow-x-auto py-2 mt-2 px-1">
-              <div className="flex space-x-4 w-max">
-                {Array(6) // Replace 6 with the number of cards
-                  .fill()
-                  .map((_, index) => (
-                    <div
-                      key={index}
-                      className="h-40 w-28 border-[1px] border-black rounded-xl"
-                    ></div>
-                  ))}
-              </div>
-            </div>
-          </div>
         </div>
-
-        {/* Social Support */}
-        <div className="border-t-2 border-gray-300 w-full mt-5 pt-3">
-          <h1 className="text-xl font-medium text-gray-800">Social Support</h1>
-          <p className="text-gray-600 mt-1">
-            Need help? Connect with others for support and collaboration.
-          </p>
-        </div>
-
-        <div className="h-20"></div>
-      </section>
-    </>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200"
+        >
+          Sign In
+        </button>
+        <p className="mt-4 text-sm text-gray-600 text-center">
+          Already Have an account?{' '}
+          <Link to="/signin" className="text-blue-500 hover:underline">
+            Sign in
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 };
 
-export default Home;
+export default SignIn;
