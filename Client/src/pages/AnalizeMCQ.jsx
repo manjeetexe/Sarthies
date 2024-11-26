@@ -142,8 +142,9 @@ const Analysis = () => {
         incorrectPercentage: ((incorrectAnswers / totalQuestions) * 100).toFixed(1)
       };
   
-      // Limit summary questions to reduce payload
-      const limitedSummary = summary?.map(item => ({
+      // Include question number in summary
+      const limitedSummary = summary?.map((item, index) => ({
+        questionNumber: index + 1, // Add question number
         question: item.question.slice(0, 100), // Truncate long questions
         isCorrect: item.isCorrect,
         selectedOption: item.selectedOption,
@@ -152,7 +153,7 @@ const Analysis = () => {
   
       // Create FormData to handle large payload
       const formData = new FormData();
-      formData.append('emails', JSON.stringify([user.email, 'gaurav@gmail.com']));
+      formData.append('emails', JSON.stringify([user.email, 'saarathitutorials@gmail.com']));
       formData.append('analysisDetails', JSON.stringify(analysisDetails));
       formData.append('summaryQuestions', JSON.stringify(limitedSummary));
   
@@ -178,7 +179,6 @@ const Analysis = () => {
       alert('An error occurred while sending the email.');
     }
   };
-
   const handleRedirectHome = () => {
     navigate("/");
   };

@@ -7,6 +7,19 @@ const data = {
             { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
             { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
             { Marks: "4", answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
+            { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+            { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+            { Marks: "4", answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
+            { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+            { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+            { Marks: "4", answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
+            { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+            { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+            { Marks: "4", answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] },
+            { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+            { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+            { Marks: "4", answer: "Blue", type: "MCQ", no: "3", question: "What is the color of the sky?", options: ["Blue", "Green", "Red", "Yellow"] }
+            
           ] 
         },
         English2: {

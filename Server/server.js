@@ -11,6 +11,7 @@ const connectDB = require('./DB/moongodb');
 const multer = require('multer');
 const handlebars = require('handlebars');
 const User = require('./Models/User');
+const bodyParser = require('body-parser');
 
 dotenv.config();
 
@@ -21,13 +22,13 @@ const PORT = process.env.PORT || 8000;
 app.use(cookieParser());
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '60mb' }));
+app.use(express.urlencoded({ limit: '60mb', extended: true }));
 
 
 const upload = multer({
-    limits: { fileSize: 25 * 1024 * 1024 } // 25MB file size limit
-  });
+  limits: { fileSize: 30 * 1024 * 1024 } // 25MB file size limit
+});
 // Connect to MongoDB
 connectDB();
 
@@ -280,116 +281,118 @@ app.post('/api/login', async (req, res) => {
 
 
 app.post("/send-analyze-email", upload.single('screenshotImage'), async (req, res) => {
-    try {
-      // Parse emails and other details from form data
-      const emails = JSON.parse(req.body.emails);
-      const analysisDetails = JSON.parse(req.body.analysisDetails);
-      const summaryQuestions = JSON.parse(req.body.summaryQuestions);
-  
-      // Validate input
-      if (!emails || !req.file) {
-        return res.status(400).json({ error: "Email and screenshot are required." });
-      }
-  
-      // Configure nodemailer transporter
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASSWORD 
-        },
-      });
-  
-      // Create a rich HTML template
-      const emailTemplate = handlebars.compile(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
-            .analysis-container { 
-              border: 1px solid #e0e0e0; 
-              padding: 20px; 
-              border-radius: 8px; 
-            }
-            .summary-table { 
-              width: 100%; 
-              border-collapse: collapse; 
-            }
-            .summary-table th, .summary-table td { 
-              border: 1px solid #e0e0e0; 
-              padding: 10px; 
-              text-align: left; 
-            }
-          </style>
-        </head>
-        <body>
-          <div class="analysis-container">
-            <h1>Exam Analysis Report</h1>
-            <p>Subject: {{subject}} | Lesson: {{lesson}}</p>
-  
-            <div>
-              <h3>Performance Summary</h3>
-              <p>Total Questions: {{totalQuestions}}</p>
-              <p>Correct Answers: {{correctAnswers}} ({{correctPercentage}}%)</p>
-              <p>Incorrect Answers: {{incorrectAnswers}} ({{incorrectPercentage}}%)</p>
-              <p>Score: {{score}} / {{totalMarks}} ({{scorePercentage}}%)</p>
-            </div>
-  
-            <h3>Detailed Question Analysis</h3>
-            <table class="summary-table">
-              <thead>
-                <tr>
-                  <th>Question</th>
-                  <th>Status</th>
-                  <th>Your Answer</th>
-                  <th>Marks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each summaryQuestions}}
-                <tr>
-                  <td>{{question}}</td>
-                  <td>{{#if isCorrect}}Correct{{else}}Incorrect{{/if}}</td>
-                  <td>{{selectedOption}}</td>
-                  <td>{{Marks}}</td>
-                </tr>
-                {{/each}}
-              </tbody>
-            </table>
-          </div>
-        </body>
-        </html>
-      `);
-  
-      // Prepare email options with attachments
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: emails,
-        subject: "Exam Analysis Report",
-        html: emailTemplate({
-          ...analysisDetails,
-          scorePercentage: ((analysisDetails.score / analysisDetails.totalMarks) * 100).toFixed(1),
-          summaryQuestions
-        }),
-        attachments: [
-          {
-            filename: 'full-analysis.jpg',
-            content: req.file.buffer,
-            contentType: 'image/jpeg'
-          }
-        ]
-      };
-  
-      // Send the email
-      await transporter.sendMail(mailOptions);
-  
-      res.status(200).json({ message: "Analysis sent successfully!" });
-    } catch (error) {
-      console.error("Error sending email:", error);
-      res.status(500).json({ error: "Failed to send the email." });
+  try {
+    // Parse emails and other details from form data
+    const emails = JSON.parse(req.body.emails);
+    const analysisDetails = JSON.parse(req.body.analysisDetails);
+    const summaryQuestions = JSON.parse(req.body.summaryQuestions);
+
+    // Validate input
+    if (!emails || !req.file) {
+      return res.status(400).json({ error: "Email and screenshot are required." });
     }
-  });
+
+    // Configure nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD 
+      },
+    });
+
+    // Create a rich HTML template
+    const emailTemplate = handlebars.compile(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
+          .analysis-container { 
+            border: 1px solid #e0e0e0; 
+            padding: 20px; 
+            border-radius: 8px; 
+          }
+          .summary-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+          }
+          .summary-table th, .summary-table td { 
+            border: 1px solid #e0e0e0; 
+            padding: 10px; 
+            text-align: left; 
+          }
+        </style>
+      </head>
+      <body>
+        <div class="analysis-container">
+          <h1>Exam Analysis Report</h1>
+          <p>Subject: {{subject}} | Lesson: {{lesson}}</p>
+
+          <div>
+            <h3>Performance Summary</h3>
+            <p>Total Questions: {{totalQuestions}}</p>
+            <p>Correct Answers: {{correctAnswers}} ({{correctPercentage}}%)</p>
+            <p>Incorrect Answers: {{incorrectAnswers}} ({{incorrectPercentage}}%)</p>
+            <p>Score: {{score}} / {{totalMarks}} ({{scorePercentage}}%)</p>
+          </div>
+
+          <h3>Detailed Question Analysis</h3>
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>Q.No</th>
+                <th>Question</th>
+                <th>Status</th>
+                <th>Your Answer</th>
+                <th>Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each summaryQuestions}}
+              <tr>
+                <td>{{questionNumber}}</td>
+                <td>{{question}}</td>
+                <td>{{#if isCorrect}}Correct{{else}}Incorrect{{/if}}</td>
+                <td>{{selectedOption}}</td>
+                <td>{{Marks}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </body>
+      </html>
+    `);
+
+    // Prepare email options with attachments
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: emails,
+      subject: "Exam Analysis Report",
+      html: emailTemplate({
+        ...analysisDetails,
+        scorePercentage: ((analysisDetails.score / analysisDetails.totalMarks) * 100).toFixed(1),
+        summaryQuestions
+      }),
+      attachments: [
+        {
+          filename: 'full-analysis.jpg',
+          content: req.file.buffer,
+          contentType: 'image/jpeg'
+        }
+      ]
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "Analysis sent successfully!" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ error: "Failed to send the email." });
+  }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
