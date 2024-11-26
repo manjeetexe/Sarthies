@@ -147,6 +147,7 @@ const Analysis = () => {
         questionNumber: index + 1, // Add question number
         question: item.question.slice(0, 100), // Truncate long questions
         isCorrect: item.isCorrect,
+        answer: item.answer,
         selectedOption: item.selectedOption,
         Marks: item.Marks
       })).slice(0, 10); // Limit to first 10 questions
@@ -179,6 +180,8 @@ const Analysis = () => {
       alert('An error occurred while sending the email.');
     }
   };
+
+
   const handleRedirectHome = () => {
     navigate("/");
   };

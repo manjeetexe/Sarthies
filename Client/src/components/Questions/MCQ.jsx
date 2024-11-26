@@ -127,6 +127,7 @@ const MCQ = (props, ref) => {
       const answer = answers[index];
       return {
         questionNumber: index + 1,
+        answer:question.answer,
         question: question.question,
         options: question.options,
         selectedOption: answer ? answer.selectedOption : "unattempted",

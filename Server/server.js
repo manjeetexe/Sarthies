@@ -343,8 +343,8 @@ app.post("/send-analyze-email", upload.single('screenshotImage'), async (req, re
               <tr>
                 <th>Q.No</th>
                 <th>Question</th>
-                <th>Status</th>
                 <th>Your Answer</th>
+                <th>correct Answer</th>
                 <th>Marks</th>
               </tr>
             </thead>
@@ -353,9 +353,9 @@ app.post("/send-analyze-email", upload.single('screenshotImage'), async (req, re
               <tr>
                 <td>{{questionNumber}}</td>
                 <td>{{question}}</td>
-                <td>{{#if isCorrect}}Correct{{else}}Incorrect{{/if}}</td>
                 <td>{{selectedOption}}</td>
-                <td>{{Marks}}</td>
+                <td>{{answer}}</td>     
+                <td>{{#if isCorrect}}{{Marks}}/{{Marks}}{{else}}0/{{Marks}}{{/if}}</td>
               </tr>
               {{/each}}
             </tbody>
