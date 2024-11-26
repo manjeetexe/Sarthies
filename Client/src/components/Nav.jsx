@@ -18,7 +18,7 @@ const Nav = () => {
         <ul className="flex justify-around items-center text-black">
           <li
             className={`flex flex-col items-center transition ${
-              isActive("/Help") ? "text-blue-700" : "hover:text-blue-700"
+              isActive("/Help") ? "text-purple-600" : "hover:text-purple-600"
             }`}
           >
             <Link to="/Help">
@@ -28,7 +28,7 @@ const Nav = () => {
           </li>
           <li
             className={`flex flex-col items-center transition ${
-              isActive("/Test") ? "text-blue-700" : "hover:text-blue-700"
+              isActive("/Test") ? "text-purple-600" : "hover:text-purple-600"
             }`}
           >
             <Link to="/Test">
@@ -38,7 +38,7 @@ const Nav = () => {
           </li>
           <li
             className={`flex flex-col items-center transition ${
-              isActive("/") ? "text-blue-700" : "hover:text-blue-700"
+              isActive("/") ? "text-purple-600" : "hover:text-purple-6000"
             }`}
           >
             <Link to="/">
@@ -48,7 +48,7 @@ const Nav = () => {
           </li>
           <li
             className={`flex flex-col items-center transition ${
-              isActive("/Notes") ? "text-blue-700" : "hover:text-blue-700"
+              isActive("/Notes") ? "text-purple-600" : "hover:text-purple-600"
             }`}
           >
             <Link to="/Notes">
@@ -58,7 +58,7 @@ const Nav = () => {
           </li>
           <li
             className={`flex flex-col items-center transition ${
-              isActive("/Profile") ? "text-blue-700" : "hover:text-blue-700"
+              isActive("/Profile") ? "text-purple-600" : "hover:text-purple-600"
             }`}
           >
             <Link to="/Profile">
@@ -72,4 +72,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default Nav; 

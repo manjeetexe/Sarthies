@@ -5,13 +5,6 @@ import data from "./../components/Data.jsx";
 const Test = () => {
   const navigate = useNavigate();
   const subject = Object.keys(data); 
-  
-
-  const subjects = subject;
-  subjects.forEach(subject => {
-    const subjectData = data[subject]; 
-  });
-
 
   const [selectedSubject, setSelectedSubject] = useState(null);
 
@@ -26,29 +19,30 @@ const Test = () => {
 
   return (
     <>
-      <h1 className='px-7 my-4 mt-24 font-semibold text-2xl md:text-3xl lg:text-4xl'>Select a Subject for Test</h1>
-
-      <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mx-6 md:mx-12 lg:mx-20'>
-        {subjects.map((sub) => (
-          <div 
-            key={sub} 
-             className="h-28 w-full  rounded-xl shadow-md border border-gray-300 hover:bg-[#e0cdff] transition-colors p-5 text-xl" 
+      <h1 className="px-7 my-6 mt-24 font-bold text-3xl text-center text-purple-600">
+        Select a Subject for the Test
+      </h1>
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-8 py-4">
+        {subject.map((sub) => (
+          <div
+            key={sub}
+            className="h-28 w-full rounded-xl shadow-lg border border-gray-300 hover:bg-gradient-to-r from-purple-400 to-indigo-400 transition-all p-5 text-xl text-gray-800 font-medium cursor-pointer flex items-center justify-center"
             onClick={() => handleSubjectSelect(sub)}
           >
-            <h1>{sub}</h1>
+            <h1 className="text-center">{sub}</h1>
           </div>
         ))}
       </section>
 
       {selectedSubject && (
-        <h2 className='text-center mt-4 text-lg md:text-xl lg:text-2xl'>
+        <h2 className="text-center mt-4 text-lg md:text-xl lg:text-2xl">
           You are taking the test for: <strong>{selectedSubject}</strong>
         </h2>
       )}
 
-      <div className='h-20'></div>
+      <div className="h-20"></div>
     </>
   );
-}
+};
 
 export default Test;
