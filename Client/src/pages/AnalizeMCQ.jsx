@@ -107,26 +107,71 @@ const Analysis = () => {
 
   const handleSendMail = async () => {
     try {
-      // Serialize the Analyze page content
-      const analyzePageHTML = document.querySelector('.min-h-screen').outerHTML;
+      // Capture full page screenshot method
+      const captureFullPageScreenshot = async () => {
+        // Use html2canvas library for comprehensive rendering
+        const { default: html2canvas } = await import('html2canvas');
+        
+        // Select the entire page content
+        const element = document.querySelector('.min-h-screen');
+        
+        // Capture screenshot with controlled resolution
+        const canvas = await html2canvas(element, {
+          useCORS: true,
+          scale: 1, // Reduced scale to minimize payload
+          logging: false,
+          allowTaint: true,
+          scrollX: 0,
+          scrollY: -window.scrollY
+        });
   
+        // Convert canvas to base64 image
+        return canvas.toDataURL('image/jpeg', 0.7); // Use JPEG with reduced quality
+      };
+  
+      // Simplified data capture
+      const analysisDetails = {
+        subject,
+        lesson,
+        totalQuestions,
+        correctAnswers,
+        incorrectAnswers,
+        score,
+        totalMarks,
+        correctPercentage: ((correctAnswers / totalQuestions) * 100).toFixed(1),
+        incorrectPercentage: ((incorrectAnswers / totalQuestions) * 100).toFixed(1)
+      };
+  
+      // Limit summary questions to reduce payload
+      const limitedSummary = summary?.map(item => ({
+        question: item.question.slice(0, 100), // Truncate long questions
+        isCorrect: item.isCorrect,
+        selectedOption: item.selectedOption,
+        Marks: item.Marks
+      })).slice(0, 10); // Limit to first 10 questions
+  
+      // Create FormData to handle large payload
+      const formData = new FormData();
+      formData.append('emails', JSON.stringify([user.email, 'gaurav@gmail.com']));
+      formData.append('analysisDetails', JSON.stringify(analysisDetails));
+      formData.append('summaryQuestions', JSON.stringify(limitedSummary));
+  
+      // Append screenshot as a file
+      const screenshotBlob = await (await fetch(await captureFullPageScreenshot())).blob();
+      formData.append('screenshotImage', screenshotBlob, 'screenshot.jpg');
+  
+      // Send data
       const response = await fetch('http://localhost:3000/send-analyze-email', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: user.email, // User's email
-          analyzePageHTML,  // Serialized HTML of Analyze page
-        }),
+        body: formData, // Use FormData instead of JSON
       });
   
       if (response.ok) {
         const data = await response.json();
-        alert(data.message); // Notify the user on success
+        alert(data.message);
       } else {
-        const error = await response.json();
-        alert(error.error); // Notify the user on failure
+        const error = await response.text(); // Use text() instead of json()
+        alert(error);
       }
     } catch (err) {
       console.error('Error:', err);
