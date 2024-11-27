@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(cookieParser());
-app.use(cors({ origin: 'https://sarthies-3.onrender.com/', credentials: true }));
+app.use(cors());
 app.use(express.json());
 app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ limit: '60mb', extended: true }));
