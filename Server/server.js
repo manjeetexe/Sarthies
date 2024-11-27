@@ -20,7 +20,10 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  }));
 app.use(express.json());
 app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ limit: '60mb', extended: true }));
