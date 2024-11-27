@@ -280,118 +280,279 @@ app.post('/api/login', async (req, res) => {
 
 
 
-app.post("/send-analyze-email", upload.single('screenshotImage'), async (req, res) => {
+app.post('/api/verify-otp', async (req, res) => {
+  const { email, otp } = req.body;
+
   try {
-    // Parse emails and other details from form data
-    const emails = JSON.parse(req.body.emails);
-    const analysisDetails = JSON.parse(req.body.analysisDetails);
-    const summaryQuestions = JSON.parse(req.body.summaryQuestions);
+      const storedData = otpStore.get(email);
+      
+      if (!storedData) {
+          return res.status(400).json({ message: "OTP expired or not found" });
+      }
 
-    // Validate input
-    if (!emails || !req.file) {
-      return res.status(400).json({ error: "Email and screenshot are required." });
-    }
+      if (storedData.expires < Date.now()) {
+          otpStore.delete(email);
+          return res.status(400).json({ message: "OTP has expired" });
+      }
 
-    // Configure nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD 
-      },
-    });
+      if (storedData.otp !== otp) {
+          return res.status(400).json({ message: "Invalid OTP" });
+      }
 
-    // Create a rich HTML template
-    const emailTemplate = handlebars.compile(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
-          .analysis-container { 
-            border: 1px solid #e0e0e0; 
-            padding: 20px; 
-            border-radius: 8px; 
+      // Hash the password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(storedData.userData.password, salt);
+
+      // Create user with verified status
+      const userData = {
+          ...storedData.userData,
+          password: hashedPassword,
+          isVerified: true
+      };
+
+      // Save to appropriate collection
+      const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
+      const result = await mongoose.connection.collection(collectionName).insertOne(userData);
+
+      // Generate token
+      const token = jwt.sign(
+          { email: userData.email, id: result.insertedId },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+      );
+
+      // Clean up OTP
+      otpStore.delete(email);
+
+      // Set cookie and respond
+      res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+      });
+
+      res.status(200).json({
+          message: "Email verified and user created successfully",
+          user: {
+              id: result.insertedId,
+              email: userData.email,
+              name: userData.name,
+              isSarthie: userData.isSarthie,
+              class: userData.class
           }
-          .summary-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-          }
-          .summary-table th, .summary-table td { 
-            border: 1px solid #e0e0e0; 
-            padding: 10px; 
-            text-align: left; 
-          }
-        </style>
-      </head>
-      <body>
-        <div class="analysis-container">
-          <h1>Exam Analysis Report</h1>
-          <p>Subject: {{subject}} | Lesson: {{lesson}}</p>
+      });
 
-          <div>
-            <h3>Performance Summary</h3>
-            <p>Total Questions: {{totalQuestions}}</p>
-            <p>Correct Answers: {{correctAnswers}} ({{correctPercentage}}%)</p>
-            <p>Incorrect Answers: {{incorrectAnswers}} ({{incorrectPercentage}}%)</p>
-            <p>Score: {{score}} / {{totalMarks}} ({{scorePercentage}}%)</p>
-          </div>
-
-          <h3>Detailed Question Analysis</h3>
-          <table class="summary-table">
-            <thead>
-              <tr>
-                <th>Q.No</th>
-                <th>Question</th>
-                <th>Your Answer</th>
-                <th>correct Answer</th>
-                <th>Marks</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each summaryQuestions}}
-              <tr>
-                <td>{{questionNumber}}</td>
-                <td>{{question}}</td>
-                <td>{{selectedOption}}</td>
-                <td>{{answer}}</td>     
-                <td>{{#if isCorrect}}{{Marks}}/{{Marks}}{{else}}0/{{Marks}}{{/if}}</td>
-              </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
-      </body>
-      </html>
-    `);
-
-    // Prepare email options with attachments
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: emails,
-      subject: "Exam Analysis Report",
-      html: emailTemplate({
-        ...analysisDetails,
-        scorePercentage: ((analysisDetails.score / analysisDetails.totalMarks) * 100).toFixed(1),
-        summaryQuestions
-      }),
-      attachments: [
-        {
-          filename: 'full-analysis.jpg',
-          content: req.file.buffer,
-          contentType: 'image/jpeg'
-        }
-      ]
-    };
-
-    // Send the email
-    await transporter.sendMail(mailOptions);
-
-    res.status(200).json({ message: "Analysis sent successfully!" });
   } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send the email." });
+      console.error("Error during OTP verification:", error);
+      res.status(500).json({ message: "Internal Server Error" });
   }
+});
+
+// Resend OTP route
+app.post('/api/resend-otp', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+      const storedData = otpStore.get(email);
+      if (!storedData) {
+          return res.status(400).json({ message: "No pending verification found" });
+      }
+
+      // Generate new OTP
+      const newOTP = generateOTP();
+      
+      // Update stored data with new OTP and expiration
+      otpStore.set(email, {
+          ...storedData,
+          otp: newOTP,
+          expires: Date.now() + 600000
+      });
+
+      // Send new verification email
+      await sendVerificationEmail(email, newOTP);
+
+      res.status(200).json({ message: "New verification code sent" });
+
+  } catch (error) {
+      console.error("Error resending OTP:", error);
+      res.status(500).json({ message: "Failed to resend verification code" });
+  }
+});
+
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+      // Validate required fields
+      if (!email || !password) {
+          return res.status(400).json({ success: false, message: "Email and password are required" });
+      }
+
+      // Check if user exists in both collections
+      const sarthieUser = await mongoose.connection.collection('students.sarthies').findOne({ email });
+      const nonSarthieUser = await mongoose.connection.collection('students.nonsarthies').findOne({ email });
+
+      const user = sarthieUser || nonSarthieUser;
+
+      if (!user) {
+          return res.status(404).json({ success: false, message: "User not found" });
+      }
+
+      // Validate password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+          return res.status(401).json({ success: false, message: "Invalid password" });
+      }
+
+      // Generate JWT token
+      const token = jwt.sign(
+          { email: user.email, id: user._id, isSarthie: !!sarthieUser }, // `isSarthie` true if user is from Sarthies
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+      );
+
+      // Set the token in a cookie
+      res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+      });
+
+      // Send user data along with the token
+      res.status(200).json({
+          success: true,
+          message: "Login successful",
+          token,
+          user: {
+              id: user._id,
+              email: user.email,
+              name: user.name, // Include other relevant fields from your user schema
+              isSarthie: !!sarthieUser, // Distinguish between Sarthies and non-Sarthies
+              additionalInfo: user.additionalInfo || null, 
+              class: user.class,// Example for other data fields
+          },
+      });
+
+  } catch (error) {
+      console.error("Error during login:", error);
+      res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
+
+
+
+app.post("/send-analyze-email", upload.single('screenshotImage'), async (req, res) => {
+try {
+  // Parse emails and other details from form data
+  const emails = JSON.parse(req.body.emails);
+  const analysisDetails = JSON.parse(req.body.analysisDetails);
+  const summaryQuestions = JSON.parse(req.body.summaryQuestions);
+
+  // Validate input
+  if (!emails || !req.file) {
+    return res.status(400).json({ error: "Email and screenshot are required." });
+  }
+
+  // Configure nodemailer transporter
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD 
+    },
+  });
+
+  // Create a rich HTML template
+  const emailTemplate = handlebars.compile(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
+        .analysis-container { 
+          border: 1px solid #e0e0e0; 
+          padding: 20px; 
+          border-radius: 8px; 
+        }
+        .summary-table { 
+          width: 100%; 
+          border-collapse: collapse; 
+        }
+        .summary-table th, .summary-table td { 
+          border: 1px solid #e0e0e0; 
+          padding: 10px; 
+          text-align: left; 
+        }
+      </style>
+    </head>
+    <body>
+      <div class="analysis-container">
+        <h1>Exam Analysis Report</h1>
+        <p>Subject: {{subject}} | Lesson: {{lesson}}</p>
+
+        <div>
+          <h3>Performance Summary</h3>
+          <p>Total Questions: {{totalQuestions}}</p>
+          <p>Correct Answers: {{correctAnswers}} ({{correctPercentage}}%)</p>
+          <p>Incorrect Answers: {{incorrectAnswers}} ({{incorrectPercentage}}%)</p>
+          <p>Score: {{score}} / {{totalMarks}} ({{scorePercentage}}%)</p>
+        </div>
+
+        <h3>Detailed Question Analysis</h3>
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Q.No</th>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>correct Answer</th>
+              <th>Marks</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each summaryQuestions}}
+            <tr>
+              <td>{{questionNumber}}</td>
+              <td>{{question}}</td>
+              <td>{{selectedOption}}</td>
+              <td>{{answer}}</td>     
+              <td>{{#if isCorrect}}{{Marks}}/{{Marks}}{{else}}0/{{Marks}}{{/if}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </body>
+    </html>
+  `);
+
+  // Prepare email options with attachments
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: emails,
+    subject: "Exam Analysis Report",
+    html: emailTemplate({
+      ...analysisDetails,
+      scorePercentage: ((analysisDetails.score / analysisDetails.totalMarks) * 100).toFixed(1),
+      summaryQuestions
+    }),
+    attachments: [
+      {
+        filename: 'full-analysis.jpg',
+        content: req.file.buffer,
+        contentType: 'image/jpeg'
+      }
+    ]
+  };
+
+  // Send the email
+  await transporter.sendMail(mailOptions);
+
+  res.status(200).json({ message: "Analysis sent successfully!" });
+} catch (error) {
+  console.error("Error sending email:", error);
+  res.status(500).json({ error: "Failed to send the email." });
+}
 });
 
 app.listen(PORT, () => {

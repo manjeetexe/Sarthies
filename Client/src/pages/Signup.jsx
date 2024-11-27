@@ -56,7 +56,7 @@ const SignIn = () => {
   
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/signup',
+        'https://sarthies-1.onrender.com/api/signup',
         {
           email: trimmedEmail,
           password: trimmedPassword,
@@ -86,7 +86,7 @@ const SignIn = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/verify-otp',
+        'https://sarthies-1.onrender.com/api/verify-otp',
         {
           email,
           otp: otp.trim()
@@ -111,7 +111,7 @@ const SignIn = () => {
 
     try {
       await axios.post(
-        'http://localhost:3000/api/resend-otp',
+        'https://sarthies-1.onrender.com/api/resend-otp',
         { email },
         { withCredentials: true }
       );

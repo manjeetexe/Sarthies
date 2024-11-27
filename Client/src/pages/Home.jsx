@@ -33,9 +33,7 @@ const Home = () => {
                 {paper.subjects.map((subject, index) => (
                   <div
                     key={index}
-                    className="h-24 overflow-hidde
-                    
-                    n relative w-36 border-[1px] border-black rounded-xl"
+                    className="h-24 overflow-hidden relative w-36 border-[1px] border-black rounded-xl"
                   >
                     <h1 className="m-2">{subject}</h1>
                     <div className="absolute h-5 w-full bottom-0 flex justify-center items-center bg-red-500">
