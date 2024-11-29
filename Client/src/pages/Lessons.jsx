@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Instructions from './../components/Instruction';
 import { useLocation } from 'react-router-dom';
+import { MdPlayLesson } from "react-icons/md";
 
 const Lessons = () => {
   const location = useLocation();
@@ -26,8 +27,8 @@ const Lessons = () => {
     <>
       {!selectedLesson ? (
         <>
-          <h1 className="px-7 my-6 mt-24 font-bold text-3xl text-center text-purple-600">
-            Select a Lesson for the Test
+          <h1 className="px-8 my-1 mt-24 font-bold text-xl flex items-center gap-2 text-purple-600">
+          <MdPlayLesson className='text-3xl' /> Select a Lesson for the Test
           </h1>
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-8 py-4">
             {lessons.map((lesson) => (

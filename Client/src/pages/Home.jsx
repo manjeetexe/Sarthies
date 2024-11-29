@@ -1,4 +1,5 @@
 import React from "react";
+import FormulaCards from "../components/FormulaCards";
 
 const Home = () => {
   const papers = [
@@ -46,32 +47,13 @@ const Home = () => {
           ))}
         </div>
 
-        {/* Formula Cards */}
-        <div className="w-full mt-5">
-          <div className="flex justify-between w-full px-2">
-            <h1 className="text-2xl font-semibold">Formula Cards</h1>
-            <h1 className="text-xl text-blue-500 font-semibold">View all</h1>
-          </div>
-          <div className="px-2 mt-3">
-            <div className="flex space-x-6 text-xl font-medium">
-              <h1 className="border-b-2 border-red-400">Physics</h1>
-              <h1>Chemistry</h1>
-              <h1>Maths</h1>
-            </div>
-            <div className="overflow-x-auto py-2 mt-2 px-1">
-              <div className="flex space-x-4 w-max">
-                {Array(6) // Replace 6 with the number of cards
-                  .fill()
-                  .map((_, index) => (
-                    <div
-                      key={index}
-                      className="h-40 w-28 border-[1px] border-black rounded-xl"
-                    ></div>
-                  ))}
-              </div>
-            </div>
-          </div>
+        <div className="w-full  flex flex-col gap-4 my-5" >
+          <div className="w-full h-24 rounded-xl border-2 border-red-500 "></div>
+          <div className="w-full h-24 rounded-xl border-2 border-yellow-500 "></div>
         </div>
+
+        {/* Formula Cards */}
+        <FormulaCards />
 
         {/* Social Support */}
         <div className="border-t-2 border-gray-300 w-full mt-5 pt-3">

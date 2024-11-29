@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { ExamContext } from "./../Context/ExamContext";
 import { useAuth } from './../Context/Authcontext';
+import { GoGoal } from "react-icons/go";
+import { MdOutlineFileUpload } from "react-icons/md";
+import { HiDotsVertical } from "react-icons/hi";
 
 const Profile = () => {
   const { examResults, totalSolvedQuestions, totalCorrectAnswers, totalScore } = useContext(ExamContext);
@@ -9,7 +12,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-purple-300 h-48 relative">
+      <div className="bg-purple-300 h-44 mt-20 relative">
         <div className="max-w-4xl mx-auto px-4">
           <div className="absolute -bottom-16">
             <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-white">
@@ -55,11 +58,23 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="mb-8 flex justify-center">
+          <div className="mb-3 flex justify-center">
             <button className="bg-purple-500 py-2 px-4 text-white rounded-3xl hover:bg-purple-400 transition">Know More About Your Scores</button> 
           </div>
 
           {/* Other Profile Details */}
+          <div className="bg-white p-4 rounded-xl shadow-sm mb-2">
+            <div className="flex justify-between items-center">
+            <h1 className="text-xl font-semibold flex items-center gap-3 text-black"><GoGoal /> MY Daily Goals</h1>
+            <h1 className="text-blue-500 text-xl border-b-2 border-blue-500">Edit</h1>
+            </div>
+            <div className="text-md pl-2 font-medium text-black">
+              <p>Name: {user.name}</p>
+              <p>Email: {user.email}</p>
+              <p>Phone Number: null</p>
+            </div>
+          </div>
+
           <div className="bg-white p-4 rounded-xl shadow-sm mb-4">
             <h1 className="text-2xl font-semibold text-black">Your Details</h1>
             <div className="text-md pl-2 font-medium text-black">
@@ -69,15 +84,27 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-xl shadow-sm mb-4">
-            <h1 className="text-2xl font-semibold text-black">Other Details</h1>
-            <div className="text-md pl-2 font-medium text-black">
-              <p>Class</p>
-              <p>School Name</p>
-              <p>State</p>
-              <p>City</p>
+          <div className="border-2 flex h-16 items-center justify-between  p-2 rounded-xl border-gray-400">
+            <div className="flex items-center gap-3">
+                <MdOutlineFileUpload />
+                <h1>My Uploaded Notes</h1>
             </div>
+
+            <HiDotsVertical />
           </div>
+
+          <div className="border-2 flex h-16 items-center justify-between  p-2 rounded-xl border-gray-400">
+            <div className="flex items-center gap-3">
+                <MdOutlineFileUpload />
+                <h1>My Uploaded Notes</h1>
+            </div>
+
+            <HiDotsVertical />
+          </div>
+
+          
+
+          
         </div>
       </div>
       <div className="h-20"></div>

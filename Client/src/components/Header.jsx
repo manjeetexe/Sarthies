@@ -14,7 +14,7 @@ console.log(user.name)
 
   return (
     <>
-      <header className='flex fixed  top-0 justify-between bg-white w-full h-20 border-b-[1px] py-2 px-3 border-gray-400 text-white'>
+      <header className='flex fixed z-10  top-0 justify-between bg-white w-full h-20 border-b-[1px] py-2 px-3 border-gray-400 text-white'>
         <div className='flex gap-4 items-center'>
           <div className='overflow-hidden h-16 w-16 rounded-full border-2 border-gray-300'>
             <img src={profile} alt="Profile" className='h-full w-full object-cover' />

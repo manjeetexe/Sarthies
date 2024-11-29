@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import data from "./../components/Data.jsx";
+import { IoIosPaper } from "react-icons/io";
 
 const Test = () => {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ const Test = () => {
 
   return (
     <>
-      <h1 className="px-7 my-6 mt-24 font-bold text-3xl text-center text-purple-600">
-        Select a Subject for the Test
+      <h1 className="px-7 my-2 mt-24 font-bold text-xl flex items-center gap-3 text-purple-600">
+      <IoIosPaper className='text-3xl' />Select a Subject for the Test
       </h1>
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-8 py-4">
         {subject.map((sub) => (
