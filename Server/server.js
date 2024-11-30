@@ -12,6 +12,7 @@ const multer = require('multer');
 const handlebars = require('handlebars');
 const User = require('./Models/User');
 const bodyParser = require('body-parser');
+const router = express.Router();
 
 dotenv.config();
 
@@ -280,6 +281,34 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
+
+app.post('/api/getUserData', async (req, res) => {
+    const { email, isSarthies } = req.body;
+  
+    try {
+      // Validate the input
+      if (!email || typeof isSarthies !== 'boolean') {
+        return res.status(400).json({ error: 'Invalid input' });
+      }
+  
+      // Determine which collection to query
+      const collectionName = isSarthies ? 'students.sarthies' : 'students.nonsarthies';
+  
+      // Query the appropriate collection
+      const user = await mongoose.connection.collection(collectionName).findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Send the user data as the response
+      res.json(user);
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+
 
 
 

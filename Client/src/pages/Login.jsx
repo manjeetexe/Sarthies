@@ -11,6 +11,7 @@ const Login = () => {
 
   const { isSignedIn, SignIn } = useAuth();
   
+  
 
   useEffect(() => {
     if (isSignedIn) {
@@ -27,14 +28,14 @@ const Login = () => {
         { withCredentials: true } // Ensures cookies are sent and received
       );
       alert('Login successful');
-      console.log(response.data.user);
-      SignIn(response.data.user);
+      const data = { ...response.data.user, token: response.data.token }
+      SignIn(data);
+      
 
       // Redirect to home page after successful login
       navigate('/');
 
-      // Optionally, save token or user info to localStorage/sessionStorage if needed
-      // localStorage.setItem('token', response.data.token);
+     
 
       setEmail('');
       setPassword('');

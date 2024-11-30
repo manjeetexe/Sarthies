@@ -5,7 +5,7 @@ import { useAuth } from './../Context/Authcontext'; // Import the context
 const ProtectedRoute = () => {
   
   const { isSignedIn } = useAuth(); // Get the isSignedIn state from context
-  console.log(isSignedIn)
+  
   if (!isSignedIn) {
     // If not signed in, redirect to the sign-in page
     return <Navigate to="/signin" />;

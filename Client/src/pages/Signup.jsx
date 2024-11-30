@@ -94,8 +94,11 @@ const SignIn = () => {
         { withCredentials: true }
       );
 
-      // Handle successful verification
-      SignIn(response.data.user);
+     
+      console.log(response.data)
+      const data = { ...response.data.user, token: response.data.token }
+      SignIn(data);
+      console.log(data)
       alert('Account verified successfully!');
       navigate('/');
 
@@ -134,7 +137,7 @@ const SignIn = () => {
           className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md"
         >
           <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-gray-800">
-            Sign In
+            Sign Up
           </h2>
           {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
           

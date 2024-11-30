@@ -6,15 +6,27 @@ import { useAuth } from './../Context/Authcontext';
 const Header = () => {
   const { user, isSignedIn } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-console.log(user.name)
+
+  // Debug user data safely
+  console.log(user?.name);
+
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  // Loading or no user state
+  if (!user) {
+    return (
+      <header className='flex fixed z-10 top-0 justify-center bg-gray-100 w-full h-20 border-b-[1px] py-2 px-3'>
+        <p className='text-black font-medium'>Loading...</p>
+      </header>
+    );
+  }
+
   return (
     <>
-      <header className='flex fixed z-10  top-0 justify-between bg-white w-full h-20 border-b-[1px] py-2 px-3 border-gray-400 text-white'>
+      <header className='flex fixed z-10 top-0 justify-between bg-white w-full h-20 border-b-[1px] py-2 px-3 border-gray-400 text-white'>
         <div className='flex gap-4 items-center'>
           <div className='overflow-hidden h-16 w-16 rounded-full border-2 border-gray-300'>
             <img src={profile} alt="Profile" className='h-full w-full object-cover' />
@@ -42,7 +54,7 @@ console.log(user.name)
           <h2 className='font-semibold text-lg'>Menu</h2>
           <RiCloseLine className='text-2xl cursor-pointer' onClick={toggleSidebar} />
         </div>
-        
+
         {/* Sidebar Links */}
         <ul className='flex flex-col p-4'>
           <li className='p-2 hover:bg-indigo-600 rounded-md cursor-pointer'>Home</li>
