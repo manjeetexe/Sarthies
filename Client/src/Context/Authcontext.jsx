@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
             // Send a request to the backend with the decoded data
             const response = await axios.post(
               'http://localhost:8000/api/getUserData',
-              { email: decoded.email, isSarthies: decoded.isSarthie },
+              { email: decoded.email, isSarthie: decoded.isSarthie },
               { headers: { Authorization: `Bearer ${token}` } }
             );
             // Update the user state
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } else {
-        console.log('jdkjsjdsnkmnkjsdkjnd')
+        
         setIsSignedIn(false);
         setUser(null);
       }

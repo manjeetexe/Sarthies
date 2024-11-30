@@ -217,16 +217,17 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/getUserData', async (req, res) => {
-    const { email, isSarthies } = req.body;
+    const { email, isSarthie } = req.body;
+    console.log(req.body);
   
     try {
       // Validate the input
-      if (!email || typeof isSarthies !== 'boolean') {
+      if (!email || typeof isSarthie !== 'boolean') {
         return res.status(400).json({ error: 'Invalid input' });
       }
   
       // Determine which collection to query
-      const collectionName = isSarthies ? 'students.sarthies' : 'students.nonsarthies';
+      const collectionName = isSarthie ? 'students.sarthies' : 'students.nonsarthies';
   
       // Query the appropriate collection
       const user = await mongoose.connection.collection(collectionName).findOne({ email });
@@ -270,21 +271,25 @@ app.post('/api/getUserData', async (req, res) => {
 
         // Create user with verified status
         const userData = {
-            ...storedData.userData,
-            password: hashedPassword,
-            isVerified: true
-        };
-
-        // Save to appropriate collection
-        const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
-        const result = await mongoose.connection.collection(collectionName).insertOne(userData);
-
-        // Generate token
-        const token = jwt.sign(
-            { email: userData.email, id: result.insertedId },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-        );
+          ...storedData.userData,
+          password: hashedPassword,
+          isVerified: true
+      };
+      
+      // Save to appropriate collection
+      const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
+      const result = await mongoose.connection.collection(collectionName).insertOne(userData);
+      
+      // Generate token
+      const token = jwt.sign(
+          { 
+              email: userData.email, 
+              id: result.insertedId,
+              isSarthie: userData.isSarthie 
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+      );
 
         // Clean up OTP
         otpStore.delete(email);
