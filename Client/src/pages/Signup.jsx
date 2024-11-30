@@ -95,11 +95,12 @@ const SignIn = () => {
       );
 
      
-      console.log(response.data)
+      alert('Account verified successfully!');
       const data = { ...response.data.user, token: response.data.token }
       SignIn(data);
-      console.log(data)
-      alert('Account verified successfully!');
+      
+
+      
       navigate('/');
 
     } catch (err) {

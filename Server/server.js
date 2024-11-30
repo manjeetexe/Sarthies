@@ -122,74 +122,8 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
-// Verify OTP route
-app.post('/api/verify-otp', async (req, res) => {
-    const { email, otp } = req.body;
 
-    try {
-        const storedData = otpStore.get(email);
-        
-        if (!storedData) {
-            return res.status(400).json({ message: "OTP expired or not found" });
-        }
 
-        if (storedData.expires < Date.now()) {
-            otpStore.delete(email);
-            return res.status(400).json({ message: "OTP has expired" });
-        }
-
-        if (storedData.otp !== otp) {
-            return res.status(400).json({ message: "Invalid OTP" });
-        }
-
-        // Hash the password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(storedData.userData.password, salt);
-
-        // Create user with verified status
-        const userData = {
-            ...storedData.userData,
-            password: hashedPassword,
-            isVerified: true
-        };
-
-        // Save to appropriate collection
-        const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
-        const result = await mongoose.connection.collection(collectionName).insertOne(userData);
-
-        // Generate token
-        const token = jwt.sign(
-            { email: userData.email, id: result.insertedId },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-
-        // Clean up OTP
-        otpStore.delete(email);
-
-        // Set cookie and respond
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-        });
-
-        res.status(200).json({
-            message: "Email verified and user created successfully",
-            user: {
-                id: result.insertedId,
-                email: userData.email,
-                name: userData.name,
-                isSarthie: userData.isSarthie,
-                class: userData.class
-            }
-        });
-
-    } catch (error) {
-        console.error("Error during OTP verification:", error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
 
 // Resend OTP route
 app.post('/api/resend-otp', async (req, res) => {
@@ -310,75 +244,78 @@ app.post('/api/getUserData', async (req, res) => {
   });
 
 
+  // Verify OTP route
+  app.post('/api/verify-otp', async (req, res) => {
+    const { email, otp } = req.body;
 
+    try {
+        const storedData = otpStore.get(email);
+        
+        if (!storedData) {
+            return res.status(400).json({ message: "OTP expired or not found" });
+        }
 
-app.post('/api/verify-otp', async (req, res) => {
-  const { email, otp } = req.body;
+        if (storedData.expires < Date.now()) {
+            otpStore.delete(email);
+            return res.status(400).json({ message: "OTP has expired" });
+        }
 
-  try {
-      const storedData = otpStore.get(email);
-      
-      if (!storedData) {
-          return res.status(400).json({ message: "OTP expired or not found" });
-      }
+        if (storedData.otp !== otp) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
 
-      if (storedData.expires < Date.now()) {
-          otpStore.delete(email);
-          return res.status(400).json({ message: "OTP has expired" });
-      }
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(storedData.userData.password, salt);
 
-      if (storedData.otp !== otp) {
-          return res.status(400).json({ message: "Invalid OTP" });
-      }
+        // Create user with verified status
+        const userData = {
+            ...storedData.userData,
+            password: hashedPassword,
+            isVerified: true
+        };
 
-      // Hash the password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(storedData.userData.password, salt);
+        // Save to appropriate collection
+        const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
+        const result = await mongoose.connection.collection(collectionName).insertOne(userData);
 
-      // Create user with verified status
-      const userData = {
-          ...storedData.userData,
-          password: hashedPassword,
-          isVerified: true
-      };
+        // Generate token
+        const token = jwt.sign(
+            { email: userData.email, id: result.insertedId },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
 
-      // Save to appropriate collection
-      const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
-      const result = await mongoose.connection.collection(collectionName).insertOne(userData);
+        // Clean up OTP
+        otpStore.delete(email);
 
-      // Generate token
-      const token = jwt.sign(
-          { email: userData.email, id: result.insertedId },
-          process.env.JWT_SECRET,
-          { expiresIn: '1h' }
-      );
+        // Set cookie and respond
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+        });
 
-      // Clean up OTP
-      otpStore.delete(email);
+        // Include the token in the JSON response
+        res.status(200).json({
+            message: "Email verified and user created successfully",
+            user: {
+                id: result.insertedId,
+                email: userData.email,
+                name: userData.name,
+                isSarthie: userData.isSarthie,
+                class: userData.class
+            },
+            token: token // Add the token to the response
+        });
 
-      // Set cookie and respond
-      res.cookie("token", token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
-      });
-
-      res.status(200).json({
-          message: "Email verified and user created successfully",
-          user: {
-              id: result.insertedId,
-              email: userData.email,
-              name: userData.name,
-              isSarthie: userData.isSarthie,
-              class: userData.class
-          }
-      });
-
-  } catch (error) {
-      console.error("Error during OTP verification:", error);
-      res.status(500).json({ message: "Internal Server Error" });
-  }
+    } catch (error) {
+        console.error("Error during OTP verification:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 });
+
+
 
 // Resend OTP route
 app.post('/api/resend-otp', async (req, res) => {

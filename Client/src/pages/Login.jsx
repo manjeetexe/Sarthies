@@ -11,7 +11,7 @@ const Login = () => {
 
   const { isSignedIn, SignIn } = useAuth();
   
-  
+
 
   useEffect(() => {
     if (isSignedIn) {
@@ -27,6 +27,9 @@ const Login = () => {
         { email, password },
         { withCredentials: true } // Ensures cookies are sent and received
       );
+
+
+      
       alert('Login successful');
       const data = { ...response.data.user, token: response.data.token }
       SignIn(data);
