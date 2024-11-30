@@ -14,56 +14,51 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
+      console.log(token)
       if (token) {
         try {
-          // Decode the token to get email and isSarthies
           const decoded = jwtDecode(token);
-
-          // Ensure the token is not expired
           if (decoded.exp * 1000 > Date.now()) {
             setIsSignedIn(true);
-
             // Send a request to the backend with the decoded data
             const response = await axios.post(
               'http://localhost:8000/api/getUserData',
-              {
-                email: decoded.email,
-                isSarthies: decoded.isSarthie,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`, // Include the token in the header if needed
-                },
-              }
+              { email: decoded.email, isSarthies: decoded.isSarthie },
+              { headers: { Authorization: `Bearer ${token}` } }
             );
-
-            // Update the user state with the data from the backend
+            // Update the user state
             setUser(response.data);
-            console.log('User data fetched from backend:', response.data);
+            console.log('User data fetched:', response.data);
           } else {
-            // Remove expired token
+            // Token expired, cleanup
             localStorage.removeItem('token');
             setIsSignedIn(false);
             setUser(null);
           }
         } catch (err) {
           console.error('Error fetching user data:', err);
-          localStorage.removeItem('token'); // Remove invalid token
+          localStorage.removeItem('token'); // Clean up invalid token
           setIsSignedIn(false);
           setUser(null);
         }
+      } else {
+        console.log('jdkjsjdsnkmnkjsdkjnd')
+        setIsSignedIn(false);
+        setUser(null);
       }
     };
-
+  
     fetchUserData();
-  }, []); // Runs once on mount
-
-  // Example function to handle sign-in
+  }, []);
+  
   const SignIn = (userData) => {
+    console.log(userData);
     setIsSignedIn(true);
     setUser(userData);
-    localStorage.setItem('token', userData.token);
+    localStorage.setItem('token', userData.token); // Save the token in localStorage
   };
+
+
 
   // Example function to handle sign-out
   const SignOut = () => {
