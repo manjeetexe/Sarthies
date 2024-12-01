@@ -269,27 +269,31 @@ app.post('/api/getUserData', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(storedData.userData.password, salt);
 
-        // Create user with verified status
+        // Add default BannerImg, ProfileImg, empty phoneNumber, and bio
         const userData = {
-          ...storedData.userData,
-          password: hashedPassword,
-          isVerified: true
-      };
-      
-      // Save to appropriate collection
-      const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
-      const result = await mongoose.connection.collection(collectionName).insertOne(userData);
-      
-      // Generate token
-      const token = jwt.sign(
-          { 
-              email: userData.email, 
-              id: result.insertedId,
-              isSarthie: userData.isSarthie 
-          },
-          process.env.JWT_SECRET,
-          { expiresIn: '1h' }
-      );
+            ...storedData.userData,
+            password: hashedPassword,
+            isVerified: true,
+            bannerImage: 'https://via.placeholder.com/1500x400',  // Default Banner Image
+            profilePicture: 'https://via.placeholder.com/150',   // Default Profile Image
+            phoneNumber: '', // Empty phoneNumber field for future update
+            bio: '' // Add bio field, initially empty
+        };
+
+        // Save to appropriate collection
+        const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
+        const result = await mongoose.connection.collection(collectionName).insertOne(userData);
+        
+        // Generate token
+        const token = jwt.sign(
+            { 
+                email: userData.email, 
+                id: result.insertedId,
+                isSarthie: userData.isSarthie 
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
 
         // Clean up OTP
         otpStore.delete(email);
@@ -309,7 +313,11 @@ app.post('/api/getUserData', async (req, res) => {
                 email: userData.email,
                 name: userData.name,
                 isSarthie: userData.isSarthie,
-                class: userData.class
+                class: userData.class,
+                bannerImage: userData.bannerImage,
+                profilePicture: userData.profilePicture,
+                phoneNumber: userData.phoneNumber, // Include phoneNumber in the response
+                bio: userData.bio // Include bio in the response
             },
             token: token // Add the token to the response
         });
@@ -528,6 +536,9 @@ try {
   res.status(500).json({ error: "Failed to send the email." });
 }
 });
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

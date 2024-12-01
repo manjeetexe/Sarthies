@@ -53,10 +53,19 @@ export const AuthProvider = ({ children }) => {
 
   
   const SignIn = (userData) => {
+    // Make sure to include the bannerImage, profilePicture, and phoneNumber in the userData object if they're not already present
+    const updatedUserData = {
+        ...userData,
+        bannerImage: userData.bannerImage || 'https://via.placeholder.com/1500x400', // Default Banner Image if not present
+        profilePicture: userData.profilePicture || 'https://via.placeholder.com/150', // Default Profile Image if not present
+        phoneNumber: userData.phoneNumber || '',
+        bio:userData.bio || ''  // Empty phoneNumber if not present
+    };
+
     setIsSignedIn(true);
-    setUser(userData);
+    setUser(updatedUserData); // Set the updated user data with images and empty phone number
     localStorage.setItem('token', userData.token); 
-  };
+};
 
 
 

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { GoGoal } from "react-icons/go";
 
-function DailyGoal({totalCorrectAnswers}) {
+function DailyGoal({ totalCorrectAnswers }) {
   const [editMode, setEditMode] = useState(false);
   const [dailyGoal, setDailyGoal] = useState(60); // Default is 60 questions
   const [tempGoal, setTempGoal] = useState(dailyGoal);
   const [isCustomMode, setIsCustomMode] = useState(false);
-  const [completed, setCompleted] = useState(0); // Questions completed
   const [streak, setStreak] = useState(0); // Streak count
   const [goalAchieved, setGoalAchieved] = useState(false);
   const [editDisabled, setEditDisabled] = useState(false); // Edit button state
 
+  const completed = totalCorrectAnswers; // Use totalCorrectAnswers as the completed count
   const progressPercentage = ((completed / dailyGoal) * 100).toFixed(1); // Calculate progress %
-    console.log(totalCorrectAnswers)
-    
+
   useEffect(() => {
     // Check if the day has passed and reset progress at midnight
     const checkMidnight = setInterval(() => {
@@ -29,6 +28,17 @@ function DailyGoal({totalCorrectAnswers}) {
     return () => clearInterval(checkMidnight); // Cleanup interval on unmount
   }, [completed, dailyGoal, streak]);
 
+  useEffect(() => {
+    // Check if the goal is achieved whenever the completed count changes
+    if (completed >= dailyGoal) {
+      setGoalAchieved(true);
+      setEditDisabled(true);
+    } else {
+      setGoalAchieved(false);
+      setEditDisabled(false);
+    }
+  }, [completed, dailyGoal]);
+
   const resetDailyProgress = () => {
     if (completed >= dailyGoal) {
       setStreak(streak + 1); // Increment streak if goal was completed
@@ -36,7 +46,6 @@ function DailyGoal({totalCorrectAnswers}) {
       setStreak(0); // Reset streak if goal wasn't completed
     }
 
-    setCompleted(0); // Reset daily progress
     setGoalAchieved(false); // Reset achievement status
     setEditDisabled(false); // Re-enable the Edit button for the new day
   };
@@ -45,17 +54,6 @@ function DailyGoal({totalCorrectAnswers}) {
     setDailyGoal(tempGoal);
     setEditMode(false);
     setIsCustomMode(false);
-  };
-
-  const completeQuestion = () => {
-    setCompleted((prev) => {
-      const newCompleted = prev + 1;
-      if (newCompleted >= dailyGoal) {
-        setGoalAchieved(true); // Mark goal as achieved
-        setEditDisabled(true); // Disable the Edit button after goal completion
-      }
-      return newCompleted;
-    });
   };
 
   return (
@@ -146,17 +144,10 @@ function DailyGoal({totalCorrectAnswers}) {
           <p className="text-sm text-gray-600 mt-1">
             Progress: {completed}/{dailyGoal} questions ({progressPercentage}%)
           </p>
-          {goalAchieved ? (
+          {goalAchieved && (
             <div className="mt-3 text-center text-green-600 font-semibold">
               🎉 Congratulations! You've achieved your goal today! 🎉
             </div>
-          ) : (
-            <button
-              onClick={completeQuestion}
-              className="px-4 py-2 mt-3 bg-blue-500 text-white rounded"
-            >
-              Complete a Question
-            </button>
           )}
         </div>
       )}

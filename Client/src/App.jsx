@@ -18,6 +18,8 @@ import ProtectedRoute from './components/protected';
 import ExamEnd from './pages/ExamEnd'
 import Instructions from './components/Instruction';
 import Analysis from './pages/AnalizeMCQ';
+import ExamDetailAnlize from './pages/examdetailanalize'
+import EditProfile from './pages/EditProfile'
 
 
 const AppContent = () => {
@@ -41,7 +43,9 @@ const AppContent = () => {
             <Route path="/" element={<Home />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Help" element={<Help />} />
-            <Route path="/ExamEND" element={<ExamEnd />} />
+            <Route path="/ExamEND" element={<ExamEnd />} /> 
+            <Route path="/EditProfile" element={<EditProfile />} /> 
+            <Route path="/examdetailanalize" element={<ExamDetailAnlize />} />   /
             <Route path="/Test" element={<TestPage />} />
             <Route path="/analysis" element={<Analysis />} /> 
             <Route path="/Notes" element={<Notes />} />
