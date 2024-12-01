@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios'; // Using axios for HTTP requests
-import { useNavigate } from 'react-router-dom';
+
 
 
 // Create AuthContext
 const AuthContext = createContext();
-const navigate = useNavigate();
+
 // Provide AuthContext to children
 export const AuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -29,17 +29,17 @@ export const AuthProvider = ({ children }) => {
               { email: decoded.email, isSarthie: decoded.isSarthie },
               { headers: { Authorization: `Bearer ${token}` } }
             );
-            navigate('/'); 
+            
             setUser(response.data);
           } else {
             // Token expired, cleanup
-            navigate('/'); 
+            
             localStorage.removeItem('token');
             setIsSignedIn(false);
             setUser(null);
           }
         } catch (err) {
-          navigate('/'); 
+         
           console.error('Error fetching user data:', err);
           localStorage.removeItem('token'); // Clean up invalid token
           setIsSignedIn(false);
