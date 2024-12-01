@@ -25,6 +25,7 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
   }));
+  console.log(process.env.FRONTEND_URL)
 app.use(express.json());
 app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ limit: '60mb', extended: true }));
@@ -218,7 +219,6 @@ app.post('/api/login', async (req, res) => {
 
 app.post('/api/getUserData', async (req, res) => {
     const { email, isSarthie } = req.body;
-    console.log(req.body);
   
     try {
       // Validate the input
