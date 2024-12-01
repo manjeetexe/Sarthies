@@ -1,0 +1,9 @@
+{
+    "root": "build/",
+    "rewrites": [
+      {
+        "source": "/**",
+        "destination": "/index.html"
+      }
+    ]
+  }
