@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } else {
-        navigate('/'); 
+       
         setIsSignedIn(false);
         setUser(null);
       }
