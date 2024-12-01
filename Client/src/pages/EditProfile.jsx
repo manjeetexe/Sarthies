@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from './../Context/Authcontext'; // Custom hook to get and update user details
 
+
 function EditProfile() {
   const { user } = useLocation().state; // Assuming user data is passed from Profile Page
   const navigate = useNavigate();

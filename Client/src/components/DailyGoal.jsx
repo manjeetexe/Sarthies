@@ -57,7 +57,7 @@ function DailyGoal({ totalCorrectAnswers }) {
   };
 
   return (
-    <div className="bg-white p-4 border-2 border-gray-300 rounded-xl shadow-sm mb-2">
+    <div className="bg-white p-4 border-2 border-gray-300 rounded-lg shadow-sm ">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold flex items-center gap-3 text-black">
           <GoGoal /> My Daily Goals

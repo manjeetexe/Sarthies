@@ -5,11 +5,14 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import DailyGoal from "./../components/DailyGoal"
 import { useNavigate } from 'react-router-dom';
+import { FaMobileScreen } from "react-icons/fa6";
+import LogoutButton from "../components/Logout";
 
 const Profile = () => {
   const { examResults, totalSolvedQuestions, totalCorrectAnswers, totalScore } = useContext(ExamContext);
-  const { user, isSignedIn } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
+
 
   const handleEditProfile = () => {
     navigate("/EditProfile", { state: { user } });
@@ -67,17 +70,17 @@ const Profile = () => {
         {/* Stats */}
         <div className="flex flex-col gap-4">
         <div className="grid grid-cols-3 gap-6">
-          <div className="bg-white p-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out text-center">
+          <div className="bg-white p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out text-center">
             <div className="text-xl font-bold text-black">{totalSolvedQuestions}</div>
             <div className="text-gray-500">Total Questions Solved</div>
           </div>
           
-          <div className="bg-white p-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out text-center">
+          <div className="bg-white p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out text-center">
             <div className="text-xl font-bold text-black">{totalCorrectAnswers}</div>
             <div className="text-gray-500">Total Correctly Solved</div>
           </div>
 
-          <div className="bg-white p-4 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out text-center">
+          <div className="bg-white p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out text-center">
             <div className="text-xl font-bold text-black">
               {totalSolvedQuestions > 0
                 ? ((totalCorrectAnswers / totalSolvedQuestions) * 100).toFixed(2) + "%"
@@ -90,7 +93,7 @@ const Profile = () => {
         <div className="mb-3 flex justify-center">
           <button
             onClick={handleClick}
-            className="bg-purple-500 py-2 px-6 text-white rounded-3xl shadow-lg hover:bg-purple-400 hover:shadow-2xl transition-all duration-300 ease-in-out">
+            className="bg-purple-500 py-2 px-6 text-white rounded-lg shadow-lg hover:bg-purple-400 hover:shadow-2xl transition-all duration-300 ease-in-out">
             Know More About Your Scores
           </button>
         </div>
@@ -99,7 +102,7 @@ const Profile = () => {
           <DailyGoal totalCorrectAnswers={totalCorrectAnswers} />
          
 
-          <div className="bg-white p-4 rounded-xl border-2 border-gray-300 shadow-sm mb-4">
+          <div className="bg-white p-4 rounded-lg border-2 border-gray-300 shadow-sm ">
             <h1 className="text-2xl font-semibold text-black">Your Details</h1>
             <div className="text-md pl-2 font-medium text-black">
               <p>Name: {user.name}</p>
@@ -108,30 +111,30 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="border-2 flex h-14 items-center justify-between  px-2 rounded-xl border-gray-300">
+          <div className="border-2 flex h-14 items-center justify-between  px-2 rounded-lg border-gray-300">
             <div className="flex items-center gap-3">
-                <MdOutlineFileUpload className="text-2xl" />
-                <h1>My Uploaded Notes</h1>
+                <FaMobileScreen  className="text-2xl" />
+                <h1>Screen time</h1>
             </div>
 
             <HiDotsVertical className="text-xl" />
           </div>
 
-          <div className="border-2 flex h-14 items-center justify-between  p-2 rounded-xl border-gray-300">
+          <div className="border-2 flex h-14 items-center justify-between  p-2 rounded-lg border-gray-300">
             <div className="flex items-center gap-3">
                 <MdOutlineFileUpload  className="text-2xl"/>
-                <h1>My Uploaded Notes</h1>
+                <h1>Uploaded Notes</h1>
             </div>
 
             <HiDotsVertical className="text-xl" />
           </div>
 
-          
-
+         
+          <LogoutButton />
           
         </div>
       </div>
-      <div className="h-20"></div>
+      <div className="h-24"></div>
     </div>
   );
 };

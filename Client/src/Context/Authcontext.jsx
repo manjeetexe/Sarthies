@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
 
 
-  // Example function to handle sign-out
+  
   const SignOut = () => {
     setIsSignedIn(false);
     setUser(null);
