@@ -7,8 +7,6 @@ const Header = () => {
   const { user, isSignedIn } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Debug user data safely
-  console.log(user?.name);
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {

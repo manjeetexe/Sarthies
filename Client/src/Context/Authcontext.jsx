@@ -14,8 +14,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
-      console.log(token)
       if (token) {
+
+        
         try {
           const decoded = jwtDecode(token);
           if (decoded.exp * 1000 > Date.now()) {
@@ -28,7 +29,6 @@ export const AuthProvider = ({ children }) => {
             );
             // Update the user state
             setUser(response.data);
-            console.log('User data fetched:', response.data);
           } else {
             // Token expired, cleanup
             localStorage.removeItem('token');
@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
         }
       } else {
-        
         setIsSignedIn(false);
         setUser(null);
       }
@@ -50,12 +49,13 @@ export const AuthProvider = ({ children }) => {
   
     fetchUserData();
   }, []);
+
+
   
   const SignIn = (userData) => {
-    console.log(userData);
     setIsSignedIn(true);
     setUser(userData);
-    localStorage.setItem('token', userData.token); // Save the token in localStorage
+    localStorage.setItem('token', userData.token); 
   };
 
 

@@ -4,11 +4,11 @@ import { useAuth } from './../Context/Authcontext';
 import { GoGoal } from "react-icons/go";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
+import DailyGoal from "./../components/DailyGoal"
 
 const Profile = () => {
   const { examResults, totalSolvedQuestions, totalCorrectAnswers, totalScore } = useContext(ExamContext);
   const { user, isSignedIn } = useAuth();
-  console.log(user.email)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -38,7 +38,7 @@ const Profile = () => {
         </div>
 
         {/* Stats */}
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-4">
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-white p-4 rounded-xl shadow-sm text-center">
               <div className="text-2xl font-bold text-black">{totalSolvedQuestions}</div>
@@ -63,19 +63,10 @@ const Profile = () => {
           </div>
 
           {/* Other Profile Details */}
-          <div className="bg-white p-4 rounded-xl shadow-sm mb-2">
-            <div className="flex justify-between items-center">
-            <h1 className="text-xl font-semibold flex items-center gap-3 text-black"><GoGoal /> MY Daily Goals</h1>
-            <h1 className="text-blue-500 text-xl border-b-2 border-blue-500">Edit</h1>
-            </div>
-            <div className="text-md pl-2 font-medium text-black">
-              <p>Name: {user.name}</p>
-              <p>Email: {user.email}</p>
-              <p>Phone Number: null</p>
-            </div>
-          </div>
+          <DailyGoal totalCorrectAnswers={totalCorrectAnswers} />
+         
 
-          <div className="bg-white p-4 rounded-xl shadow-sm mb-4">
+          <div className="bg-white p-4 rounded-xl border-2 border-gray-300 shadow-sm mb-4">
             <h1 className="text-2xl font-semibold text-black">Your Details</h1>
             <div className="text-md pl-2 font-medium text-black">
               <p>Name: {user.name}</p>
@@ -84,7 +75,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="border-2 flex h-16 items-center justify-between  p-2 rounded-xl border-gray-400">
+          <div className="border-2 flex h-16 items-center justify-between  p-2 rounded-xl border-gray-300">
             <div className="flex items-center gap-3">
                 <MdOutlineFileUpload />
                 <h1>My Uploaded Notes</h1>
@@ -93,7 +84,7 @@ const Profile = () => {
             <HiDotsVertical />
           </div>
 
-          <div className="border-2 flex h-16 items-center justify-between  p-2 rounded-xl border-gray-400">
+          <div className="border-2 flex h-16 items-center justify-between  p-2 rounded-xl border-gray-300">
             <div className="flex items-center gap-3">
                 <MdOutlineFileUpload />
                 <h1>My Uploaded Notes</h1>
