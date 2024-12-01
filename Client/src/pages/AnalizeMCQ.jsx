@@ -166,7 +166,7 @@ const Analysis = () => {
       formData.append('screenshotImage', screenshotBlob, 'screenshot.jpg');
   
       // Send data
-      const response = await fetch('http://localhost:8000/send-analyze-email', {
+      const response = await fetch('/send-analyze-email', {
         method: 'POST',
         body: formData, // Use FormData instead of JSON
       });

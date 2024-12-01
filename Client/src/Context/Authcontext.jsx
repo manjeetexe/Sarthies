@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
             setIsSignedIn(true);
             // Send a request to the backend with the decoded data
             const response = await axios.post(
-              'http://localhost:8000/api/getUserData',
+              '/api/getUserData',
               { email: decoded.email, isSarthie: decoded.isSarthie },
               { headers: { Authorization: `Bearer ${token}` } }
             );

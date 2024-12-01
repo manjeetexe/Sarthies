@@ -56,7 +56,7 @@ const SignIn = () => {
   
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/signup',
+        '/api/signup',
         {
           email: trimmedEmail,
           password: trimmedPassword,
@@ -86,7 +86,7 @@ const SignIn = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/verify-otp',
+        '/api/verify-otp',
         {
           email,
           otp: otp.trim()
@@ -115,7 +115,7 @@ const SignIn = () => {
 
     try {
       await axios.post(
-        'http://localhost:8000/api/resend-otp',
+        '/api/resend-otp',
         { email },
         { withCredentials: true }
       );
