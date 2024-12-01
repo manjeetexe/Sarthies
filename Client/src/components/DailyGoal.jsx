@@ -7,7 +7,7 @@ function DailyGoal({ totalCorrectAnswers }) {
   const [tempGoal, setTempGoal] = useState(dailyGoal);
   const [isCustomMode, setIsCustomMode] = useState(false);
   const [streak, setStreak] = useState(0); // Streak count
-  const [goalAchieved, setGoalAchieved] = useState(false);
+  const [goalAchieved, setGoalAchieved] = useState(true); //);
   const [editDisabled, setEditDisabled] = useState(false); // Edit button state
 
   const completed = totalCorrectAnswers; // Use totalCorrectAnswers as the completed count
@@ -135,15 +135,19 @@ function DailyGoal({ totalCorrectAnswers }) {
               Streak: <strong>{streak} Days</strong>
             </h2>
           </div>
-          <div className="w-full bg-gray-200 h-3 rounded-full mt-3">
-            <div
-              className="bg-blue-500 h-3 rounded-full"
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
-          <p className="text-sm text-gray-600 mt-1">
-            Progress: {completed}/{dailyGoal} questions ({progressPercentage}%)
-          </p>
+          {!goalAchieved && (
+            <>
+              <div className="w-full bg-gray-200 h-3 rounded-full mt-3">
+                <div
+                  className="bg-blue-500 h-3 rounded-full"
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-gray-600 mt-1">
+                Progress: {completed}/{dailyGoal} questions ({progressPercentage}%)
+              </p>
+            </>
+          )}
           {goalAchieved && (
             <div className="mt-3 text-center text-green-600 font-semibold">
               🎉 Congratulations! You've achieved your goal today! 🎉

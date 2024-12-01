@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://sarthies-4.onrender.com/api/login', // Update with your backend login API endpoint
+        '/api/login', // Update with your backend login API endpoint
         { email, password },
         { withCredentials: true } // Ensures cookies are sent and received
       );

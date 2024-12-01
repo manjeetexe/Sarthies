@@ -4,6 +4,7 @@ import { useAuth } from './../Context/Authcontext';
 import { MdOutlineFileUpload } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import DailyGoal from "./../components/DailyGoal"
+import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { FaMobileScreen } from "react-icons/fa6";
 import LogoutButton from "../components/Logout";
@@ -111,14 +112,15 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="border-2 flex h-14 items-center justify-between  px-2 rounded-lg border-gray-300">
-            <div className="flex items-center gap-3">
-                <FaMobileScreen  className="text-2xl" />
+          <Link to="/screen-time">
+            <div className="border-2 flex h-14 items-center justify-between px-2 rounded-lg border-gray-300 cursor-pointer hover:shadow-md transition">
+              <div className="flex items-center gap-3">
+                <FaMobileScreen className="text-2xl" />
                 <h1>Screen time</h1>
+              </div>
+              <HiDotsVertical className="text-xl" />
             </div>
-
-            <HiDotsVertical className="text-xl" />
-          </div>
+          </Link>
 
           <div className="border-2 flex h-14 items-center justify-between  p-2 rounded-lg border-gray-300">
             <div className="flex items-center gap-3">
