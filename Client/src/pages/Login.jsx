@@ -1,17 +1,15 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';// Import useNavigate for navigation
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/Authcontext';
-
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Initialize navigate
+  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
 
   const { isSignedIn, SignIn } = useAuth();
-  
-
 
   useEffect(() => {
     if (isSignedIn) {
@@ -21,30 +19,26 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
     try {
       const response = await axios.post(
         '/api/login', // Update with your backend login API endpoint
         { email, password },
-        { withCredentials: true } // Ensures cookies are sent and received
+        { withCredentials: true }
       );
 
-
-      
       alert('Login successful');
-      const data = { ...response.data.user, token: response.data.token }
+      const data = { ...response.data.user, token: response.data.token };
       SignIn(data);
-      
 
-      // Redirect to home page after successful login
-      navigate('/');
-
-     
-
+      navigate('/'); // Redirect to home page
       setEmail('');
       setPassword('');
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -85,9 +79,11 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200"
+          className={`w-full ${loading ? 'bg-blue-400' : 'bg-blue-500 hover:bg-blue-600'} 
+            text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200`}
+          disabled={loading} // Disable button during loading
         >
-          Login
+          {loading ? 'Loading...' : 'Login'}
         </button>
         <p className="mt-4 text-sm text-gray-600 text-center">
           Don't have an account?{' '}

@@ -12,12 +12,14 @@ const Analysis = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+
   const { summary, score, totalMarks, subject, lesson } = location.state || {};
   const totalQuestions = summary?.length || 0;
   const correctAnswers = summary?.filter((item) => item.isCorrect).length || 0;
   const incorrectAnswers = totalQuestions - correctAnswers;
 
   const [openQuestion, setOpenQuestion] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Calculate percentages for pie chart
   const correctPercentage = ((correctAnswers / totalQuestions) * 100).toFixed(1);
@@ -109,6 +111,7 @@ const Analysis = () => {
 
   
   const handleSendMail = async () => {
+    setLoading(true);
     try {
       // Capture full page screenshot method
       const captureFullPageScreenshot = async () => {
@@ -166,7 +169,7 @@ const Analysis = () => {
       formData.append('screenshotImage', screenshotBlob, 'screenshot.jpg');
   
       // Send data
-      const response = await fetch('/send-analyze-email', {
+      const response = await fetch('http://localhost:8000/send-analyze-email', {
         method: 'POST',
         body: formData, // Use FormData instead of JSON
       });
@@ -181,6 +184,8 @@ const Analysis = () => {
     } catch (err) {
       console.error('Error:', err);
       alert('An error occurred while sending the email.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -286,7 +291,7 @@ const Analysis = () => {
           onClick={handleSendMail}
           className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition shadow-md hover:shadow-lg"
         >
-          Send to Email
+           {loading ? "Sending..." : "Send to Email"}
         </button>
       </div>
       <div className="h-20"></div>
