@@ -109,33 +109,26 @@ const Analysis = () => {
 
 
 
-  
   const handleSendMail = async () => {
     setLoading(true);
     try {
-      // Capture full page screenshot method
-      const captureFullPageScreenshot = async () => {
-        // Use html2canvas library for comprehensive rendering
+      // Function to capture specific elements like graph and pie chart
+      const captureSpecificElement = async (selector) => {
         const { default: html2canvas } = await import('html2canvas');
-        
-        // Select the entire page content
-        const element = document.querySelector('.min-h-screen');
-        
-        // Capture screenshot with controlled resolution
+        const element = document.querySelector(selector);
         const canvas = await html2canvas(element, {
           useCORS: true,
-          scale: 1, // Reduced scale to minimize payload
+          scale: 1,
           logging: false,
-          allowTaint: true,
-          scrollX: 0,
-          scrollY: -window.scrollY
         });
-  
-        // Convert canvas to base64 image
-        return canvas.toDataURL('image/jpeg', 0.7); // Use JPEG with reduced quality
+        return canvas.toDataURL('image/jpeg', 0.7); // Adjust quality if needed
       };
   
-      // Simplified data capture
+      // Capture the graph and pie chart images
+      const graphImage = await captureSpecificElement('.graph-container');
+      const pieChartImage = await captureSpecificElement('.pie-chart-container');
+  
+      // Prepare the data to be sent in the email
       const analysisDetails = {
         subject,
         lesson,
@@ -145,41 +138,42 @@ const Analysis = () => {
         score,
         totalMarks,
         correctPercentage: ((correctAnswers / totalQuestions) * 100).toFixed(1),
-        incorrectPercentage: ((incorrectAnswers / totalQuestions) * 100).toFixed(1)
+        incorrectPercentage: ((incorrectAnswers / totalQuestions) * 100).toFixed(1),
       };
   
-      // Include question number in summary
-      const limitedSummary = summary?.map((item, index) => ({
-        questionNumber: index + 1, // Add question number
-        question: item.question.slice(0, 100), // Truncate long questions
+      // Include all summary questions (no limit on 10 questions)
+      const fullSummary = summary?.map((item, index) => ({
+        questionNumber: index + 1,
+        question: item.question,
         isCorrect: item.isCorrect,
         answer: item.answer,
         selectedOption: item.selectedOption,
-        Marks: item.Marks
-      })).slice(0, 10); // Limit to first 10 questions
+        Marks: item.Marks,
+      }));
   
-      // Create FormData to handle large payload
       const formData = new FormData();
       formData.append('emails', JSON.stringify([user.email, 'saarathitutorials@gmail.com']));
       formData.append('analysisDetails', JSON.stringify(analysisDetails));
-      formData.append('summaryQuestions', JSON.stringify(limitedSummary));
+      formData.append('summaryQuestions', JSON.stringify(fullSummary));
   
-      // Append screenshot as a file
-      const screenshotBlob = await (await fetch(await captureFullPageScreenshot())).blob();
-      formData.append('screenshotImage', screenshotBlob, 'screenshot.jpg');
+      // Convert graph and pie chart images to blobs for sending
+      const graphBlob = await (await fetch(graphImage)).blob();
+      const pieChartBlob = await (await fetch(pieChartImage)).blob();
+      
+      formData.append('graphImage', graphBlob, 'graph.jpg');
+      formData.append('pieChartImage', pieChartBlob, 'piechart.jpg');
   
-      // Send data
+      // Send data to backend route
       const response = await fetch('https://sarthies-4.onrender.com/send-analyze-email', {
         method: 'POST',
-        body: formData, // Use FormData instead of JSON
+        body: formData,
       });
   
       if (response.ok) {
         const data = await response.json();
         alert(data.message);
       } else {
-        const error = await response.text(); // Use text() instead of json()
-        alert(error);
+        alert(await response.text());
       }
     } catch (err) {
       console.error('Error:', err);
