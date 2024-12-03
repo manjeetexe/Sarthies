@@ -21,10 +21,13 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(cookieParser());
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  }));
+const corsOptions = {
+  origin: 'https://sarthies-3.onrender.com', // Replace with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true, // If you're sending cookies or authentication headers
+};
+
+app.use(cors(corsOptions));
   console.log(process.env.FRONTEND_URL)
 app.use(express.json());
 app.use(express.json({ limit: '60mb' }));
