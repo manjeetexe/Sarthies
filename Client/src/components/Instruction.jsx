@@ -12,7 +12,7 @@ const Instructions = ({ subject, selectedLesson, goBack, lessonData, setExamStar
   };
 
   return (
-    <div className='p-6 mt-10'>
+    <div className='p-6 mt-5'>
       <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl  shadow-lg mt-10 md:mt-20 border border-gray-200">
       {/* Header Section */}
       <div className="text-center mb-8">

@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 app.use(cookieParser());
 const corsOptions = {
-  origin: 'https://sarthies-3.onrender.com', // Replace with your frontend URL
+  origin: process.env.FRONTEND_URL, // Replace with your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   credentials: true, // If you're sending cookies or authentication headers
 };
@@ -426,7 +426,7 @@ app.post('/api/login', async (req, res) => {
 
 
 
-app.post("/send-analyze-email", upload.single('screenshotImage'), async (req, res) => {
+app.post("/api/send-analyze-email", upload.single('screenshotImage'), async (req, res) => {
 try {
   // Parse emails and other details from form data
   const emails = JSON.parse(req.body.emails);

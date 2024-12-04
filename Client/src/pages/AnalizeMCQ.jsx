@@ -150,13 +150,13 @@ const Analysis = () => {
   
       // Include question number in summary
       const limitedSummary = summary?.map((item, index) => ({
-        questionNumber: index + 1, // Add question number
-        question: item.question.slice(0, 100), // Truncate long questions
+        questionNumber: index + 1,
+        question: item.question.slice(0, 100),
         isCorrect: item.isCorrect,
         answer: item.answer,
         selectedOption: item.selectedOption,
         Marks: item.Marks
-      })).slice(0, 10); // Limit to first 10 questions
+      }));// Limit to first 10 questions
   
       // Create FormData to handle large payload
       const formData = new FormData();
@@ -169,7 +169,7 @@ const Analysis = () => {
       formData.append('screenshotImage', screenshotBlob, 'screenshot.jpg');
   
       // Send data
-      const response = await fetch('https://sarthies-4.onrender.com/send-analyze-email', {
+      const response = await fetch('/api/send-analyze-email', {
         method: 'POST',
         body: formData, // Use FormData instead of JSON
       });
