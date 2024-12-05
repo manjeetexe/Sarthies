@@ -32,6 +32,24 @@ const MCQ = (props, ref) => {
     unansweredCount,
   }));
 
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+  
+    if (hours > 0) {
+      // If more than an hour, display hours and minutes
+      return `${hours} hr${hours > 1 ? "s" : ""} ${minutes > 0 ? `${minutes} min` : ""}`.trim();
+    } else if (minutes > 0) {
+      // If less than an hour, display minutes and seconds
+      return `${minutes} min${secs > 0 ? ` ${secs} s` : ""}`;
+    } else {
+      // If only seconds are left
+      return `${secs} s`;
+    }
+  };
+
+
 
 
   useEffect(() => {
@@ -55,13 +73,15 @@ const MCQ = (props, ref) => {
 
   const saveAnswerAndNext = () => {
     const updatedAnswers = [...answers];
-
+  
     if (selectedOption !== null) {
       updatedAnswers[currentQuestion] = {
         question: questions[currentQuestion].question,
         options: questions[currentQuestion].options,
         selectedOption,
-        isCorrect: selectedOption === questions[currentQuestion].answer,
+        isCorrect:
+          selectedOption.trim().toLowerCase() ===
+          questions[currentQuestion].answer.trim().toLowerCase(),
         Marks: questions[currentQuestion].Marks,
       };
     } else if (!updatedAnswers[currentQuestion]) {
@@ -73,16 +93,15 @@ const MCQ = (props, ref) => {
         Marks: questions[currentQuestion].Marks,
       };
     }
-
+  
     setAnswers(updatedAnswers);
     setSelectedOption(null);
-
+  
     if (currentQuestion === questions.length - 1) {
       setShowSubmitNotice(true);
     } else {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(answers[currentQuestion + 1]?.selectedOption || null);
-      
     }
   };
 
@@ -173,7 +192,7 @@ const MCQ = (props, ref) => {
     <div className="min-h-screen mt-32 flex flex-col items-center bg-gray-50 p-4">
       <div className='flex items-center justify-between w-full px-4'>
         <h1 className="text-3xl font-bold mb-6">Exam</h1>
-        <div className="text-2xl font-semibold text-red-500 mb-6">Time Left: {timeLeft}s</div>
+        <div className="text-2xl font-semibold text-red-500 mb-6"> Time Left: {formatTime(timeLeft)}</div>
       </div>
 
       <div className="bg-white shadow-md rounded-lg w-full md:w-2/3 lg:w-1/2 p-6">
