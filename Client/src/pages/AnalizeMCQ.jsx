@@ -117,22 +117,34 @@ const Analysis = () => {
       const captureFullPageScreenshot = async () => {
         // Use html2canvas library for comprehensive rendering
         const { default: html2canvas } = await import('html2canvas');
-        
-        // Select the entire page content
+  
+  // Select the element to capture
         const element = document.querySelector('.min-h-screen');
         
-        // Capture screenshot with controlled resolution
+        // Temporarily set a fixed height (1.3 times the viewport height)
+        const viewportHeight = window.innerHeight; // Current viewport height
+        const targetHeight = viewportHeight * 1.1; // Calculate target height
+
+        // Store the original height to restore later
+        const originalStyle = element.style.height;
+        element.style.height = `${targetHeight}px`;
+
+        // Capture screenshot
         const canvas = await html2canvas(element, {
           useCORS: true,
-          scale: 1, // Reduced scale to minimize payload
+          scale: 1, // Use default scale
           logging: false,
           allowTaint: true,
           scrollX: 0,
-          scrollY: -window.scrollY
+          scrollY: -window.scrollY,
+          height: targetHeight, // Limit the height to 1.3 times the viewport
         });
-  
+
+        // Restore original height
+        element.style.height = originalStyle;
+
         // Convert canvas to base64 image
-        return canvas.toDataURL('image/jpeg', 0.7); // Use JPEG with reduced quality
+        return canvas.toDataURL('image/jpeg', 0.9);// Use JPEG with reduced quality
       };
   
       // Simplified data capture
