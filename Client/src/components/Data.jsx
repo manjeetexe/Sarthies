@@ -243,8 +243,22 @@ const getData = (user) => {
         lessons: {
           "Gravitation": {
             Questions: [
-              { Marks: "4", answer: "Water", type: "MCQ", no: "1", question: "What is the chemical formula of water?", options: ["H2O", "CO2", "O2", "N2"] },
-              { Marks: "4", answer: "Earth", type: "MCQ", no: "2", question: "Which planet is known as the Blue Planet?", options: ["Mars", "Earth", "Venus", "Jupiter"] },
+              { Marks: "1", answer: "Gravitational force", type: "MCQ", no: "1", question: "The force responsible for keeping planets in orbit around the Sun is:", options: ["Electromagnetic force", "Gravitational force", "Nuclear force", "Frictional force"] },
+              { Marks: "1", answer: "The Sun", type: "MCQ", no: "2", question: "Which of these celestial bodies exerts the greatest gravitational pull on Earth?", options: ["The Moon", "The Sun", "Mars", "Venus"] },
+
+              { Marks: "1", answer: "Attractive", type: "MCQ", no: "3", question: "The force acting between the Earth and the Moon is:", options: ["Repulsive", "Attractive", "Zero", " Electrostatic"] },
+              { Marks: "1", answer: "The poles", type: "MCQ", no: "4", question: "The weight of a body is maximum at:", options: ["The poles", " The equator", "The center of the Earth", "A mountain top"] },
+              { Marks: "1", answer: "Centripetal force provided by gravity", type: "MCQ", no: "5", question: "A satellite remains in orbit because of:", options: [" Centripetal force provided by gravity", "Air resistance", "Its shape", "Earth's rotation"] },
+              { Marks: "1", answer: "Newton", type: "MCQ", no: "6", question: " What is the unit of weight?", options: ["Kilogram", "Newton", "Joule", " Watt"] },
+              { Marks: "1", answer: " 1/9th of the original force", type: "MCQ", no: "7", question: "If the distance between two masses is tripled, the gravitational force between them becomes:", options: [" 1/9th of the original force", " 1/3rd of the original force", " 9 times the original force", " 3 times the original force"] },
+              { Marks: "1", answer: "It has tangential velocity", type: "MCQ", no: "8", question: "The Moon does not fall on Earth because:", options: [" Gravitational force is weak", " It has tangential velocity", " It is very far from Earth", " It has no mass"] },
+              { Marks: "1", answer: "Gravitational force", type: "MCQ", no: "9", question: "The centripetal force acting on a satellite in orbit is provided by:", options: ["Its velocity", "Gravitational force", " Friction", " Air resistance"] },
+              { Marks: "1", answer: " 11.2km/s", type: "MCQ", no: "10", question: " What is the approximate escape velocity for Earth?", options: [" 11.2km/s", "9.8m/s", " 7.9km/s", " 1.6km/s"] },
+              { Marks: "1", answer: "Always attractive", type: "MCQ", no: "11", question: " Gravitational force is:", options: ["Always attractive", "Always repulsive", "Attractive or repulsive", "None of the above"] },
+              { Marks: "1", answer: " Zero", type: "MCQ", no: "12", question: "The weight of a body at the center of the Earth is:", options: ["Maximum", " Zero", " Equal to its mass", " Cannot be determined"] },
+              { Marks: "1", answer: "Gravitational force", type: "MCQ", no: "13", question: "Kepler’s second law states that a line joining the planet and the Sun sweeps out:", options: ["Equal areas in equal times", "Unequal areas in equal times", "Equal distances in equal times", "None of these"] },
+              { Marks: "1", answer: "Both a and b", type: "MCQ", no: "14", question: " Acceleration due to gravity (g) on the surface of the Earth is:", options: ["Directly proportional to the mass of the Earth", " Inversely proportional to the square of radius of the Earth", " Both a and b", " None of these"] },
+              { Marks: "1", answer: " Quadruples", type: "MCQ", no: "15", question: " What happens to the value of ‘g’ if the Earth’s radius reduces to half but its mass is same?", options: [" Remains the same", " Doubles", " Quadruples", " Halves"] },
             ]
           },
           "Periodic Classification of Element": {
@@ -314,8 +328,21 @@ const getData = (user) => {
           },
           "Life Processes in Living Organisms Part –1": {
             Questions: [
-              { Marks: "4", answer: "Mughal", type: "MCQ", no: "3", question: "Which dynasty ruled India during the 16th century?", options: ["Mughal", "Gupta", "Maurya", "Chola"] },
-              { Marks: "4", answer: "Delhi", type: "MCQ", no: "4", question: "Where is the Red Fort located?", options: ["Delhi", "Mumbai", "Kolkata", "Chennai"] },
+              { Marks: "1", answer: "Carbohydrates", type: "MCQ", no: "1", question: "The primary source of energy in all living organisms is:", options: ["Protein", "Lipid", "Carbohydrates", "Nucleic acid"] },
+              { Marks: "1", answer: "Respiration", type: "MCQ", no: "2", question: "Which of the following processes releases energy in cells?", options: ["Photosynthesis", "Respiration", "Transpiration", "Osmosis"] },
+              { Marks: "1", answer: "Carbon dioxide, water, and energy", type: "MCQ", no: "3", question: "The end products of aerobic respiration are:", options: [" Lactic acid and energy", "Ethanol and energy", "Carbon dioxide, water, and energy", "Glucose and oxygen"] },
+              { Marks: "1", answer: "Ethanol", type: "MCQ", no: "4", question: "Which of the following is a by-product of anaerobic respiration in yeast?", options: ["Water", "Ethanol", "Lactic acid", "Oxygen"] },
+              { Marks: "1", answer: "To provide energy for cellular activities", type: "MCQ", no: "5", question: "What is the main function of ATP in cells?", options: ["To store genetic information", "To provide energy for cellular activities", "To transport oxygen", "To act as a structural protein"] },
+              { Marks: "1", answer: "Mitochondria", type: "MCQ", no: "6", question: "Which organelle is known as the powerhouse of the cell?", options: ["Nucleus", "Mitochondria", "Chloroplast", "Endoplasmic reticulum"] },
+              { Marks: "1", answer: "Krebs cycle", type: "MCQ", no: "7", question: "Which process occurs in the mitochondria?", options: ["Glycolysis", "Krebs cycle", "Photolysis", "Transcription"] },
+              { Marks: "1", answer: "Lactic acid", type: "MCQ", no: "8", question: "Anaerobic respiration in human muscles produces:", options: ["Carbon dioxide and water", "Ethanol and carbon dioxide", "Lactic acid", "Glucose"] },
+              { Marks: "1", answer: "Amino acids", type: "MCQ", no: "9", question: " The end products of digestion of proteins are:", options: ["Fatty acids and glycerol", "Amino acids", "Monosaccharides", "Nucleotides"] },
+              { Marks: "1", answer: "ATP", type: "MCQ", no: "10", question: "The energy currency of the cell is:", options: ["NADH2", "FADH2", "ATP", "ADP"] },
+              { Marks: "1", answer: "Small intestine", type: "MCQ", no: "11", question: "In which part of the human body does most digestion take place?", options: ["Stomach", "Small intestine", "Large intestine", "Esophagus"] },
+              { Marks: "1", answer: "Aerobic", type: "MCQ", no: "12", question: "Which type of respiration is more energy-efficient?", options: ["Aerobic", "Anaerobic", "Both are equal", "Neither"] },
+              { Marks: "1", answer: "Starch", type: "MCQ", no: "13", question: "Plants store excess glucose in the form of:", options: ["Cellulose", "Glycogen", "Starch", "Proteins"] },
+              { Marks: "1", answer: "Cytoplasm", type: "MCQ", no: "14", question: "Glycolysis takes place in this part of the cell:", options: ["Mitochondria", "Cytoplasm", "Ribosomes", "Nucleus"] },
+              { Marks: "1", answer: "Glycolysis", type: "MCQ", no: "15", question: "The process of splitting glucose into pyruvate is called:", options: ["Krebs cycle", "Electron transport chain", "Glycolysis", "Fermentation"] },
             ]
           },
           " Life Processes in Living Organisms Part – 2": {
