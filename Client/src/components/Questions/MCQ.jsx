@@ -19,7 +19,7 @@ const MCQ = (props, ref) => {
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(960);
   const [examFinished, setExamFinished] = useState(false);
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
   const [showSubmitNotice, setShowSubmitNotice] = useState(false);
