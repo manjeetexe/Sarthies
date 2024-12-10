@@ -347,8 +347,21 @@ const getData = (user) => {
           },
           " Life Processes in Living Organisms Part – 2": {
             Questions: [
-              { Marks: "4", answer: "Mughal", type: "MCQ", no: "3", question: "Which dynasty ruled India during the 16th century?", options: ["Mughal", "Gupta", "Maurya", "Chola"] },
-              { Marks: "4", answer: "Delhi", type: "MCQ", no: "4", question: "Where is the Red Fort located?", options: ["Delhi", "Mumbai", "Kolkata", "Chennai"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "1", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "2", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "3", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "4", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "5", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "6", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "7", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "8", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "9", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "10", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "11", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "12", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "13", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
+              { Marks: "1", answer: "Leaves, stems, and roots", type: "MCQ", no: "14", question: "In plants, vegetative propagation occurs through:", options: ["Flowers", "Leaves, stems, and roots", "Fruits", "Seeds"] },
+              { Marks: "1", answer: "Asexual reproductionl", type: "MCQ", no: "15", question: "The process of reproduction in which a single parent produces offspring is called:", options: ["Sexual reproduction", "Asexual reproduction", "Pollination", "Fertilization"] },
             ]
           },
           "Environmental management": {
