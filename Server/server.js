@@ -22,9 +22,9 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 app.use(cookieParser());
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Replace with your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  credentials: true, // If you're sending cookies or authentication headers
+  origin: process.env.FRONTEND_URL, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -101,7 +101,7 @@ app.post('/api/signup', async (req, res) => {
         const otp = generateOTP();
         otpStore.set(email, {
             otp,
-            expires: Date.now() + 600000, // 10 minutes
+            expires: Date.now() + 600000, 
             userData: {
                 name,
                 email,
@@ -139,17 +139,17 @@ app.post('/api/resend-otp', async (req, res) => {
             return res.status(400).json({ message: "No pending verification found" });
         }
 
-        // Generate new OTP
+        
         const newOTP = generateOTP();
         
-        // Update stored data with new OTP and expiration
+       
         otpStore.set(email, {
             ...storedData,
             otp: newOTP,
             expires: Date.now() + 600000
         });
 
-        // Send new verification email
+        
         await sendVerificationEmail(email, newOTP);
 
         res.status(200).json({ message: "New verification code sent" });
@@ -164,12 +164,12 @@ app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Validate required fields
+        
         if (!email || !password) {
             return res.status(400).json({ success: false, message: "Email and password are required" });
         }
 
-        // Check if user exists in both collections
+        
         const sarthieUser = await mongoose.connection.collection('students.sarthies').findOne({ email });
         const nonSarthieUser = await mongoose.connection.collection('students.nonsarthies').findOne({ email });
 
@@ -207,10 +207,10 @@ app.post('/api/login', async (req, res) => {
             user: {
                 id: user._id,
                 email: user.email,
-                name: user.name, // Include other relevant fields from your user schema
-                isSarthie: !!sarthieUser, // Distinguish between Sarthies and non-Sarthies
+                name: user.name, 
+                isSarthie: !!sarthieUser,
                 additionalInfo: user.additionalInfo || null, 
-                class: user.class,// Example for other data fields
+                class: user.class,
             },
         });
 
@@ -224,15 +224,15 @@ app.post('/api/getUserData', async (req, res) => {
     const { email, isSarthie } = req.body;
   
     try {
-      // Validate the input
+     
       if (!email || typeof isSarthie !== 'boolean') {
         return res.status(400).json({ error: 'Invalid input' });
       }
   
-      // Determine which collection to query
+      
       const collectionName = isSarthie ? 'students.sarthies' : 'students.nonsarthies';
   
-      // Query the appropriate collection
+      
       const user = await mongoose.connection.collection(collectionName).findOne({ email });
   
       if (!user) {
@@ -272,18 +272,18 @@ app.post('/api/getUserData', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(storedData.userData.password, salt);
 
-        // Add default BannerImg, ProfileImg, empty phoneNumber, and bio
+        
         const userData = {
             ...storedData.userData,
             password: hashedPassword,
             isVerified: true,
-            bannerImage: 'https://via.placeholder.com/1500x400',  // Default Banner Image
-            profilePicture: 'https://via.placeholder.com/150',   // Default Profile Image
-            phoneNumber: '', // Empty phoneNumber field for future update
-            bio: '' // Add bio field, initially empty
+            bannerImage: 'https://via.placeholder.com/1500x400', 
+            profilePicture: 'https://via.placeholder.com/150',  
+            phoneNumber: '', 
+            bio: ''
         };
 
-        // Save to appropriate collection
+        
         const collectionName = userData.isSarthie ? 'students.sarthies' : 'students.nonsarthies';
         const result = await mongoose.connection.collection(collectionName).insertOne(userData);
         
@@ -319,10 +319,10 @@ app.post('/api/getUserData', async (req, res) => {
                 class: userData.class,
                 bannerImage: userData.bannerImage,
                 profilePicture: userData.profilePicture,
-                phoneNumber: userData.phoneNumber, // Include phoneNumber in the response
-                bio: userData.bio // Include bio in the response
+                phoneNumber: userData.phoneNumber, 
+                bio: userData.bio 
             },
-            token: token // Add the token to the response
+            token: token 
         });
 
     } catch (error) {
@@ -346,14 +346,14 @@ app.post('/api/resend-otp', async (req, res) => {
       // Generate new OTP
       const newOTP = generateOTP();
       
-      // Update stored data with new OTP and expiration
+     
       otpStore.set(email, {
           ...storedData,
           otp: newOTP,
           expires: Date.now() + 600000
       });
 
-      // Send new verification email
+      
       await sendVerificationEmail(email, newOTP);
 
       res.status(200).json({ message: "New verification code sent" });
@@ -411,10 +411,10 @@ app.post('/api/login', async (req, res) => {
           user: {
               id: user._id,
               email: user.email,
-              name: user.name, // Include other relevant fields from your user schema
-              isSarthie: !!sarthieUser, // Distinguish between Sarthies and non-Sarthies
+              name: user.name, 
+              isSarthie: !!sarthieUser, 
               additionalInfo: user.additionalInfo || null, 
-              class: user.class,// Example for other data fields
+              class: user.class,
           },
       });
 

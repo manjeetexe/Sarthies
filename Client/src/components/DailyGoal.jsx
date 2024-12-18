@@ -8,13 +8,13 @@ function DailyGoal({ totalCorrectAnswers }) {
   const [isCustomMode, setIsCustomMode] = useState(false);
   const [streak, setStreak] = useState(0); // Streak count
   const [goalAchieved, setGoalAchieved] = useState(true); //);
-  const [editDisabled, setEditDisabled] = useState(false); // Edit button state
+  const [editDisabled, setEditDisabled] = useState(false); 
 
-  const completed = totalCorrectAnswers; // Use totalCorrectAnswers as the completed count
-  const progressPercentage = ((completed / dailyGoal) * 100).toFixed(1); // Calculate progress %
+  const completed = totalCorrectAnswers; 
+  const progressPercentage = ((completed / dailyGoal) * 100).toFixed(1); 
 
   useEffect(() => {
-    // Check if the day has passed and reset progress at midnight
+    
     const checkMidnight = setInterval(() => {
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
@@ -23,13 +23,13 @@ function DailyGoal({ totalCorrectAnswers }) {
       if (currentHour === 0 && currentMinute === 0 && currentSecond === 0) {
         resetDailyProgress();
       }
-    }, 1000); // Check every second
+    }, 1000); 
 
-    return () => clearInterval(checkMidnight); // Cleanup interval on unmount
+    return () => clearInterval(checkMidnight); 
   }, [completed, dailyGoal, streak]);
 
   useEffect(() => {
-    // Check if the goal is achieved whenever the completed count changes
+    
     if (completed >= dailyGoal) {
       setGoalAchieved(true);
       setEditDisabled(true);
@@ -41,13 +41,13 @@ function DailyGoal({ totalCorrectAnswers }) {
 
   const resetDailyProgress = () => {
     if (completed >= dailyGoal) {
-      setStreak(streak + 1); // Increment streak if goal was completed
+      setStreak(streak + 1); 
     } else {
-      setStreak(0); // Reset streak if goal wasn't completed
+      setStreak(0); 
     }
 
-    setGoalAchieved(false); // Reset achievement status
-    setEditDisabled(false); // Re-enable the Edit button for the new day
+    setGoalAchieved(false); 
+    setEditDisabled(false); 
   };
 
   const saveGoal = () => {

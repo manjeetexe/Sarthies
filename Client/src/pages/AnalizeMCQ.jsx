@@ -181,7 +181,7 @@ const Analysis = () => {
       formData.append('screenshotImage', screenshotBlob, 'screenshot.jpg');
   
       // Send data
-      const response = await fetch('https://sarthies-4.onrender.com/api/send-analyze-email', {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/send-analyze-email`, {
         method: 'POST',
         body: formData, // Use FormData instead of JSON
       });

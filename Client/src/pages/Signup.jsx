@@ -63,7 +63,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        'https://sarthies-4.onrender.com/api/signup',
+        `${import.meta.env.VITE_BASE_URL}/api/signup`,
         {
           email: trimmedEmail,
           password: trimmedPassword,
@@ -96,7 +96,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        'https://sarthies-4.onrender.com/api/verify-otp',
+        `${import.meta.env.VITE_BASE_URL}/api/verify-otp`,
         {
           email,
           otp: otp.trim(),
@@ -123,7 +123,7 @@ const SignUp = () => {
 
     try {
       await axios.post(
-        'https://sarthies-4.onrender.com/api/resend-otp',
+        `${import.meta.env.VITE_BASE_URL}/api/resend-otp`,
         { email },
         { withCredentials: true }
       );

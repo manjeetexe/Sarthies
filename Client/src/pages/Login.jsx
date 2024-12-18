@@ -19,10 +19,10 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true); 
     try {
       const response = await axios.post(
-        'https://sarthies-4.onrender.com/api/login', // Update with your backend login API endpoint
+        `${import.meta.env.VITE_BASE_URL}/api/login`, 
         { email, password },
         { withCredentials: true }
       );
@@ -31,7 +31,7 @@ const Login = () => {
       const data = { ...response.data.user, token: response.data.token };
       SignIn(data);
 
-      navigate('/'); // Redirect to home page
+      navigate('/'); 
       setEmail('');
       setPassword('');
     } catch (err) {
