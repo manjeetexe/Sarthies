@@ -12,6 +12,7 @@ const multer = require('multer');
 const handlebars = require('handlebars');
 const User = require('./Models/User');
 const bodyParser = require('body-parser');
+const { file } = require('pdfkit');
 const router = express.Router();
 
 dotenv.config();
@@ -32,6 +33,52 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ limit: '60mb', extended: true }));
+
+
+
+
+
+
+
+
+
+
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./files"); // Ensure the directory exists and is correctly specified
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9); // Ensure unique filenames
+    cb(null, uniqueSuffix + "-" + file.originalname); // Append original name for better identification
+  },
+});
+
+const uploadPdf = multer({
+  storage: storage,
+  limits: {
+    fileSize: 50 * 1024 * 1024, // Limit file size to 50 MB
+  },
+  fileFilter: function (req, file, cb) {
+    // Allow only PDF files
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed!"));
+    }
+  },
+});
+
+
+
+
+
+
+
+
+
+
 
 
 const upload = multer({
@@ -539,6 +586,28 @@ try {
   res.status(500).json({ error: "Failed to send the email." });
 }
 });
+
+
+
+
+
+
+
+app.post("/upload-pdf", uploadPdf.single("file"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded!" });
+    }
+    res.status(200).json({
+      message: "File uploaded successfully!",
+      fileDetails: req.file,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error uploading file", error: error.message });
+  }
+});
+
+
 
 
 
