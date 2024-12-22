@@ -10,7 +10,7 @@ const Test = () => {
 
   // Fetch data based on the user's class
   const data = getData(user);
-  console.log(data);
+  
 
   // Extract subjects
   const subjects = Object.keys(data);

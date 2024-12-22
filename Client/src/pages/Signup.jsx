@@ -11,7 +11,7 @@ const SignUp = () => {
   const [className, setClassName] = useState('');
   const [error, setError] = useState('');
 
-  // New states for OTP verification
+  
   const [showOtpForm, setShowOtpForm] = useState(false);
   const [otp, setOtp] = useState('');
   const [otpError, setOtpError] = useState('');

@@ -42,7 +42,7 @@ const Profile = () => {
       </div>
 
       {/* Profile Picture Section */}
-      <div className="absolute left-[17%] top-[22%] lg:top-[37%] lg:left-[23%] transform -translate-x-1/2">
+      <div className="absolute left-[20%] top-[24%] lg:top-[37%] lg:left-[23%] transform -translate-x-1/2">
         <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full border-4 border-white overflow-hidden bg-white">
           <img
             src={user.profilePicture } // Use placeholder if no profile image
@@ -53,7 +53,7 @@ const Profile = () => {
       </div>
 
       {/* Profile Information */}
-      <div className="max-w-4xl mx-auto px-4 pt-20">
+      <div className="max-w-4xl mx-auto px-4 lg:mt-10 pt-20">
         <div className="flex justify-between items-start mb-8">
           <div>
             <h1 className="text-2xl font-bold mb-1 text-black">{user.name}</h1>

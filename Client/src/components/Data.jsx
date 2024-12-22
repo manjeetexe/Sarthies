@@ -2,7 +2,7 @@ const getData = (user) => {
 
   
   if (user.class === "10") {
-    console.log(user.class)
+    
     const data = {
       English: {
         lessons: {
@@ -626,7 +626,7 @@ const getData = (user) => {
   }
 
   if (user.class === "9") {
-    console.log(user.class)
+    
     const data = {
       English: {
         lessons: {
@@ -1198,7 +1198,7 @@ const getData = (user) => {
   }
 
   if (user.class === "8") {
-    console.log(user.class)
+   
     const data = {
       English: {
         lessons: {

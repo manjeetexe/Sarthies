@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
             setIsSignedIn(true);
             // Send a request to the backend with the decoded data
             const response = await axios.post(
-              'https://sarthies-4.onrender.com/api/getUserData',
+              `${import.meta.env.VITE_BASE_URL}/api/getUserData`,
               { email: decoded.email, isSarthie: decoded.isSarthie },
               { headers: { Authorization: `Bearer ${token}` } }
             );

@@ -36,7 +36,7 @@ const Home = () => {
                 {paper.subjects.map((subject, index) => (
                   <div
                     key={index}
-                    className="h-24 overflow-hidden relative w-36 border-[1px] border-black rounded-xl"
+                    className="h-24 overflow-hidden relative w-32 border-[1px] border-black rounded-xl"
                   >
                     <h1 className="m-2">{subject}</h1>
                     <div className="absolute h-5 w-full bottom-0 flex justify-center items-center bg-red-500">
@@ -49,35 +49,21 @@ const Home = () => {
           ))}
         </div>
 
-        <div className="w-full  flex flex-col gap-4 mt-5" >
-          <div className="w-full flex  justify-between items-center rounded-xl border-[2.5px] py-2 px-3 border-orange-500  ">
+        <div className="w-full flex flex-col lg:flex-row gap-6 mt-8">
+          <div className="w-full lg:w-1/2 flex items-center justify-between bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-xl py-4 px-5 hover:scale-105 transform transition-transform duration-300">
             <div>
-              <div className="flex items-center gap-2 ">
-                <h1 className="font-semibold text-xl">Mixed Question </h1>
-                <h1 className="px-2 rounded-3xl text-sm text-white bg-red-500">New</h1>
-              </div>
-              <h1 className="text-gray-500">Boost your Marks in any subject 🔥 </h1>
+              <h1 className="font-bold text-2xl">Mixed Questions</h1>
+              <p className="text-sm mt-2">Boost your marks in any subject 🔥</p>
             </div>
-
-
-            <IoIosArrowForward className="text-2xl"/>
-
+            <IoIosArrowForward className="text-3xl" />
           </div>
-          
 
-
-          <div className="w-full flex  justify-between items-center rounded-xl border-[2.5px] py-2 px-3 border-emerald-500  ">
+          <div className="w-full lg:w-1/2 flex items-center justify-between bg-gradient-to-r from-green-400 to-teal-500 text-white rounded-xl py-4 px-5 hover:scale-105 transform transition-transform duration-300">
             <div>
-              <div className="flex items-center gap-2 ">
-                <h1 className="font-semibold text-xl">IMP Concepts </h1>
-                <h1 className="px-2 rounded-3xl text-sm text-white bg-red-500">New</h1>
-              </div>
-              <h1 className="text-gray-500">Learn the most important question 🔥 </h1>
+              <h1 className="font-bold text-2xl">IMP Concepts</h1>
+              <p className="text-sm mt-2">Learn the most important questions 🔥</p>
             </div>
-
-
-            <IoIosArrowForward className="text-2xl"/>
-
+            <IoIosArrowForward className="text-3xl" />
           </div>
         </div>
 
@@ -87,7 +73,7 @@ const Home = () => {
         {/* Social Support */}
         <div className="border-t-2 border-gray-300 w-full mt-5 pt-3">
           <h1 className="text-xl font-medium text-gray-800">Social Support</h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600  mt-1">
             Need help? Connect with others for support and collaboration.
           </p>
         </div>

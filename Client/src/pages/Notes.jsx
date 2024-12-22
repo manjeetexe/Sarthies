@@ -50,6 +50,7 @@ const Notes = () => {
         </div>
       ))}
     </div>
+    <div className='h-12'></div>
       </section>
     </>
   );
