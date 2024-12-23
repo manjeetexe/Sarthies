@@ -662,7 +662,7 @@ app.get('/user-pdfs/:userId', async (req, res) => {
       description: pdf.description,
       subject: pdf.subject,
       lesson: pdf.lesson,
-      fileUrl: `http://localhost:8000/files/${pdf.pdf}`, // URL to access the file
+      fileUrl: `${process.env.BACKEND_URL}/files/${pdf.pdf}`, // URL to access the file
     }));
 
     res.status(200).json({
