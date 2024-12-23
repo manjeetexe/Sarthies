@@ -2,59 +2,31 @@ import React from "react";
 
 const PaperCards = () => {
   const papers = [
-    {
-      year: "2024 Papers",
-      subjects: [
-        { name: "Science", file: "/pdfs/science-2024.pdf" },
-        { name: "Math", file: "/pdfs/math-2024.pdf" },
-        { name: "History", file: "/pdfs/history-2024.pdf" },
-        { name: "Geography", file: "/pdfs/geography-2024.pdf" },
-        { name: "English", file: "/pdfs/english-2024.pdf" },
-        { name: "Physics", file: "/pdfs/physics-2024.pdf" },
-      ],
-    },
-    {
-      year: "2023 Papers",
-      subjects: [
-        { name: "Science", file: "/pdfs/science-2023.pdf" },
-        { name: "Math", file: "/pdfs/math-2023.pdf" },
-        { name: "History", file: "/pdfs/history-2023.pdf" },
-        { name: "Geography", file: "/pdfs/geography-2023.pdf" },
-        { name: "English", file: "/pdfs/english-2023.pdf" },
-        { name: "Physics", file: "/pdfs/physics-2023.pdf" },
-      ],
-    },
+    { year: "2024", color: "bg-gradient-to-r from-red-500 via-pink-500 to-red-400" },
+    { year: "2023", color: "bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-400" },
+    { year: "2022", color: "bg-gradient-to-r from-green-500 via-lime-500 to-green-400" },
+    { year: "2021", color: "bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-400" },
+    { year: "2020", color: "bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-400" },
   ];
 
-  const handleCardClick = (file) => {
-    if (!file) {
-      alert("File path is missing!"); // Notify the user if file path is missing
-      return;
-    }
-    // Open the PDF file in a new tab
-    window.open(file, "_blank");
-  };
+  
 
   return (
-    <div className="flex flex-col gap-5 overflow-x-auto justify-center w-full rounded-xl">
-      {papers.map((paper, rowIndex) => (
-        <div key={rowIndex} className="mb-4">
-          <div className="flex space-x-4 w-max">
-            {paper.subjects.map((subject, index) => (
-              <div
-                key={index}
-                className="h-24 overflow-hidden relative w-32 border-[1px] border-black rounded-xl cursor-pointer hover:bg-gray-100"
-                onClick={() => handleCardClick(subject.file)}
-              >
-                <h1 className="m-2">{subject.name}</h1>
-                <div className="absolute h-5 w-full bottom-0 flex justify-center items-center bg-red-500">
-                  <h1 className="text-sm text-white">{paper.year}</h1>
-                </div>
-              </div>
-            ))}
+    <div className="w-full flex justify-center">
+      <div className="flex gap-4 overflow-x-auto w-full max-w-4xl">
+        {papers.map((paper, index) => (
+          <div
+            key={index}
+            className={`flex-shrink-0 w-40 h-56 ${paper.color} text-white rounded-lg shadow-lg cursor-pointer transform hover:scale-105 transition-transform`}
+            onClick={() => handleCardClick(paper.file)}
+          >
+            <div className="flex flex-col h-full justify-center items-center text-center">
+              <h1 className="text-2xl font-bold">{paper.year}</h1>
+              <p className="mt-2 text-sm">Click to view papers</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
