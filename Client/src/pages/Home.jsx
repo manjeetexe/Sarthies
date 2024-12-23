@@ -2,22 +2,10 @@ import React from "react";
 import FormulaCards from "../components/FormulaCards";
 import { FcQuestions } from "react-icons/fc";
 import { IoIosArrowForward } from "react-icons/io";
+import PaperCards from "../components/PaperCards";
 
 const Home = () => {
-  const papers = [
-    {
-      year: "2024 Papers",
-      subjects: ["Science", "Math", "History", "Geography", "English", "Physics"],
-    },
-    {
-      year: "2023 Papers",
-      subjects: ["Science", "Math", "History", "Geography", "English", "Physics"],
-    },
-    {
-      year: "2022 Papers",
-      subjects: ["Science", "Math", "History", "Geography", "English", "Physics"],
-    },
-  ];
+  
 
   return (
     <>
@@ -28,26 +16,7 @@ const Home = () => {
             </div>
 
         {/* Cards Section */}
-        <div className="flex flex-col  gap-5 overflow-hidden overflow-x-auto justify-center  w-full   rounded-xl">
-          {papers.map((paper, rowIndex) => (
-            <div key={rowIndex}>
-              
-              <div className="flex  space-x-4 w-max">
-                {paper.subjects.map((subject, index) => (
-                  <div
-                    key={index}
-                    className="h-24 overflow-hidden relative w-32 border-[1px] border-black rounded-xl"
-                  >
-                    <h1 className="m-2">{subject}</h1>
-                    <div className="absolute h-5 w-full bottom-0 flex justify-center items-center bg-red-500">
-                      <h1 className="text-sm text-white">{paper.year}</h1>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <PaperCards />
 
         <div className="w-full flex flex-col lg:flex-row gap-6 mt-8">
           <div className="w-full lg:w-1/2 flex items-center justify-between bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-xl py-4 px-5 hover:scale-105 transform transition-transform duration-300">

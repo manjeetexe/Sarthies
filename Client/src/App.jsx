@@ -21,6 +21,7 @@ import Analysis from './pages/AnalizeMCQ';
 import ExamDetailAnlize from './pages/examdetailanalize'
 import EditProfile from './pages/EditProfile'
 import UploadPDF from './pages/UploadPDF'
+import SecureViewer from "./pages/SecureViewer";
 import Displaypdf from './pages/DisplayPdf'
 
 
@@ -46,6 +47,7 @@ const AppContent = () => {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Help" element={<Help />} />
             <Route path="/uploadpdf" element={<UploadPDF />} />
+            <Route path="/secure-viewer" element={<SecureViewer />} />
             <Route path="/ExamEND" element={<ExamEnd />} /> 
             <Route path="/DisplayPdf" element={<Displaypdf />} /> 
             <Route path="/EditProfile" element={<EditProfile />} /> 
