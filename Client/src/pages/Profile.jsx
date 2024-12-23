@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { FaMobileScreen } from "react-icons/fa6";
 import LogoutButton from "../components/Logout";
-import { Link } from "react-router-dom";
+
 
 
 const Profile = () => {

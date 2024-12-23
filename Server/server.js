@@ -646,10 +646,11 @@ app.post("/upload-pdf", uploadPdf.single("file"), async (req, res) => {
 
 app.get('/user-pdfs/:userId', async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const  uploadedBy = req.params.userId;
+    
 
     // Fetch all PDFs uploaded by the user from the database
-    const pdfDetails = await PdfDetail.find({ userId });
+    const pdfDetails = await PdfDetail.find({ uploadedBy });
 
     if (!pdfDetails || pdfDetails.length === 0) {
       return res.status(404).json({ message: 'No PDFs found for this user.' });
@@ -660,7 +661,7 @@ app.get('/user-pdfs/:userId', async (req, res) => {
       title: pdf.title,
       description: pdf.description,
       subject: pdf.subject,
-      length: pdf.length,
+      lesson: pdf.lesson,
       fileUrl: `http://localhost:8000/files/${pdf.pdf}`, // URL to access the file
     }));
 

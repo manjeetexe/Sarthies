@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { jwtDecode } from 'jwt-decode';
 
 const UploadPDF = () => {
@@ -10,6 +10,7 @@ const UploadPDF = () => {
     description: "",
     file: null,
   });
+  const fileInputRef = useRef(null);
   const token = localStorage.getItem("token");
       const decoded = jwtDecode(token);
       
@@ -176,6 +177,7 @@ const UploadPDF = () => {
             Upload PDF
           </label>
           <input
+            ref={fileInputRef} 
             type="file"
             id="file"
             name="file"
