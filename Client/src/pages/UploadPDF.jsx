@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { jwtDecode } from 'jwt-decode';
 
 const UploadPDF = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,9 @@ const UploadPDF = () => {
     description: "",
     file: null,
   });
+  const token = localStorage.getItem("token");
+      const decoded = jwtDecode(token);
+      
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,11 +24,7 @@ const UploadPDF = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.type !== "application/pdf") {
-        alert("Please upload a valid PDF file.");
-        e.target.value = null; // Reset the file input
-        return;
-      }
+      
 
       if (file.size > 50 * 1024 * 1024) { // 50 MB size limit
         alert("File size should not exceed 50 MB.");
@@ -53,6 +53,7 @@ const UploadPDF = () => {
       data.append("subject", formData.subject);
       data.append("description", formData.description);
       data.append("file", formData.file);
+      data.append("userId",decoded.id)
 
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/upload-pdf`,
@@ -66,7 +67,7 @@ const UploadPDF = () => {
 
       console.log("Response from server:", response.data);
       alert("PDF uploaded successfully!");
-
+      
       // Reset form fields after submit
       setFormData({
         title: "",
@@ -74,7 +75,14 @@ const UploadPDF = () => {
         subject: "",
         description: "",
         file: null,
+        
+        
       });
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
     } catch (error) {
       console.error("Error uploading PDF:", error);
       alert("There was an error uploading the PDF. Please try again.");
@@ -84,11 +92,11 @@ const UploadPDF = () => {
   };
 
   return (
-    <div className="flex my-16 justify-center items-center min-h-screen bg-gradient-to-r from-indigo-100 to-blue-100">
+    <div className="flex my-20 justify-center items-center h-screen bg-gradient-to-r from-indigo-100 to-blue-100">
       <form
         
         onSubmit={handleSubmit}
-        className="bg-white shadow-2xl rounded-xl p-8 w-full max-w-lg transition-transform transform hover:scale-105"
+        className="bg-white h-full shadow-2xl rounded-xl p-8 w-full max-w-lg transition-transform transform hover:scale-105"
       >
         <h2 className="text-3xl font-extrabold mb-6 text-center text-blue-600">
           Upload Your PDF

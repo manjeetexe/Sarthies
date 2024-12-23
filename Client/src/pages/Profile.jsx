@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { FaMobileScreen } from "react-icons/fa6";
 import LogoutButton from "../components/Logout";
+import { Link } from "react-router-dom";
+
 
 const Profile = () => {
   const { examResults, totalSolvedQuestions, totalCorrectAnswers, totalScore } = useContext(ExamContext);
@@ -122,14 +124,15 @@ const Profile = () => {
             </div>
           </Link>
 
-          <div className="border-2 flex h-14 items-center justify-between  p-2 rounded-lg border-gray-300">
-            <div className="flex items-center gap-3">
-                <MdOutlineFileUpload  className="text-2xl"/>
+          <Link to="/DisplayPdf" className="w-full">
+            <div className="border-2 flex h-14 items-center justify-between p-2 rounded-lg border-gray-300 cursor-pointer">
+              <div className="flex items-center gap-3">
+                <MdOutlineFileUpload className="text-2xl" />
                 <h1>Uploaded Notes</h1>
+              </div>
+              <HiDotsVertical className="text-xl" />
             </div>
-
-            <HiDotsVertical className="text-xl" />
-          </div>
+          </Link>
 
          
           <LogoutButton />

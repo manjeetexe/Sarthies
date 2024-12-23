@@ -5,15 +5,20 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const nodemailer = require('nodemailer');
 const puppeteer = require("puppeteer");
 const connectDB = require('./DB/moongodb');
 const multer = require('multer');
 const handlebars = require('handlebars');
 const User = require('./Models/User');
+
 const bodyParser = require('body-parser');
 const { file } = require('pdfkit');
 const router = express.Router();
+require('./Models/PDF');
+const PdfDetail = mongoose.model('PdfDetail');
+
 
 dotenv.config();
 
@@ -31,6 +36,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
   console.log(process.env.FRONTEND_URL)
 app.use(express.json());
+app.use('/files', express.static(path.join(__dirname, 'files')));
 app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ limit: '60mb', extended: true }));
 
@@ -430,7 +436,7 @@ app.post('/api/login', async (req, res) => {
           return res.status(404).json({ success: false, message: "User not found" });
       }
 
-      // Validate password
+      
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
           return res.status(401).json({ success: false, message: "Invalid password" });
@@ -475,17 +481,17 @@ app.post('/api/login', async (req, res) => {
 
 app.post("/api/send-analyze-email", upload.single('screenshotImage'), async (req, res) => {
 try {
-  // Parse emails and other details from form data
+  
   const emails = JSON.parse(req.body.emails);
   const analysisDetails = JSON.parse(req.body.analysisDetails);
   const summaryQuestions = JSON.parse(req.body.summaryQuestions);
 
-  // Validate input
+ 
   if (!emails || !req.file) {
     return res.status(400).json({ error: "Email and screenshot are required." });
   }
 
-  // Configure nodemailer transporter
+  
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -494,7 +500,7 @@ try {
     },
   });
 
-  // Create a rich HTML template
+  
   const emailTemplate = handlebars.compile(`
     <!DOCTYPE html>
     <html>
@@ -558,7 +564,7 @@ try {
     </html>
   `);
 
-  // Prepare email options with attachments
+ 
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: emails,
@@ -577,7 +583,7 @@ try {
     ]
   };
 
-  // Send the email
+  
   await transporter.sendMail(mailOptions);
 
   res.status(200).json({ message: "Analysis sent successfully!" });
@@ -592,24 +598,88 @@ try {
 
 
 
-
-app.post("/upload-pdf", uploadPdf.single("file"), (req, res) => {
+app.post("/upload-pdf", uploadPdf.single("file"), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded!" });
-    }
-    res.status(200).json({
-      message: "File uploaded successfully!",
-      fileDetails: req.file,
-    });
+      if (!req.file) {
+          return res.status(400).json({ message: "No file uploaded!" });
+      }
+
+      const { title, description, subject, lesson, userId } = req.body;
+
+      // Validate required fields
+      if (!title || !description || !subject || !lesson || !userId) {
+          return res.status(400).json({ message: "All fields, including userId, are required!" });
+      }
+
+      
+      const existingFile = await PdfDetail.findOne({ 
+          $or: [{ pdf: req.file.filename }, { title: title }]
+      });
+
+      if (existingFile) {
+          return res.status(400).json({ message: "A file with the same name or title already exists!" });
+      }
+
+      // Create a new document
+      const newPdf = new PdfDetail({
+          pdf: req.file.filename,
+          title,
+          description,
+          subject,
+          lesson: lesson,
+          uploadedBy: userId, 
+      });
+
+      // Save to MongoDB
+      await newPdf.save();
+
+      res.status(200).json({
+          message: "File uploaded successfully and details saved to database!",
+          fileDetails: req.file,
+      });
   } catch (error) {
-    res.status(500).json({ message: "Error uploading file", error: error.message });
+      console.error("Error uploading file:", error);
+      res.status(500).json({ message: "Error uploading file", error: error.message });
   }
 });
 
 
+app.get('/user-pdfs/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
 
+    // Fetch all PDFs uploaded by the user from the database
+    const pdfDetails = await PdfDetail.find({ userId });
 
+    if (!pdfDetails || pdfDetails.length === 0) {
+      return res.status(404).json({ message: 'No PDFs found for this user.' });
+    }
+
+    // Map the PDFs to include the file URL for access
+    const pdfsWithUrls = pdfDetails.map(pdf => ({
+      title: pdf.title,
+      description: pdf.description,
+      subject: pdf.subject,
+      length: pdf.length,
+      fileUrl: `http://localhost:8000/files/${pdf.pdf}`, // URL to access the file
+    }));
+
+    res.status(200).json({
+      message: 'User PDFs retrieved successfully',
+      pdfs: pdfsWithUrls,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving PDFs', error: error.message });
+  }
+});
+
+// Endpoint to serve a specific file
+app.get('/files/:filename', function (req, res) {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, 'files', filename);
+  
+  res.sendFile(filePath);
+});
 
 
 
