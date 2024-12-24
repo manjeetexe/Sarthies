@@ -23,6 +23,8 @@ import EditProfile from './pages/EditProfile'
 import UploadPDF from './pages/UploadPDF'
 import SecureViewer from "./pages/SecureViewer";
 import Displaypdf from './pages/DisplayPdf'
+import PaperDetails from './pages/QSubjectPage'
+import CardFMSub from './pages/CardFMSub';
 
 
 const AppContent = () => {
@@ -47,6 +49,8 @@ const AppContent = () => {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Help" element={<Help />} />
             <Route path="/uploadpdf" element={<UploadPDF />} />
+            <Route path="/papers/:year" element={<PaperDetails />} />
+            <Route path="/cardsformula/:Subject" element={<CardFMSub />} />
             <Route path="/secure-viewer" element={<SecureViewer />} />
             <Route path="/ExamEND" element={<ExamEnd />} /> 
             <Route path="/DisplayPdf" element={<Displaypdf />} /> 

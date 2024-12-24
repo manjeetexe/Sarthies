@@ -1,34 +1,46 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 const FormulaCards = () => {
   const [selectedSubject, setSelectedSubject] = useState("Physics");
+  const navigate = useNavigate();
 
-  // Define subject colors, card data, and images
+
+  // Define subject colors, card data, images, and formulas
   const subjects = {
     Physics: {
       color: "bg-gradient-to-r from-red-500 via-pink-500 to-red-400",
       cards: [
-        { name: "Newton's Laws", image: "/images/newton.jpg" },
-        { name: "Thermodynamics", image: "/images/thermo.jpg" },
-        { name: "Electromagnetism", image: "/images/electro.jpg" },
+        {
+          name: "Newton's Laws",
+          image: "https://imgs.search.brave.com/yozrS8xfkPOPlRIvLB9sk0oJVcWOW-9FQs6HqmXBCmU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzExLzI2LzEwLzg2/LzM2MF9GXzExMjYx/MDg2MjRfMFhOcExD/S25pdEQ2bGZFU2Za/VnVtbTZGSVFrakJN/T2YuanBn",
+          lessons: [
+            { title: "First Law", formula: "F = ma" },
+            { title: "Second Law", formula: "a = F/m" },
+            { title: "Third Law", formula: "F1 = -F2" },
+          ],
+        },
+        {
+          name: "Thermodynamics",
+          image: "https://cdn1.byjus.com/wp-content/uploads/2018/11/chemistry/2015/12/29114819/Thermodynamics-2.png",
+          lessons: [
+            { title: "First Law of Thermodynamics", formula: "ΔU = Q - W" },
+            { title: "Entropy", formula: "S = k * log(W)" },
+          ],
+        },
+        {
+          name: "Electromagnetism",
+          image: "https://cdn.mos.cms.futurecdn.net/xSoberZUiEamaySkdwSV3U-1200-80.jpg.webp",
+          lessons: [
+            { title: "Coulomb's Law", formula: "F = k * (q1 * q2) / r^2" },
+            { title: "Faraday's Law", formula: "E = -dΦ/dt" },
+          ],
+        },
       ],
     },
-    Chemistry: {
-      color: "bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-400",
-      cards: [
-        { name: "Periodic Table", image: "/images/periodic.jpg" },
-        { name: "Chemical Bonds", image: "/images/bonds.jpg" },
-        { name: "Organic Chemistry", image: "/images/organic.jpg" },
-      ],
-    },
-    Maths: {
-      color: "bg-gradient-to-r from-green-500 via-lime-500 to-green-400",
-      cards: [
-        { name: "Algebra", image: "https://imgs.search.brave.com/rexMcXwVX2F5s_-I0OIn8PCZLUfXA2qPyYTFbPJD5pI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDcw/NDkzMzQxL3Bob3Rv/L21hdGgtcHJvYmxl/bXMuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXpVNlpGNGZX/dGN3VHU1TW96c3lR/Y19BQUdza2tQWEh5/cnJvVTVmeGU5MVk9" },
-        { name: "Calculus", image: "https://imgs.search.brave.com/AGIvwk_DRoVhH0qHYGHTf5NRvsPEK3TuhMV1SOeGjYw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzU1Lzg0Lzk5/LzM2MF9GXzU1ODQ5/OTU4X0dZRjVkQUhZ/TTFMNG1oS2Q5ekFm/OU9qcXBuS0ZqTXVw/LmpwZw" },
-        { name: "Geometry", image: "/images/geometry.jpg" },
-      ],
-    },
+    // Add similar structure for Chemistry and Maths
   };
 
   return (
@@ -65,13 +77,23 @@ const FormulaCards = () => {
             {subjects[selectedSubject]?.cards.map((card, index) => (
               <div
                 key={index}
+                onClick={() =>
+                  navigate(`/cardsformula/${selectedSubject}`, {
+                    state: { 
+                      subject: selectedSubject, 
+                      cardName: card.name,
+                      cardImage: card.image,
+                      lessons: card.lessons,
+                    },
+                  })
+                }
                 className={`h-40 w-32 overflow-hidden rounded-xl flex flex-col items-center justify-between text-center shadow-lg transform hover:scale-105 transition-all ${subjects[selectedSubject].color}`}
               >
                 {/* Image */}
                 <img
                   src={card.image}
                   alt={card.name}
-                  className="h-20 w-full object-contain object-cover rounded-md bg-white"
+                  className="h-20 w-full object-cover rounded-md bg-white"
                 />
                 {/* Text */}
                 <span className="text-sm font-medium mt-2">{card.name}</span>
