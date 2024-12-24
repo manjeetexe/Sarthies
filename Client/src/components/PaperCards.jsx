@@ -13,7 +13,7 @@ const PaperCards = () => {
   ];
 
   const handleCardClick = (year) => {
-    navigate(`./papers/${year}`); // Navigate to route based on the year
+    navigate(`./papers/${year}`); // Navigate to the route for the selected year
   };
 
   return (
@@ -27,7 +27,7 @@ const PaperCards = () => {
           >
             <div className="flex flex-col h-full justify-center items-center text-center">
               <h1 className="text-2xl font-bold">{paper.year}</h1>
-              <p className="mt-2 text-sm">Click to view papers</p>
+              <p className="mt-2 text-sm">Click to view subjects</p>
             </div>
           </div>
         ))}

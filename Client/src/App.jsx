@@ -21,11 +21,10 @@ import Analysis from './pages/AnalizeMCQ';
 import ExamDetailAnlize from './pages/examdetailanalize'
 import EditProfile from './pages/EditProfile'
 import UploadPDF from './pages/UploadPDF'
-import SecureViewer from "./pages/SecureViewer";
 import Displaypdf from './pages/DisplayPdf'
 import PaperDetails from './pages/QSubjectPage'
 import CardFMSub from './pages/CardFMSub';
-
+import QuestionPapers from './pages/QuestionPapers';
 
 const AppContent = () => {
 
@@ -51,10 +50,10 @@ const AppContent = () => {
             <Route path="/uploadpdf" element={<UploadPDF />} />
             <Route path="/papers/:year" element={<PaperDetails />} />
             <Route path="/cardsformula/:Subject" element={<CardFMSub />} />
-            <Route path="/secure-viewer" element={<SecureViewer />} />
             <Route path="/ExamEND" element={<ExamEnd />} /> 
             <Route path="/DisplayPdf" element={<Displaypdf />} /> 
             <Route path="/EditProfile" element={<EditProfile />} /> 
+            <Route path="/papers/:year/:subject" element={<QuestionPapers />} />
             <Route path="/examdetailanalize" element={<ExamDetailAnlize />} />   /
             <Route path="/Test" element={<TestPage />} />
             <Route path="/analysis" element={<Analysis />} /> 
