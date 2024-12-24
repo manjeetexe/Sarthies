@@ -40,7 +40,64 @@ const FormulaCards = () => {
         },
       ],
     },
-    // Add similar structure for Chemistry and Maths
+    Chemistry: {
+      color: "bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-400",
+      cards: [
+        {
+          name: "Periodic Table",
+          image: "https://imgs.search.brave.com/Ib_CtuZz417pRP9mI6CTWCFgT0E7zk4FkHTlwPxMJ9s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTAz/Mzc5OTIvcGhvdG8v/cGVyaW9kaWMtdGFi/bGUuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPUtiLWh2N2ts/RlFrYjVDQWZUT0tw/bXpMUDkyVnZTSEFp/UW9IZDdDOXlidEk9",
+          lessons: [
+            { title: "Group 1 Elements", formula: "Li, Na, K, Rb, Cs, Fr" },
+            { title: "Periodic Trends", formula: "Electronegativity, Ionization Energy" },
+          ],
+        },
+        {
+          name: "Chemical Bonds",
+          image: "https://imgs.search.brave.com/Yke8AgTB_U2P4KHxg8NGjkDMV0cGY78l1zVUf-4GbJU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDI4MDcx/NDYuanBn",
+          lessons: [
+            { title: "Ionic Bonds", formula: "NaCl, KBr" },
+            { title: "Covalent Bonds", formula: "H2O, CH4" },
+          ],
+        },
+        {
+          name: "Organic Chemistry",
+          image: "https://imgs.search.brave.com/ZYVq1SDt-n7OhFzOiUXGSVM_NYSreuVtbv2gI-_7JWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9l/L2U0LzVhbHBoYS1E/aWh5ZHJvcHJvZ2Vz/dGVyb25lXzNEX2Jh/bGwucG5n",
+          lessons: [
+            { title: "Alkanes", formula: "CnH2n+2" },
+            { title: "Alkenes", formula: "CnH2n" },
+          ],
+        },
+      ],
+    },
+    Maths: {
+      color: "bg-gradient-to-r from-green-500 via-lime-500 to-green-400",
+      cards: [
+        {
+          name: "Algebra",
+          image: "https://imgs.search.brave.com/rexMcXwVX2F5s_-I0OIn8PCZLUfXA2qPyYTFbPJD5pI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDcw/NDkzMzQxL3Bob3Rv/L21hdGgtcHJvYmxl/bXMuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXpVNlpGNGZX/dGN3VHU1TW96c3lR/Y19BQUdza2tQWEh5/cnJvVTVmeGU5MVk9",
+          lessons: [
+            { title: "Quadratic Equation", formula: "ax^2 + bx + c = 0" },
+            { title: "Linear Equations", formula: "y = mx + c" },
+          ],
+        },
+        {
+          name: "Calculus",
+          image: "https://imgs.search.brave.com/AGIvwk_DRoVhH0qHYGHTf5NRvsPEK3TuhMV1SOeGjYw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzU1Lzg0Lzk5/LzM2MF9GXzU1ODQ5/OTU4X0dZRjVkQUhZ/TTFMNG1oS2Q5ekFm/OU9qcXBuS0ZqTXVw/LmpwZw",
+          lessons: [
+            { title: "Derivative", formula: "dy/dx = f'(x)" },
+            { title: "Integral", formula: "∫f(x)dx" },
+          ],
+        },
+        {
+          name: "Geometry",
+          image: "https://imgs.search.brave.com/BXQJR5SZSZYTKe-Zu7r-p8J3kgAP33y1T-Yv6CnbzMc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDk1/NTg0NjM1L3Bob3Rv/L21hdGhlbWF0aWNz/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1ud3dxLU1RWksx/YU9HdlRCR3NPN0Js/cWhtUzFsQ3hmbGdU/dDkwUU9qZ0dvPQ",
+          lessons: [
+            { title: "Pythagorean Theorem", formula: "a^2 + b^2 = c^2" },
+            { title: "Circle Area", formula: "πr^2" },
+          ],
+        },
+      ],
+    },
   };
 
   return (
