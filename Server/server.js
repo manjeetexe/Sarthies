@@ -152,18 +152,19 @@ app.post('/api/signup', async (req, res) => {
 
         // Generate and store OTP
         const otp = generateOTP();
+        const hashedPassword = await bcrypt.hash(password, 10);
         otpStore.set(email, {
-            otp,
-            expires: Date.now() + 600000, 
-            userData: {
-                name,
-                email,
-                password,
-                isSarthie,
-                class: userClass,
-                isVerified: false
-            }
-        });
+          otp,
+          expires: Date.now() + 600000,
+          userData: {
+              name,
+              email,
+              password: hashedPassword, // Store hashed password
+              isSarthie,
+              class: userClass,
+              isVerified: false
+          }
+      });
 
         // Send verification email
         await sendVerificationEmail(email, otp);
