@@ -6,29 +6,36 @@ import { useAuth } from '../Context/Authcontext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+
   const { isSignedIn, SignIn } = useAuth();
+
+  useEffect(() => {
+        
+        const popupTimer = setTimeout(() => {
+          setShowPopup(true);
+          console.log('Popup')
+        }, 2000); // Show popup after 2 seconds
+    
+        return () => clearTimeout(popupTimer);
+            
+      }, [isSignedIn, navigate]);
+
 
   useEffect(() => {
     if (isSignedIn) {
       navigate('/');
     }
-
-    const popupTimer = setTimeout(() => {
-      setShowPopup(true);
-    }, 2000); // Show popup after 2 seconds
-
-    return () => clearTimeout(popupTimer);
   }, [isSignedIn, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true); 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/login`,
+        `${import.meta.env.VITE_BASE_URL}/api/login`, 
         { email, password },
         { withCredentials: true }
       );
@@ -37,14 +44,14 @@ const Login = () => {
       const data = { ...response.data.user, token: response.data.token };
       SignIn(data);
 
-      navigate('/');
+      navigate('/'); 
       setEmail('');
       setPassword('');
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Login failed');
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading
     }
   };
 
@@ -57,7 +64,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 relative">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+
+
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
@@ -81,6 +90,12 @@ const Login = () => {
           </div>
         </div>
       )}
+
+
+
+
+
+
 
       <form
         onSubmit={handleLogin}
@@ -119,7 +134,7 @@ const Login = () => {
           type="submit"
           className={`w-full ${loading ? 'bg-blue-400' : 'bg-blue-500 hover:bg-blue-600'} 
             text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200`}
-          disabled={loading}
+          disabled={loading} // Disable button during loading
         >
           {loading ? 'Loading...' : 'Login'}
         </button>

@@ -189,10 +189,10 @@ const MCQ = (props, ref) => {
   
 
   return (
-    <div className="min-h-screen mt-32 flex flex-col items-center bg-gray-50 p-4">
+    <div className="h-screen mt-32 flex flex-col items-center bg-gray-50 p-4">
       <div className='flex items-center justify-between w-full px-4'>
         <h1 className="text-3xl font-bold mb-6">Exam</h1>
-        <div className="text-2xl font-semibold text-red-500 mb-6"> Time Left: {formatTime(timeLeft)}</div>
+        <div className="text-xl lg:text-2xl font-semibold text-red-500 mb-6"> Time Left: {formatTime(timeLeft)}</div>
       </div>
 
       <div className="bg-white shadow-md rounded-lg w-full md:w-2/3 lg:w-1/2 p-6">
