@@ -18,7 +18,7 @@ const Subjects = () => {
   };
 
   return (
-    <div className="w-full mt-14 flex flex-col items-center px-4">
+    <div className="w-full mt-14 flex flex-col items-center mb-24 px-4">
       {/* Header */}
       <h2 className="text-3xl font-bold text-gray-800 my-8">
         Subjects for <span className="text-blue-600">{year}</span>

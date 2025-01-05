@@ -17,7 +17,7 @@ const QuestionPapers = () => {
   };
 
   return (
-    <div className="w-full mt-20 flex flex-col items-center px-4">
+    <div className="w-full mt-20 flex flex-col items-center mb-24 px-4">
       {/* Header */}
       <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         Question Papers for <span className="text-blue-600">{subject}</span> - {year}

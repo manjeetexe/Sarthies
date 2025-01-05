@@ -13,7 +13,7 @@ const CardFMSub = () => {
   }, [cardName]);
 
   return (
-    <div className="mt-20 p-5">
+    <div className="mt-20 p-5 ">
       
       <h1 className="text-3xl font-bold">{cardName}</h1>
       <h2 className="text-lg text-gray-500">Subject: {subject}</h2>
