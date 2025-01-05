@@ -6,23 +6,29 @@ import { useAuth } from '../Context/Authcontext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
-
   const { isSignedIn, SignIn } = useAuth();
 
   useEffect(() => {
     if (isSignedIn) {
       navigate('/');
     }
+
+    const popupTimer = setTimeout(() => {
+      setShowPopup(true);
+    }, 2000); // Show popup after 2 seconds
+
+    return () => clearTimeout(popupTimer);
   }, [isSignedIn, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/login`, 
+        `${import.meta.env.VITE_BASE_URL}/api/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -31,19 +37,51 @@ const Login = () => {
       const data = { ...response.data.user, token: response.data.token };
       SignIn(data);
 
-      navigate('/'); 
+      navigate('/');
       setEmail('');
       setPassword('');
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Login failed');
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
+    }
+  };
+
+  const handlePopupChoice = (isSarthie) => {
+    if (isSarthie) {
+      setShowPopup(false); // Close popup
+    } else {
+      navigate('/non-sarthie-route'); // Redirect to another route
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 relative">
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">
+              Are you a Sarthie student?
+            </h3>
+            <div className="flex justify-between">
+              <button
+                className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200 w-1/2 mr-2"
+                onClick={() => handlePopupChoice(true)}
+              >
+                I am a Sarthie
+              </button>
+              <button
+                className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-200 w-1/2 ml-2"
+                onClick={() => handlePopupChoice(false)}
+              >
+                I am not a Sarthie
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <form
         onSubmit={handleLogin}
         className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md"
@@ -81,7 +119,7 @@ const Login = () => {
           type="submit"
           className={`w-full ${loading ? 'bg-blue-400' : 'bg-blue-500 hover:bg-blue-600'} 
             text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200`}
-          disabled={loading} // Disable button during loading
+          disabled={loading}
         >
           {loading ? 'Loading...' : 'Login'}
         </button>
