@@ -71,20 +71,20 @@ const Login = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">
-              Are you a Sarthie student?
+              Are you a Saarathi
             </h3>
             <div className="flex justify-between">
               <button
                 className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-200 w-1/2 mr-2"
                 onClick={() => handlePopupChoice(true)}
               >
-                I am a Sarthie
+                I am Saarathian
               </button>
               <button
                 className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-200 w-1/2 ml-2"
                 onClick={() => handlePopupChoice(false)}
               >
-                I am not a Sarthie
+                I am not a Saarathian
               </button>
             </div>
           </div>
