@@ -6,11 +6,20 @@ const getData = (user) => {
     const data = {
       English: {
         lessons: {
-          "Where the Mind is Without Fear.." : { 
-            Questions: [
-              { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
-              { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
-            ] 
+          "Where the Mind is Without Fear.." : {
+             "Test1":{
+              Questions: [
+                { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+                { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+              ] 
+             },
+             "Test 2":{
+              Questions: [
+                { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+                { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+              ]
+             }
+            
           },
           "The Thief’s Story": { 
             Questions: [

@@ -10,10 +10,10 @@ const MCQ = (props, ref) => {
   
   const subject = props.subject
   const lesson = props.lesson
+
   const navigate = useNavigate();
   const location = useLocation();
-  const { lessonData } = location.state || {};
-  const questions = lessonData?.Questions || [];
+  const questions = props.questions || [];
   const { updateExamResults } = useContext(ExamContext);
   
 

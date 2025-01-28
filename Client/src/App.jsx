@@ -8,6 +8,7 @@ import Notes from './pages/Notes';
 import { AuthProvider, useAuth } from './Context/Authcontext'; 
 import Help from './pages/Help';
 import Lessons from './pages/Lessons';
+import TestNo from './pages/TestNumber'
 import Home from './pages/Home';
 import Exam from './pages/Exam';
 import { ExamProvider } from "./Context/ExamContext";
@@ -25,6 +26,7 @@ import Displaypdf from './pages/DisplayPdf'
 import PaperDetails from './pages/QSubjectPage'
 import CardFMSub from './pages/CardFMSub';
 import QuestionPapers from './pages/QuestionPapers';
+import TestNumber from './pages/TestNumber';
 
 const AppContent = () => {
 
@@ -48,6 +50,7 @@ const AppContent = () => {
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Help" element={<Help />} />
             <Route path="/uploadpdf" element={<UploadPDF />} />
+            <Route path="/TestNo" element={<TestNo />} />
             <Route path="/papers/:year" element={<PaperDetails />} />
             <Route path="/cardsformula/:Subject" element={<CardFMSub />} />
             <Route path="/ExamEND" element={<ExamEnd />} /> 

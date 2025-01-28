@@ -7,20 +7,19 @@ import { useAuth } from '../Context/Authcontext.jsx';
 const Test = () => {
   const navigate = useNavigate();
   const { user } = useAuth(); // Get the user from the Auth context
-
   // Fetch data based on the user's class
   const data = getData(user);
   
-
   // Extract subjects
   const subjects = Object.keys(data);
+
 
   const [selectedSubject, setSelectedSubject] = useState(null);
 
   const handleSubjectSelect = (subject) => {
     const subjectData = data[subject]; // Get the data for the selected subject
     setSelectedSubject(subject);
-    console.log(`Proceeding with the test for: ${subject}`);
+    
 
     // Pass both the subject and its lessons data to the next page
     navigate('/lessons', { state: { subject, subjectData } });

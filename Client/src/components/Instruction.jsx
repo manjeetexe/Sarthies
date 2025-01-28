@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Instructions = ({ subject, selectedLesson, goBack, lessonData, setExamStarted }) => {
+const Instructions = ({ subject, selectedTestNo, selectedLesson, goBack, questions, setExamStarted }) => {
   const navigate = useNavigate();
 
   const startTest = () => {
     if (setExamStarted) {
       setExamStarted(true);
     }
-    navigate('/exam', { state: { lessonData, subject, selectedLesson } });
+    navigate('/exam', { state: { questions, subject, selectedLesson } });
   };
 
   return (

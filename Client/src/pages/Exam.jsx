@@ -11,8 +11,8 @@ const Exam = () => {
   const [showAutosubmit, setShowAutosubmit] = useState(false);
   const mcqRef = useRef(null);
   const location = useLocation();
-  const {   subject ,selectedLesson } = location.state;
-
+  const {   subject ,selectedLesson ,questions } = location.state;
+  console.log(subject ,selectedLesson ,questions)
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
@@ -40,7 +40,7 @@ const Exam = () => {
 
   return (
     <div className="exam-page">
-      <MCQ ref={mcqRef} subject={subject} lesson={selectedLesson} />
+      <MCQ ref={mcqRef} subject={subject} lesson={selectedLesson} questions={questions} />
 
       {showAutosubmit && mcqRef.current && (
         <Autosubmit
