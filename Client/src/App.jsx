@@ -25,7 +25,6 @@ import UploadPDF from './pages/UploadPDF'
 import Displaypdf from './pages/DisplayPdf'
 import PaperDetails from './pages/QSubjectPage'
 import CardFMSub from './pages/CardFMSub';
-import QuestionPapers from './pages/QuestionPapers';
 import TestNumber from './pages/TestNumber';
 
 
@@ -57,7 +56,6 @@ const AppContent = () => {
             <Route path="/ExamEND" element={<ExamEnd />} /> 
             <Route path="/DisplayPdf" element={<Displaypdf />} /> 
             <Route path="/EditProfile" element={<EditProfile />} /> 
-            <Route path="/papers/:year/:subject" element={<QuestionPapers />} />
             <Route path="/examdetailanalize" element={<ExamDetailAnlize />} />   /
             <Route path="/Test" element={<TestPage />} />
             <Route path="/analysis" element={<Analysis />} /> 
