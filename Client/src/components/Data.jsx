@@ -354,7 +354,13 @@ const getData = (user) => {
                 { Marks: "4", answer: "All of the above", type: "MCQ", no: "41", question: "Which factor affects the rate of reaction?", options: ["Temperature", "Concentration", "Surface area", "All of the above"] },  
                 { Marks: "4", answer: "It has a larger surface area", type: "MCQ", no: "42", question: "A finely powdered reactant reacts faster because:", options: ["It has a smaller surface area", "It has a larger surface area", "It absorbs light", "It is less reactive"] },  
                 { Marks: "4", answer: "Burning wood", type: "MCQ", no: "43", question: "Which of the following represents a chemical change in daily life?", options: ["Boiling water", "Burning wood", "Melting ice", "Mixing salt in water"] },  
-                { Marks: "4", answer: "All of the above", type: "MCQ", no: "44", question: "Which process involves oxidation in everyday life?", options: ["Digestion of food", "Respiration", "Rusting of iron", "All of the above"] }  
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "44", question: "Which process involves oxidation in everyday life?", options: ["Digestion of food", "Respiration", "Rusting of iron", "All of the above"] }  ,
+                { Marks: "4", answer: "Burning of paper", type: "MCQ", no: "45", question: "Which of the following is a chemical change?", options: ["Melting of ice", "Dissolving sugar in water", "Burning of paper", "Breaking of glass"] },  
+                { Marks: "4", answer: "Loss of electrons", type: "MCQ", no: "46", question: "In a redox reaction, oxidation refers to:", options: ["Gain of electrons", "Loss of electrons", "Loss of protons", "Gain of protons"] },  
+                { Marks: "4", answer: "Chemical change", type: "MCQ", no: "47", question: "The formation of curd from milk is an example of:", options: ["Physical change", "Reversible change", "Chemical change", "Sublimation"] },  
+                { Marks: "4", answer: "4Al + 3O₂ → 2Al₂O₃", type: "MCQ", no: "48", question: "What is the balanced form of the equation: Al + O₂ → Al₂O₃?", options: ["2Al + 3O₂ → 2Al₂O₃", "4Al + 3O₂ → 2Al₂O₃", "3Al + 2O₂ → 3Al₂O₃", "Al + O₂ → Al₂O₃"] },  
+                { Marks: "4", answer: "Changing the coefficients of reactants or products", type: "MCQ", no: "49", question: "Which of the following is used to balance a chemical equation?", options: ["Changing the chemical formula of reactants", "Changing the coefficients of reactants or products", "Changing the products of the reaction", "None of the above"] },  
+                { Marks: "4", answer: "ZnO + C → Zn + CO", type: "MCQ", no: "50", question: "Which of the following is a redox reaction?", options: ["NaOH + HCl → NaCl + H₂O", "ZnO + C → Zn + CO", "BaCl₂ + Na₂SO₄ → BaSO₄ + 2NaCl", "CaO + CO₂ → CaCO₃"] }  
 
               ] 
              },
