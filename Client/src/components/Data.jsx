@@ -308,11 +308,63 @@ const getData = (user) => {
               { Marks: "4", answer: "Oxygen", type: "MCQ", no: "4", question: "What gas do plants release during photosynthesis?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"] },
             ]
           },
-          "Chemical reactions and equations": {
-            Questions: [
-              { Marks: "4", answer: "Chlorophyll", type: "MCQ", no: "3", question: "What gives plants their green color?", options: ["Carotene", "Chlorophyll", "Anthocyanin", "Xanthophyll"] },
-              { Marks: "4", answer: "Oxygen", type: "MCQ", no: "4", question: "What gas do plants release during photosynthesis?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"] },
-            ]
+          "Chemical Reactions and Equations" : {
+             "Test1":{
+              Questions: [
+                { Marks: "4", answer: "s for solid, l for liquid, g for gas, aq for aqueous", type: "MCQ", no: "1", question: "The physical state of a reactant in a chemical equation is represented as:", options: ["s for solid, l for liquid, g for gas, aq for aqueous", "p for plasma, w for water, s for steam", "l for liquid, d for dry, g for gas", "s for solution, l for liquid, g for gaseous"] },  
+                { Marks: "4", answer: "2H₂ + O₂ → 2H₂O", type: "MCQ", no: "2", question: "Which of the following reactions is an example of a combination reaction?", options: ["2H₂ + O₂ → 2H₂O", "CaCO₃ → CaO + CO₂", "Zn + CuSO₄ → ZnSO₄ + Cu", "2KClO₃ → 2KCl + 3O₂"] },  
+                { Marks: "4", answer: "Displacement reaction", type: "MCQ", no: "3", question: "What type of reaction is represented by the equation: Zn + H₂SO₄ → ZnSO₄ + H₂?", options: ["Combination reaction", "Decomposition reaction", "Displacement reaction", "Double displacement reaction"] },  
+                { Marks: "4", answer: "Double displacement reaction", type: "MCQ", no: "4", question: "The reaction NaCl + AgNO₃ → NaNO₃ + AgCl is an example of:", options: ["Combination reaction", "Decomposition reaction", "Displacement reaction", "Double displacement reaction"] },
+                { Marks: "4", answer: "Conservation of mass", type: "MCQ", no: "4", question: "A balanced chemical equation follows the law of:", options: ["Conservation of mass", "Conservation of energy", "Conservation of momentum", "Constant proportion"] },
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "5", question: "Which of the following reactions involves the evolution of gas?", options: ["Na₂CO₃ + 2HCl → 2NaCl + CO₂ + H₂O", "Zn + 2HCl → ZnCl₂ + H₂", "CaCO₃ → CaO + CO₂", "All of the above"] },
+                { Marks: "4", answer: "The number of atoms of each element is the same on both sides", type: "MCQ", no: "6", question: "The chemical equation H₂ + Cl₂ → 2HCl is balanced because:", options: ["It involves only one reactant", "The number of atoms of each element is the same on both sides", "It is a simple reaction", "The product is stable"] },
+                { Marks: "4", answer: "Potassium chloride and oxygen", type: "MCQ", no: "7", question: "In the reaction: 2KClO₃ → 2KCl + 3O₂, potassium chlorate decomposes into:", options: ["Potassium chloride and oxygen", "Potassium oxide and oxygen", "Potassium and oxygen", "Potassium hydroxide and water"] },  
+                { Marks: "4", answer: "CaO", type: "MCQ", no: "8", question: "What is the chemical formula of quicklime?", options: ["CaO", "Ca(OH)₂", "CaCO₃", "CaCl₂"] },
+                { Marks: "4", answer: "Redox reaction", type: "MCQ", no: "9", question: "The rusting of iron is an example of which type of reaction?", options: ["Combination reaction", "Redox reaction", "Neutralization reaction", "Decomposition reaction"] },  
+                { Marks: "4", answer: "Oxidized", type: "MCQ", no: "10", question: "In a redox reaction, the substance that loses electrons is said to be:", options: ["Reduced", "Oxidized", "Neutralized", "Decomposed"] },  
+                { Marks: "4", answer: "To speed up the reaction without undergoing any permanent change", type: "MCQ", no: "11", question: "What is the role of a catalyst in a chemical reaction?", options: ["To slow down the reaction", "To speed up the reaction without undergoing any permanent change", "To consume the reactants", "To produce more products"] },  
+                { Marks: "4", answer: "Calcium carbonate", type: "MCQ", no: "12", question: "When limewater reacts with carbon dioxide, it turns milky due to the formation of:", options: ["Calcium oxide", "Calcium carbonate", "Calcium hydroxide", "Calcium bicarbonate"] },  
+                { Marks: "4", answer: "Precipitate", type: "MCQ", no: "13", question: "In a Double Displacement reaction, the insoluble solid formed is called a:", options: ["Catalyst", "Precipitate", "Reactant", "Residue"] },  
+                { Marks: "4", answer: "Endothermic reaction", type: "MCQ", no: "14", question: "The reaction in which heat is absorbed is called an:", options: ["Exothermic reaction", "Endothermic reaction", "Combination reaction", "Displacement reaction"] },  
+                { Marks: "4", answer: "Exothermic reaction", type: "MCQ", no: "15", question: "The reaction: CaO + H₂O → Ca(OH)₂ + Heat is an example of:", options: ["Exothermic reaction", "Endothermic reaction", "Redox reaction", "Neutralization reaction"] },  
+                { Marks: "4", answer: "A more reactive element displaces a less reactive element from its compound.", type: "MCQ", no: "16", question: "Which of the following statements about a displacement reaction is correct?", options: ["A more reactive element displaces a less reactive element from its compound.", "A less reactive element displaces a more reactive element from its compound.", "It occurs only in the presence of a catalyst.", "It involves only non-metals."] },  
+                { Marks: "4", answer: "Ca(OH)₂", type: "MCQ", no: "17", question: "The product of the reaction between quicklime (CaO) and water is:", options: ["CaCO₃", "Ca(OH)₂", "CaO + H₂O", "CaO₃"] },  
+                { Marks: "4", answer: "Neutralization reaction", type: "MCQ", no: "18", question: "Which type of reaction occurs when an acid reacts with a base to form salt and water?", options: ["Displacement reaction", "Neutralization reaction", "Decomposition reaction", "Oxidation reaction"] },  
+                { Marks: "4", answer: "Double displacement reaction", type: "MCQ", no: "19", question: "What type of reaction is: AgNO₃ + NaCl → AgCl + NaNO₃?", options: ["Combination reaction", "Displacement reaction", "Double displacement reaction", "Decomposition reaction"] },  
+                { Marks: "4", answer: "Hydrogen", type: "MCQ", no: "20", question: "During electrolysis of water, which gas is liberated at the cathode?", options: ["Oxygen", "Hydrogen", "Nitrogen", "Chlorine"] },  
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "21", question: "Which of the following is a characteristic of chemical reactions?", options: ["Change in temperature", "Evolution of gas", "Change in color", "All of the above"] },  
+                { Marks: "4", answer: "Magnesium oxide", type: "MCQ", no: "22", question: "When magnesium ribbon is burnt in air, it forms:", options: ["Magnesium hydroxide", "Magnesium carbonate", "Magnesium oxide", "Magnesium chloride"] },  
+                { Marks: "4", answer: "Temporary change", type: "MCQ", no: "23", question: "Which of the following is not a characteristic of a chemical reaction?", options: ["Formation of a new substance", "Change in energy", "Temporary change", "Change in physical state"] },  
+                { Marks: "4", answer: "Exothermic", type: "MCQ", no: "24", question: "When quicklime is dissolved in water, the solution becomes hot. This shows that the reaction is:", options: ["Endothermic", "Exothermic", "Reversible", "Neutralization"] },  
+                { Marks: "4", answer: "Lead oxide, nitrogen dioxide, and oxygen", type: "MCQ", no: "25", question: "When lead nitrate is heated, the products formed are:", options: ["Lead, oxygen, and nitrogen", "Lead oxide, nitrogen dioxide, and oxygen", "Lead oxide, oxygen, and nitrogen monoxide", "Lead nitrate and water"] },  
+                { Marks: "4", answer: "Oxidation of iron", type: "MCQ", no: "26", question: "The process of rusting involves:", options: ["Oxidation of iron", "Reduction of iron", "Neutralization reaction", "Combustion of iron"] },  
+                { Marks: "4", answer: "Fe₂O₃ + 3CO → 2Fe + 3CO₂", type: "MCQ", no: "27", question: "Which reaction represents both oxidation and reduction?", options: ["Fe₂O₃ + 3CO → 2Fe + 3CO₂", "NaCl + AgNO₃ → NaNO₃ + AgCl", "HCl + NaOH → NaCl + H₂O", "2H₂ + O₂ → 2H₂O"] },  
+                { Marks: "4", answer: "Cl₂", type: "MCQ", no: "28", question: "Identify the oxidizing agent in the reaction: 2Fe + 3Cl₂ → 2FeCl₃.", options: ["Fe", "Cl₂", "FeCl₃", "None"] },  
+                { Marks: "4", answer: "Reducing agent", type: "MCQ", no: "29", question: "In a redox reaction, the substance that donates electrons is called a:", options: ["Reducing agent", "Oxidizing agent", "Catalyst", "Inert substance"] },  
+                { Marks: "4", answer: "Oxidation of oils and fats", type: "MCQ", no: "30", question: "Rancidity occurs due to:", options: ["Oxidation of oils and fats", "Reduction of oils and fats", "Addition of oxygen to food", "Mixing of fats and water"] },  
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "31", question: "How can rancidity be prevented?", options: ["Adding antioxidants to food", "Storing food in airtight containers", "Refrigerating food", "All of the above"] },  
+                { Marks: "4", answer: "O₂", type: "MCQ", no: "32", question: "In the reaction: 2Mg + O₂ → 2MgO, which substance is reduced?", options: ["Mg", "O₂", "MgO", "None"] },  
+                { Marks: "4", answer: "Reduction", type: "MCQ", no: "33", question: "The removal of oxygen from a substance during a chemical reaction is called:", options: ["Oxidation", "Reduction", "Combustion", "Neutralization"] },
+                { Marks: "4", answer: "Combustion of methane", type: "MCQ", no: "34", question: "Which of the following reactions is exothermic?", options: ["Combustion of methane", "Melting of ice", "Evaporation of water", "Photosynthesis"] },  
+                { Marks: "4", answer: "Fe₂O₃·xH₂O", type: "MCQ", no: "35", question: "What is the chemical formula of rust?", options: ["FeO", "Fe₂O₃·xH₂O", "Fe₃O₄", "FeCl₃"] },  
+                { Marks: "4", answer: "Redox reaction", type: "MCQ", no: "36", question: "Rusting is an example of:", options: ["Reduction reaction", "Oxidation reaction", "Redox reaction", "Combination reaction"] },  
+                { Marks: "4", answer: "Fe → Fe²⁺ + 2e⁻", type: "MCQ", no: "38", question: "At the anodic region of iron during rusting, which reaction takes place?", options: ["Fe → Fe²⁺ + 2e⁻", "O₂ + 4H⁺ + 4e⁻ → 2H₂O", "2H₂O + O₂ → 4OH⁻", "Fe³⁺ + 3OH⁻ → Fe(OH)₃"] },  
+                { Marks: "4", answer: "O₂ + 4H⁺ + 4e⁻ → 2H₂O", type: "MCQ", no: "39", question: "At the cathodic region during rusting, what is the main reaction?", options: ["O₂ + 4H⁺ + 4e⁻ → 2H₂O", "Fe → Fe²⁺ + 2e⁻", "Fe³⁺ + 3OH⁻ → Fe(OH)₃", "2H₂ + O₂ → 2H₂O"] },  
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "40", question: "Which condition increases the rate of rusting?", options: ["Presence of salt in water", "High humidity", "Acidic environment", "All of the above"] },  
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "41", question: "Which factor affects the rate of reaction?", options: ["Temperature", "Concentration", "Surface area", "All of the above"] },  
+                { Marks: "4", answer: "It has a larger surface area", type: "MCQ", no: "42", question: "A finely powdered reactant reacts faster because:", options: ["It has a smaller surface area", "It has a larger surface area", "It absorbs light", "It is less reactive"] },  
+                { Marks: "4", answer: "Burning wood", type: "MCQ", no: "43", question: "Which of the following represents a chemical change in daily life?", options: ["Boiling water", "Burning wood", "Melting ice", "Mixing salt in water"] },  
+                { Marks: "4", answer: "All of the above", type: "MCQ", no: "44", question: "Which process involves oxidation in everyday life?", options: ["Digestion of food", "Respiration", "Rusting of iron", "All of the above"] }  
+
+              ] 
+             },
+             "Test 2":{
+              Questions: [
+                { Marks: "4", answer: "Paris", type: "MCQ", no: "1", question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"] },
+                { Marks: "4", answer: "4", type: "MCQ", no: "2", question: "What is 2 + 2?", options: ["3", "4", "5", "6"] },
+              ]
+             }
+            
           },
           "Effects of electric current": {
             Questions: [
